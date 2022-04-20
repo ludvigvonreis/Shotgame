@@ -5,8 +5,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Weapon", menuName = "Weapon", order = 2)]
 public class WeaponStats : ScriptableObject
 {
-	public new string name;
+	[ReadOnly]
 	public string ID;
+	public new string name;
 
 	public float damage;
 	public float range;
@@ -17,4 +18,10 @@ public class WeaponStats : ScriptableObject
 	public GameObject weaponModel;
 
 	public AnimationCurve recoil;
+
+	void OnValidate()
+	{
+		if (!System.Guid.TryParse(ID, out _))
+			ID = System.Guid.NewGuid().ToString();
+	}
 }

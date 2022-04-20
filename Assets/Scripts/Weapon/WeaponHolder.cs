@@ -1,20 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class WeaponHolder : MonoBehaviour
 {
 	[SerializeField]
-	private List<GameObject> equipped_weapons;
+	private List<GameObject> heldWeapons;
 
-	public WeaponObject temp;
-
-	void CreateWeaponObject(WeaponObject wepObj)
+	public WeaponObject CreateWeaponObject(WeaponObject wepObj)
 	{
 		var obj = new GameObject(wepObj.stats.ID);
-		obj.AddComponent<WeaponState>();
+		var state = obj.AddComponent<WeaponState>();
 		var _wepObj = obj.AddComponent<WeaponObject>();
-		_wepObj.state = wepObj.state;
+
+		// HACK: to make sure i dont try to change values on another state
+		state.Clone(wepObj.state);
+		_wepObj.state = state;
 		_wepObj.stats = wepObj.stats;
 
 		var model = Instantiate(wepObj.stats.weaponModel, Vector3.zero, Quaternion.identity);
@@ -26,11 +28,17 @@ public class WeaponHolder : MonoBehaviour
 		obj.transform.localPosition = Vector3.zero;
 		obj.transform.localRotation = Quaternion.identity;
 
-		equipped_weapons.Add(obj);
+		heldWeapons.Add(obj);
+
+		//wepObj.Destroy(); is called in post pickup instead
+
+		return _wepObj;
 	}
 
-	void Start()
+	public void RemoveWeaponObject(string ID)
 	{
-		CreateWeaponObject(temp);
+		var obj = heldWeapons.Single(w => w.GetComponent<WeaponObject>().ID == ID);
+		heldWeapons.Remove(obj);
+		Destroy(obj);
 	}
 }

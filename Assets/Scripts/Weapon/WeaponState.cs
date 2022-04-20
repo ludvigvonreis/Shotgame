@@ -9,4 +9,12 @@ public class WeaponState : MonoBehaviour
 	public int currentAmmo;
 	public int ammoReserve;
 	public bool isReloading;
+
+	public void Clone(WeaponState _old)
+	{
+		heat = _old.heat;
+		currentAmmo = _old.currentAmmo;
+		ammoReserve = _old.ammoReserve;
+		isReloading = _old.isReloading;
+	}
 }
