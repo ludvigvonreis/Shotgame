@@ -28,8 +28,16 @@ public class Pickup : MonoBehaviour
 
 	void Update()
 	{
+		if (Input.GetButtonDown("Interact"))
+		{
+			DoPickup();
+		}
+	}
+
+	void DoPickup()
+	{
 		RaycastHit hit;
-		if (Physics.Raycast(transform.position, interactCamera.transform.forward, out hit, range))
+		if (Physics.Raycast(interactCamera.transform.position, interactCamera.transform.forward, out hit, range))
 		{
 			GameObject hitObj = hit.transform.gameObject;
 
