@@ -11,13 +11,14 @@ public class WeaponHolder : MonoBehaviour
 
 	void CreateWeaponObject(WeaponObject wepObj)
 	{
-		var obj = new GameObject(wepObj.stats.name);
+		var obj = new GameObject(wepObj.stats.ID);
 		obj.AddComponent<WeaponState>();
 		var _wepObj = obj.AddComponent<WeaponObject>();
 		_wepObj.state = wepObj.state;
 		_wepObj.stats = wepObj.stats;
 
 		var model = Instantiate(wepObj.stats.weaponModel, Vector3.zero, Quaternion.identity);
+		model.name = wepObj.stats.ID;
 		_wepObj.worldModel = model;
 		model.transform.parent = obj.transform;
 

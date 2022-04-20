@@ -18,7 +18,7 @@ MonoBehaviour:
   range: 100
   fireRate: 400
   maxAmmo: 15
-  weaponModel: {fileID: 0}
+  weaponModel: {fileID: 978917051297117435, guid: aa72cafa1aea4234b86461a9b82784e7, type: 3}
   recoil:
     serializedVersion: 2
     m_Curve: []
