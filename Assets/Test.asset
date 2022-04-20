@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddeda7b639f3f234ea3dc04eb6aec805, type: 3}
+  m_Name: Test
+  m_EditorClassIdentifier: 
+  name: Pistol
+  ID: 34134234245ghdhg
+  damage: 10
+  range: 100
+  fireRate: 400
+  maxAmmo: 15
+  weaponModel: {fileID: 0}
+  recoil:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
