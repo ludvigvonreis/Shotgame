@@ -5,9 +5,51 @@ using UnityEngine;
 
 public class WeaponHolder : MonoBehaviour
 {
-	[SerializeField]
-	private List<GameObject> heldWeapons;
+	[SerializeField] private List<GameObject> heldWeapons;
 
+	[SerializeField] private Vector3 holderAlignment;
+	[SerializeField] private Camera playerCamera;
+
+	[SerializeField, Range(0.001f, 3)] private float lerpTime = 1;
+
+	void Update()
+	{
+		this.transform.localPosition = holderAlignment;
+	}
+
+	public void AddWeapon(WeaponObject weaponObject)
+	{
+		GameObject obj = weaponObject.gameObject;
+		// TODO: Lerp animation from original position to new position
+		obj.transform.parent = this.transform;
+		StartCoroutine(WeaponLerp(obj));
+
+
+		heldWeapons.Add(obj);
+	}
+
+	IEnumerator WeaponLerp(GameObject weaponObject)
+	{
+		Vector3 currentPos = weaponObject.transform.localPosition;
+		Quaternion currentRot = weaponObject.transform.localRotation;
+
+		float elapsedTime = 0;
+		while (elapsedTime < lerpTime)
+		{
+			weaponObject.transform.localPosition = Vector3.Slerp(currentPos, Vector3.zero, (elapsedTime / lerpTime));
+			weaponObject.transform.localRotation = Quaternion.Slerp(currentRot, Quaternion.identity, (elapsedTime / lerpTime));
+			elapsedTime += Time.deltaTime;
+
+			yield return null;
+		}
+
+		transform.localPosition = Vector3.zero;
+		transform.localRotation = Quaternion.identity;
+
+		yield return null;
+	}
+
+	/*
 	public WeaponObject CreateWeaponObject(WeaponObject wepObj)
 	{
 		var obj = new GameObject(wepObj.stats.ID);
@@ -34,6 +76,7 @@ public class WeaponHolder : MonoBehaviour
 
 		return _wepObj;
 	}
+	*/
 
 	public void RemoveWeaponObject(string ID)
 	{

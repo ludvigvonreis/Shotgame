@@ -13,38 +13,21 @@ public class WeaponManager : MonoBehaviour
 	[SerializeField]
 	private WeaponHolder weaponHolder;
 
-	void Start()
-	{
 
-	}
-
-	public bool CanEquip()
-	{
-		return equippedWeapons.Count < maxWeapons;
-	}
+	public bool CanEquip => equippedWeapons.Count < maxWeapons;
 
 	#region Dictionary abstraction
 
 	public void AddWeapon(WeaponObject wepObj)
 	{
-		var newWep = weaponHolder.CreateWeaponObject(wepObj);
-		equippedWeapons.Add(newWep.ID, newWep);
+		weaponHolder.AddWeapon(wepObj);
+		equippedWeapons.Add(wepObj.ID, wepObj);
 	}
 
-	public void RemoveWeapon(WeaponObject wepObj)
-	{
-		equippedWeapons.Remove(wepObj.ID);
-	}
+	public void RemoveWeapon(WeaponObject wepObj) => equippedWeapons.Remove(wepObj.ID);
+	public void RemoveWeapon(string wepId) => equippedWeapons.Remove(wepId);
 
-	public void RemoveWeapon(string wepId)
-	{
-		equippedWeapons.Remove(wepId);
-	}
-
-	public WeaponObject GetWeapon(string wepId)
-	{
-		return equippedWeapons[wepId];
-	}
+	public WeaponObject GetWeapon(string wepId) => equippedWeapons[wepId];
 
 	#endregion
 }

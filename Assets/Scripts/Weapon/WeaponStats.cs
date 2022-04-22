@@ -2,6 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum FireMode
+{
+	Single,
+	Rapid,
+	Burst,
+}
+
 [CreateAssetMenu(fileName = "New Weapon", menuName = "Weapon", order = 2)]
 public class WeaponStats : ScriptableObject
 {
@@ -9,14 +16,19 @@ public class WeaponStats : ScriptableObject
 	public string ID;
 	public new string name;
 
+	[Header("Basic stats")]
 	public float damage;
 	public float range;
 	public float fireRate;
+	public FireMode fireMode;
 
+	[Header("Reloading and ammo")]
 	public int maxAmmo;
 
+	[Header("Visual")]
 	public GameObject weaponModel;
 
+	[Header("Recoil")]
 	public AnimationCurve recoil;
 
 	void OnValidate()

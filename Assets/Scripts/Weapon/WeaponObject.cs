@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(WeaponState))]
+[RequireComponent(typeof(WeaponLogic))]
 public class WeaponObject : MonoBehaviour, IPickup
 {
 	[ReadOnly]
@@ -18,6 +19,22 @@ public class WeaponObject : MonoBehaviour, IPickup
 		ID = System.Guid.NewGuid().ToString();
 	}
 
+	void Start()
+	{
+		state.heat = 0;
+		state.currentAmmo = stats.maxAmmo;
+		state.ammoReserve = stats.maxAmmo * 5;
+		state.isReloading = false;
+	}
+
+	public void SpawnModel(WeaponObject wepObj)
+	{
+		var model = Instantiate(wepObj.stats.weaponModel, Vector3.zero, Quaternion.identity);
+		model.name = wepObj.stats.ID;
+		worldModel = model;
+		model.transform.parent = this.transform;
+	}
+
 	public void Destroy()
 	{
 		Object.Destroy(this.gameObject);
@@ -30,12 +47,10 @@ public class WeaponObject : MonoBehaviour, IPickup
 
 	public void Pickup()
 	{
-		Debug.Log(string.Format("Im getting picked up by {0}", name));
+		Debug.Log("Im getting picked up.");
 	}
 
 	public void PostPickup()
 	{
-		Debug.Log("Goodbye cruel world!");
-		Destroy();
 	}
 }

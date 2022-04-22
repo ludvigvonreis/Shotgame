@@ -47,7 +47,7 @@ public class Pickup : MonoBehaviour
 				inter.Pickup();
 				var wepObj = hitObj.GetComponent<WeaponObject>();
 
-				if (wepMan.CanEquip())
+				if (wepMan.CanEquip)
 				{
 					wepMan.AddWeapon(wepObj);
 					inter.PostPickup();
