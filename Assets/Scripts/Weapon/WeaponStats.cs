@@ -29,7 +29,8 @@ public class WeaponStats : ScriptableObject
 	public GameObject weaponModel;
 
 	[Header("Recoil")]
-	public AnimationCurve recoil;
+	public AnimationCurve recoilHoriz;
+	public AnimationCurve recoilVerti;
 
 	void OnValidate()
 	{

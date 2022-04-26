@@ -11,8 +11,11 @@ interface IWeapon
 
 public class WeaponLogic : MonoBehaviour, IWeapon
 {
-	[SerializeField]
-	private Transform shootPoint;
+	[SerializeField] private Transform shootPoint;
+
+	// This should be set when you pickup this gun
+	private Camera shootCamera;
+	private Player player;
 
 	private WeaponObject weaponObject;
 	private WeaponStats stats;
@@ -22,6 +25,8 @@ public class WeaponLogic : MonoBehaviour, IWeapon
 	private bool isHolding = false;
 	private bool hasLetGo = false;
 
+	private bool canShoot => (shootCamera != null);
+
 	void Start()
 	{
 		weaponObject = GetComponent<WeaponObject>();
@@ -30,6 +35,18 @@ public class WeaponLogic : MonoBehaviour, IWeapon
 		stats = weaponObject.stats;
 
 		StartCoroutine(PrimaryLoop());
+	}
+
+	public void SetPlayer(Player _player)
+	{
+		player = _player;
+		shootCamera = _player.playerCam;
+	}
+
+	public void UnsetPlayer()
+	{
+		player = null;
+		shootCamera = null;
 	}
 
 	// FIXME: this is super temporary. Put this in a player controller
@@ -65,16 +82,17 @@ public class WeaponLogic : MonoBehaviour, IWeapon
 
 	IEnumerator PrimaryLoop()
 	{
-		var currentAmmo = state.currentAmmo;
-		var fireMode = stats.fireMode;
-
 		// To be able to stop shooting while out of ammo
 		while (true)
 		{
+			var currentAmmo = state.currentAmmo;
+			var fireMode = stats.fireMode;
+
 			if (currentAmmo <= 0)
 			{
-				Debug.Log("Out of ammo");
+				//Debug.Log("Out of ammo");
 				yield return null;
+				continue;
 			}
 
 			switch (fireMode)
@@ -116,17 +134,23 @@ public class WeaponLogic : MonoBehaviour, IWeapon
 	{
 		UpdateCurrentAmmo(-1);
 
+		state.IncreaseHeat();
+
+		// Shoot from camera
 		RaycastHit hit;
-		if (Physics.Raycast(shootPoint.position, shootPoint.forward, out hit, stats.range))
+		if (Physics.Raycast(shootCamera.transform.position, shootCamera.transform.forward, out hit, stats.range))
 		{
-			Debug.LogFormat("I just hit {0}", hit.transform.name);
+			//Debug.LogFormat("I just hit {0}", hit.transform.name);
 			// Check if target hit is a "killable" object or something else
 			// if something else create a decal at point. Using a decal manager singleton
+
+			DecalManager.Instance.PlaceDecal(hit.point, Quaternion.identity);
 		}
 
 		// Step 2 run visual stuff. Animations, particles.
 
 		// Step 3 apply recoil to player
+		player.m_ShootEvent.Invoke();
 	}
 
 	void RapidFire()

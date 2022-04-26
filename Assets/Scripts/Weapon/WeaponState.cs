@@ -17,4 +17,9 @@ public class WeaponState : MonoBehaviour
 		ammoReserve = _old.ammoReserve;
 		isReloading = _old.isReloading;
 	}
+
+	public void IncreaseHeat()
+	{
+		heat += 1;
+	}
 }

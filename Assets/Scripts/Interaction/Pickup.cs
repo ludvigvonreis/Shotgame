@@ -23,8 +23,13 @@ public class Pickup : MonoBehaviour
 	// it should be given by a "Player" script or something.
 	[SerializeField]
 	private WeaponManager wepMan;
-	[SerializeField]
+
 	private Camera interactCamera;
+
+	void Start()
+	{
+		interactCamera = GetComponent<Player>().playerCam;
+	}
 
 	void Update()
 	{

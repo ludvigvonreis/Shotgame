@@ -11,6 +11,7 @@ public class WeaponObject : MonoBehaviour, IPickup
 
 	public WeaponState state;
 	public WeaponStats stats;
+	public WeaponLogic logic;
 
 	public GameObject worldModel;
 
@@ -21,6 +22,9 @@ public class WeaponObject : MonoBehaviour, IPickup
 
 	void Start()
 	{
+		state = GetComponent<WeaponState>();
+		logic = GetComponent<WeaponLogic>();
+
 		state.heat = 0;
 		state.currentAmmo = stats.maxAmmo;
 		state.ammoReserve = stats.maxAmmo * 5;

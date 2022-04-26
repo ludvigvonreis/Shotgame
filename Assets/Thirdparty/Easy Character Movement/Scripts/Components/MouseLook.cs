@@ -164,8 +164,11 @@ namespace ECM.Components
 		{
 			characterTargetRotation = characterTransform.localRotation;
 			cameraTargetRotation = cameraTransform.localRotation;
+
+			weaponRecoil = this.transform.root.GetComponent<PlayerRecoil>();
 		}
 
+		private PlayerRecoil weaponRecoil;
 
 		/// <summary>
 		/// Perform 'Look' rotation.
@@ -177,7 +180,6 @@ namespace ECM.Components
 		{
 			var yaw = Input.GetAxis("Mouse X") * lateralSensitivity;
 			var pitch = Input.GetAxis("Mouse Y") * verticalSensitivity;
-
 
 			Quaternion yawRotation = Quaternion.Euler(0.0f, yaw, 0.0f);
 			Quaternion pitchRotation = Quaternion.Euler(-pitch, 0.0f, 0.0f);
@@ -204,6 +206,7 @@ namespace ECM.Components
 
 				cameraTransform.localRotation = Quaternion.Slerp(cameraTransform.localRotation, cameraTargetRotation,
 					smoothTime * Time.deltaTime);
+
 			}
 			else
 			{
@@ -211,8 +214,11 @@ namespace ECM.Components
 				movement.rotation *= yawRotation;
 				cameraTransform.localRotation *= pitchRotation;
 
+				weaponRecoil.ApplyRecoil(movement.transform, cameraTransform);
+
 				if (clampPitch)
 					cameraTransform.localRotation = ClampPitch(cameraTransform.localRotation);
+
 			}
 
 			UpdateCursorLock();

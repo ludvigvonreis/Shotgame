@@ -12,6 +12,11 @@ public class WeaponHolder : MonoBehaviour
 
 	[SerializeField, Range(0.001f, 3)] private float lerpTime = 1;
 
+	void Start()
+	{
+		playerCamera = transform.root.GetComponent<Player>().playerCam;
+	}
+
 	void Update()
 	{
 		this.transform.localPosition = holderAlignment;

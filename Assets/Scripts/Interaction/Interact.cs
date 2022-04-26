@@ -4,13 +4,10 @@ using UnityEngine;
 
 public interface IInteractible
 {
-	// Check if interaction is possible
 	public bool CanInteract();
 
-	// Object side interaction logic
 	public void Interact();
 
-	// Post interaction logic
 	public void PostInteract();
 }
 
@@ -23,6 +20,11 @@ public class Interact : MonoBehaviour
 	// it should be given by a "Player" script or something.
 	[SerializeField]
 	private Camera interactCamera;
+
+	void Start()
+	{
+		interactCamera = GetComponent<Player>().playerCam;
+	}
 
 	void Update()
 	{
