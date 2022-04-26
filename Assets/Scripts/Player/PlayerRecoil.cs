@@ -38,8 +38,25 @@ public class PlayerRecoil : MonoBehaviour
 		float horizEvaluation = weaponObject.stats.recoilHoriz.Evaluate(recoilPoint);
 		float vertiEvaluation = weaponObject.stats.recoilVerti.Evaluate(recoilPoint);
 
-		float horiz = Random.Range(-horizEvaluation * .2f, horizEvaluation);
-		float verti = Random.Range(-vertiEvaluation * .1f, vertiEvaluation * 2f);
+		float horiz = 0f;
+		float verti = 0f;
+		if (horizEvaluation >= 0)
+		{
+			horiz = Random.Range(0, horizEvaluation);
+		}
+		else if (horizEvaluation <= 0)
+		{
+			horiz = Random.Range(horizEvaluation, 0);
+		}
+
+		if (vertiEvaluation >= 0)
+		{
+			verti = Random.Range(0, vertiEvaluation * 3f);
+		}
+		else if (vertiEvaluation <= 0)
+		{
+			verti = Random.Range(vertiEvaluation, 0);
+		}
 
 		Debug.LogFormat("Horizontal recoil: {0}, Vertical recoil: {1}", horiz, verti);
 

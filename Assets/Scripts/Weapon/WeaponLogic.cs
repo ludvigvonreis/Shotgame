@@ -82,6 +82,7 @@ public class WeaponLogic : MonoBehaviour, IWeapon
 
 	IEnumerator PrimaryLoop()
 	{
+		var fireRate = 1 / (stats.fireRate / 60);
 		// To be able to stop shooting while out of ammo
 		while (true)
 		{
@@ -95,13 +96,19 @@ public class WeaponLogic : MonoBehaviour, IWeapon
 				continue;
 			}
 
+			if (!canShoot)
+			{
+				yield return null;
+				continue;
+			};
+
 			switch (fireMode)
 			{
 				case FireMode.Rapid:
 					if (isHolding)
 					{
 						RapidFire();
-						yield return new WaitForSeconds(0.1f);
+						yield return new WaitForSeconds(fireRate);
 					}
 					break;
 
@@ -110,7 +117,7 @@ public class WeaponLogic : MonoBehaviour, IWeapon
 					{
 						hasLetGo = false;
 						SingleFire();
-						yield return new WaitForSeconds(0.1f);
+						yield return new WaitForSeconds(fireRate);
 					}
 					break;
 
@@ -120,7 +127,7 @@ public class WeaponLogic : MonoBehaviour, IWeapon
 						hasLetGo = false;
 
 						BurstFire();
-						yield return new WaitForSeconds(0.1f);
+						yield return new WaitForSeconds(fireRate);
 					}
 					break;
 			}
@@ -156,6 +163,24 @@ public class WeaponLogic : MonoBehaviour, IWeapon
 	void RapidFire()
 	{
 		UpdateCurrentAmmo(-1);
+
+		state.IncreaseHeat();
+
+		// Shoot from camera
+		RaycastHit hit;
+		if (Physics.Raycast(shootCamera.transform.position, shootCamera.transform.forward, out hit, stats.range))
+		{
+			//Debug.LogFormat("I just hit {0}", hit.transform.name);
+			// Check if target hit is a "killable" object or something else
+			// if something else create a decal at point. Using a decal manager singleton
+
+			DecalManager.Instance.PlaceDecal(hit.point, Quaternion.identity);
+		}
+
+		// Step 2 run visual stuff. Animations, particles.
+
+		// Step 3 apply recoil to player
+		player.m_ShootEvent.Invoke();
 	}
 
 	void BurstFire()
