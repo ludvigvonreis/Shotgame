@@ -215,6 +215,8 @@ namespace ECM.Components
 				cameraTransform.localRotation *= pitchRotation;
 
 				weaponRecoil.ApplyRecoil(movement.transform, cameraTransform);
+				weaponRecoil.ApplyResetRecoil(movement.transform, cameraTransform);
+
 
 				if (clampPitch)
 					cameraTransform.localRotation = ClampPitch(cameraTransform.localRotation);

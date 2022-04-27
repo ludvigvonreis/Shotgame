@@ -23,9 +23,16 @@ public class WeaponLogic : MonoBehaviour, IWeapon
 
 	[SerializeField]
 	private bool isHolding = false;
+	[SerializeField]
 	private bool hasLetGo = false;
 
+	private bool hasShot = false;
+
 	private bool canShoot => (shootCamera != null);
+
+	private float shootTimeout = .6f;
+	private bool canTimeout => (!isHolding && hasLetGo && hasShot);
+	private bool hasTimedout = false;
 
 	void Start()
 	{
@@ -35,6 +42,7 @@ public class WeaponLogic : MonoBehaviour, IWeapon
 		stats = weaponObject.stats;
 
 		StartCoroutine(PrimaryLoop());
+		StartCoroutine(StoppedShootingTimeout());
 	}
 
 	public void SetPlayer(Player _player)
@@ -77,7 +85,14 @@ public class WeaponLogic : MonoBehaviour, IWeapon
 		//Debug.Log("Primary action");
 
 		isHolding = startPress;
-		if (startPress == false) hasLetGo = true;
+		if (startPress == false)
+		{
+			hasLetGo = true;
+		}
+		else
+		{
+			hasTimedout = false;
+		}
 	}
 
 	IEnumerator PrimaryLoop()
@@ -107,6 +122,7 @@ public class WeaponLogic : MonoBehaviour, IWeapon
 				case FireMode.Rapid:
 					if (isHolding)
 					{
+						hasLetGo = false;
 						RapidFire();
 						yield return new WaitForSeconds(fireRate);
 					}
@@ -141,6 +157,8 @@ public class WeaponLogic : MonoBehaviour, IWeapon
 	{
 		UpdateCurrentAmmo(-1);
 
+		hasShot = true;
+
 		state.IncreaseHeat();
 
 		// Shoot from camera
@@ -166,6 +184,8 @@ public class WeaponLogic : MonoBehaviour, IWeapon
 
 		state.IncreaseHeat();
 
+		hasShot = true;
+
 		// Shoot from camera
 		RaycastHit hit;
 		if (Physics.Raycast(shootCamera.transform.position, shootCamera.transform.forward, out hit, stats.range))
@@ -189,6 +209,40 @@ public class WeaponLogic : MonoBehaviour, IWeapon
 	}
 
 	#endregion
+
+	IEnumerator StoppedShootingTimeout()
+	{
+		while (true)
+		{
+			bool stillWaiting = true;
+			while (stillWaiting)
+			{
+				yield return new WaitUntil(() => canTimeout);
+
+				float pauseTime = shootTimeout;
+				yield return new WaitUntil(() =>
+				{
+					pauseTime -= Time.deltaTime;
+					stillWaiting = !canTimeout;
+					return stillWaiting || pauseTime <= 0;
+				});
+
+				if (stillWaiting)
+				{
+					// Stuff when pause is interrupted goes here
+				}
+			}
+
+			if (hasTimedout == false)
+			{
+				player.m_ResetRecoil.Invoke();
+				hasTimedout = true;
+			}
+
+
+			yield return null;
+		}
+	}
 
 	public void SecondaryAction(bool letGo) { }
 

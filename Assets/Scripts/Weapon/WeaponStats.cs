@@ -32,6 +32,11 @@ public class WeaponStats : ScriptableObject
 	public AnimationCurve recoilHoriz;
 	public AnimationCurve recoilVerti;
 
+	[Range(0.1f, 10f)]
+	public float recoilHorizMult;
+	[Range(0.1f, 10f)]
+	public float recoilVertiMult;
+
 	void OnValidate()
 	{
 		if (!System.Guid.TryParse(ID, out _))

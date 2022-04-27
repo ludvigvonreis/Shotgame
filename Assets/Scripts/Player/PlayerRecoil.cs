@@ -10,14 +10,45 @@ public class PlayerRecoil : MonoBehaviour
 
 	public Vector2 recoil;
 
+	// Recoil resetting
+	private Vector2 totalRecoil;
+	private bool isResettingRecoil;
+
+	private bool saveOrigin;
+	private bool hasSavedOrigin;
+
+	private Quaternion shootOriginYaw;
+	private Quaternion shootOriginPitch;
+
+	private Vector2 mousePosition;
+
 	void Start()
 	{
 		player = GetComponent<Player>();
 		weaponManager = GetComponent<WeaponManager>();
 
 		player.m_ShootEvent.AddListener(CalculateRecoil);
+		player.m_ResetRecoil.AddListener(ResetRecoil);
 
 		recoil = Vector2.zero;
+		totalRecoil = Vector2.zero;
+		hasSavedOrigin = false;
+
+		ResetSavedRotations();
+
+		mousePosition = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
+	}
+
+	void ResetRecoil()
+	{
+		isResettingRecoil = true;
+		ResetSavedRotations();
+	}
+
+	void ResetSavedRotations()
+	{
+		shootOriginPitch = Quaternion.identity;
+		shootOriginYaw = Quaternion.identity;
 	}
 
 	public void UpdateCurrentWeapon()
@@ -29,14 +60,19 @@ public class PlayerRecoil : MonoBehaviour
 	{
 		if (weaponObject == null) return;
 
+		if (!saveOrigin)
+		{
+			saveOrigin = true;
+		};
+
 		var heat = weaponObject.state.heat;
 		var maxAmmo = weaponObject.stats.maxAmmo;
 
 		// TODO: investigate better ways to normalize heat between 0 and 1
 		float recoilPoint = (float)heat / (float)maxAmmo;
 
-		float horizEvaluation = weaponObject.stats.recoilHoriz.Evaluate(recoilPoint);
-		float vertiEvaluation = weaponObject.stats.recoilVerti.Evaluate(recoilPoint);
+		float horizEvaluation = weaponObject.stats.recoilHoriz.Evaluate(recoilPoint) * weaponObject.stats.recoilHorizMult;
+		float vertiEvaluation = weaponObject.stats.recoilVerti.Evaluate(recoilPoint) * weaponObject.stats.recoilVertiMult;
 
 		float horiz = 0f;
 		float verti = 0f;
@@ -51,20 +87,31 @@ public class PlayerRecoil : MonoBehaviour
 
 		if (vertiEvaluation >= 0)
 		{
-			verti = Random.Range(0, vertiEvaluation * 3f);
+			verti = Random.Range(0, vertiEvaluation);
 		}
 		else if (vertiEvaluation <= 0)
 		{
 			verti = Random.Range(vertiEvaluation, 0);
 		}
 
-		Debug.LogFormat("Horizontal recoil: {0}, Vertical recoil: {1}", horiz, verti);
+		//Debug.LogFormat("Horizontal recoil: {0}, Vertical recoil: {1}", horiz, verti);
 
 		recoil = new Vector2(horiz, verti);
+		totalRecoil += recoil;
 	}
 
 	public void ApplyRecoil(Transform movement, Transform camera)
 	{
+		bool a = saveOrigin && (shootOriginPitch == Quaternion.identity && shootOriginYaw == Quaternion.identity);
+		if (a && !hasSavedOrigin)
+		{
+			shootOriginYaw = movement.localRotation;
+			shootOriginPitch = camera.localRotation;
+
+			hasSavedOrigin = true;
+		}
+
+
 		Quaternion yawRecoilRotation = Quaternion.Euler(0.0f, recoil.x, 0.0f);
 		Quaternion pitchRecoilRotation = Quaternion.Euler(-recoil.y, 0.0f, 0.0f);
 
@@ -72,5 +119,36 @@ public class PlayerRecoil : MonoBehaviour
 		camera.localRotation *= pitchRecoilRotation;
 
 		recoil = Vector2.zero;
+	}
+
+	public void ApplyResetRecoil(Transform movement, Transform camera)
+	{
+		if (!isResettingRecoil) return;
+
+		if (new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")) != mousePosition)
+		{
+			StopRecoilReset();
+			return;
+		}
+
+		var speed = 100f;
+
+		movement.localRotation = Quaternion.RotateTowards(movement.localRotation, shootOriginYaw, Time.deltaTime * speed);
+		camera.localRotation = Quaternion.RotateTowards(camera.localRotation, shootOriginPitch, Time.deltaTime * speed);
+
+		if (camera.localRotation != shootOriginPitch) return;
+
+		StopRecoilReset();
+	}
+
+	void StopRecoilReset()
+	{
+		ResetSavedRotations();
+
+		saveOrigin = false;
+		hasSavedOrigin = false;
+		isResettingRecoil = false;
+
+		totalRecoil = Vector2.zero;
 	}
 }
