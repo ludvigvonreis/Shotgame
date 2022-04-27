@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -28,15 +29,15 @@ public class Pickup : MonoBehaviour
 
 	void Start()
 	{
-		interactCamera = GetComponent<Player>().playerCam;
+		Player player = GetComponent<Player>();
+		interactCamera = player.playerCam;
+
+		player.m_InputEvent.AddListener(InputListener);
 	}
 
-	void Update()
+	private void InputListener(string button, bool down)
 	{
-		if (Input.GetButtonDown("Interact"))
-		{
-			DoPickup();
-		}
+		if (button == "Interact") DoPickup();
 	}
 
 	void DoPickup()

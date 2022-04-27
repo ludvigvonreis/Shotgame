@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 interface IWeapon
 {
@@ -43,6 +45,17 @@ public class WeaponLogic : MonoBehaviour, IWeapon
 
 		StartCoroutine(PrimaryLoop());
 		StartCoroutine(StoppedShootingTimeout());
+
+		player.m_InputEvent.AddListener(InputListener);
+	}
+
+	private void InputListener(string button, bool down)
+	{
+		if (button == "Fire1") PrimaryAction(down);
+
+		if (button == "Fire2") SecondaryAction(down);
+
+		if (button == "Reload") ReloadAction();
 	}
 
 	public void SetPlayer(Player _player)
@@ -55,20 +68,6 @@ public class WeaponLogic : MonoBehaviour, IWeapon
 	{
 		player = null;
 		shootCamera = null;
-	}
-
-	// FIXME: this is super temporary. Put this in a player controller
-	void Update()
-	{
-		if (Input.GetButtonDown("Fire1"))
-		{
-			PrimaryAction(true);
-		}
-
-		if (Input.GetButtonUp("Fire1"))
-		{
-			PrimaryAction(false);
-		}
 	}
 
 	void UpdateCurrentAmmo(int value = 0)
@@ -208,8 +207,6 @@ public class WeaponLogic : MonoBehaviour, IWeapon
 		UpdateCurrentAmmo(-1);
 	}
 
-	#endregion
-
 	IEnumerator StoppedShootingTimeout()
 	{
 		while (true)
@@ -243,6 +240,9 @@ public class WeaponLogic : MonoBehaviour, IWeapon
 			yield return null;
 		}
 	}
+
+	#endregion
+
 
 	public void SecondaryAction(bool letGo) { }
 
