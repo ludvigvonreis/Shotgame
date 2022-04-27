@@ -36,7 +36,7 @@ public class WeaponLogic : MonoBehaviour, IWeapon
 	private bool canTimeout => (!isHolding && hasLetGo && hasShot);
 	private bool hasTimedout = false;
 
-	void Start()
+	void Init()
 	{
 		weaponObject = GetComponent<WeaponObject>();
 
@@ -62,6 +62,8 @@ public class WeaponLogic : MonoBehaviour, IWeapon
 	{
 		player = _player;
 		shootCamera = _player.playerCam;
+
+		Init();
 	}
 
 	public void UnsetPlayer()
@@ -242,7 +244,6 @@ public class WeaponLogic : MonoBehaviour, IWeapon
 	}
 
 	#endregion
-
 
 	public void SecondaryAction(bool letGo) { }
 

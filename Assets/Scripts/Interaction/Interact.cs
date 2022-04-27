@@ -11,38 +11,30 @@ public interface IInteractible
 	public void PostInteract();
 }
 
-public class Interact : MonoBehaviour
+public interface IPickup
 {
-	[SerializeField, Range(1, 100)]
-	private float range = 1;
+	// Check if pickup is possible
+	public bool CanPickup();
 
-	// FIXME: This should not be referenced like this
-	// it should be given by a "Player" script or something.
-	[SerializeField]
-	private Camera interactCamera;
+	// Object side logic
+	public void Pickup();
 
-	void Start()
+	// potential cleanup after interaction. ex after pickup destroy self
+	public void PostPickup();
+}
+
+public class Interaction
+{
+	public GameObject from;
+	public GameObject to;
+
+	public float distance;
+
+	public Interaction(GameObject _from, RaycastHit hit)
 	{
-		interactCamera = GetComponent<Player>().playerCam;
-	}
+		from = _from;
 
-	void Update()
-	{
-		// TODO: Add visual feedback for interaction. i.e., glow or outline
-	}
-
-	// Should be ran on button press
-	void PerformInteraction()
-	{
-		RaycastHit hit;
-		if (Physics.Raycast(transform.position, interactCamera.transform.forward, out hit, range))
-		{
-			IInteractible inter;
-			if (hit.transform.gameObject.TryGetComponent<IInteractible>(out inter))
-			{
-				if (inter.CanInteract())
-					inter.Interact();
-			}
-		}
+		to = hit.transform.gameObject;
+		distance = hit.distance;
 	}
 }

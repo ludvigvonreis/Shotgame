@@ -123,17 +123,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!114 &47748991 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6338986245547879654, guid: cb8a42a7fd94d164492afbd2589aaf10, type: 3}
-  m_PrefabInstance: {fileID: 6338986246320770392}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d0b8ec71cfbd3b4987f58a1cc2e1294, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &396626708
 GameObject:
   m_ObjectHideFlags: 0
@@ -566,16 +555,27 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 2077170799787806064, guid: 6e172ca2ee0944640a023d224842d839, type: 3}
-      propertyPath: state
-      value: 
-      objectReference: {fileID: 47748991}
-    - target: {fileID: 2077170799787806064, guid: 6e172ca2ee0944640a023d224842d839, type: 3}
-      propertyPath: stats
-      value: 
-      objectReference: {fileID: 11400000, guid: 80036eb0cc0608746817b1da4acb1d73, type: 2}
-    m_RemovedComponents:
-    - {fileID: 2077170799787806064, guid: 6e172ca2ee0944640a023d224842d839, type: 3}
+    - target: {fileID: 6825554786132485206, guid: 6e172ca2ee0944640a023d224842d839, type: 3}
+      propertyPath: buttons.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6825554786132485206, guid: 6e172ca2ee0944640a023d224842d839, type: 3}
+      propertyPath: buttons.Array.data[0]
+      value: Fire1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6825554786132485206, guid: 6e172ca2ee0944640a023d224842d839, type: 3}
+      propertyPath: buttons.Array.data[1]
+      value: Fire2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6825554786132485206, guid: 6e172ca2ee0944640a023d224842d839, type: 3}
+      propertyPath: buttons.Array.data[2]
+      value: Interact
+      objectReference: {fileID: 0}
+    - target: {fileID: 6825554786132485206, guid: 6e172ca2ee0944640a023d224842d839, type: 3}
+      propertyPath: buttons.Array.data[3]
+      value: Reload
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6e172ca2ee0944640a023d224842d839, type: 3}
 --- !u!1001 &6338986246320770392
 PrefabInstance:

@@ -169,9 +169,9 @@ GameObject:
   m_Component:
   - component: {fileID: 188170303089332483}
   - component: {fileID: 6825554786132485206}
+  - component: {fileID: 3082439615597165756}
   - component: {fileID: 188170303089332484}
   - component: {fileID: 7962639733022714900}
-  - component: {fileID: 188170303089332491}
   - component: {fileID: 188170303089332482}
   - component: {fileID: 188170303089332481}
   - component: {fileID: 188170303089332480}
@@ -214,9 +214,36 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerCam: {fileID: 188170303207468005}
+  m_InputEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  buttons:
+  - Fire 1
+  - Fire 2
+  - Reload
+  - Interact
   m_ShootEvent:
     m_PersistentCalls:
       m_Calls: []
+  m_ResetRecoil:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Interact:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &3082439615597165756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 188170303089332490}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4d6340e6cef20f4b888a443137e3fa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  range: 1
 --- !u!114 &188170303089332484
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -244,20 +271,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   recoil: {x: 0, y: 0}
---- !u!114 &188170303089332491
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 188170303089332490}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 09698dc617093ce4f9a284d4926f841f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  range: 30
-  wepMan: {fileID: 188170303089332484}
 --- !u!54 &188170303089332482
 Rigidbody:
   m_ObjectHideFlags: 0
