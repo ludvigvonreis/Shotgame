@@ -4,7 +4,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(WeaponState))]
 [RequireComponent(typeof(WeaponLogic))]
-public class WeaponObject : MonoBehaviour, IPickup
+public class WeaponObject : MonoBehaviour, IInteractible
 {
 	[ReadOnly]
 	public string ID;
@@ -44,17 +44,7 @@ public class WeaponObject : MonoBehaviour, IPickup
 		Object.Destroy(this.gameObject);
 	}
 
-	public bool CanPickup()
-	{
-		return true;
-	}
+	public void Interact() { }
 
-	public void Pickup()
-	{
-		Debug.Log("Im getting picked up.");
-	}
-
-	public void PostPickup()
-	{
-	}
+	public void PostInteract() { }
 }

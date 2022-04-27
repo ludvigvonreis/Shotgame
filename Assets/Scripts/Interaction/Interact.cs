@@ -4,23 +4,9 @@ using UnityEngine;
 
 public interface IInteractible
 {
-	public bool CanInteract();
-
 	public void Interact();
 
 	public void PostInteract();
-}
-
-public interface IPickup
-{
-	// Check if pickup is possible
-	public bool CanPickup();
-
-	// Object side logic
-	public void Pickup();
-
-	// potential cleanup after interaction. ex after pickup destroy self
-	public void PostPickup();
 }
 
 public class Interaction

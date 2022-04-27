@@ -32,7 +32,7 @@ public class WeaponLogic : MonoBehaviour, IWeapon
 
 	private bool canShoot => (shootCamera != null);
 
-	private float shootTimeout = .6f;
+	[SerializeField] private float shootTimeout = .6f;
 	private bool canTimeout => (!isHolding && hasLetGo && hasShot);
 	private bool hasTimedout = false;
 
@@ -154,7 +154,7 @@ public class WeaponLogic : MonoBehaviour, IWeapon
 		}
 	}
 
-	void SingleFire()
+	void BaseShoot()
 	{
 		UpdateCurrentAmmo(-1);
 
@@ -177,36 +177,21 @@ public class WeaponLogic : MonoBehaviour, IWeapon
 
 		// Step 3 apply recoil to player
 		player.m_ShootEvent.Invoke();
+	}
+
+	void SingleFire()
+	{
+		BaseShoot();
 	}
 
 	void RapidFire()
 	{
-		UpdateCurrentAmmo(-1);
-
-		state.IncreaseHeat();
-
-		hasShot = true;
-
-		// Shoot from camera
-		RaycastHit hit;
-		if (Physics.Raycast(shootCamera.transform.position, shootCamera.transform.forward, out hit, stats.range))
-		{
-			//Debug.LogFormat("I just hit {0}", hit.transform.name);
-			// Check if target hit is a "killable" object or something else
-			// if something else create a decal at point. Using a decal manager singleton
-
-			DecalManager.Instance.PlaceDecal(hit.point, Quaternion.identity);
-		}
-
-		// Step 2 run visual stuff. Animations, particles.
-
-		// Step 3 apply recoil to player
-		player.m_ShootEvent.Invoke();
+		BaseShoot();
 	}
 
 	void BurstFire()
 	{
-		UpdateCurrentAmmo(-1);
+		BaseShoot();
 	}
 
 	IEnumerator StoppedShootingTimeout()
@@ -229,11 +214,14 @@ public class WeaponLogic : MonoBehaviour, IWeapon
 				if (stillWaiting)
 				{
 					// Stuff when pause is interrupted goes here
+					state.CancelDecrease();
 				}
 			}
 
 			if (hasTimedout == false)
 			{
+				state.DecreaseHeat();
+
 				player.m_ResetRecoil.Invoke();
 				hasTimedout = true;
 			}

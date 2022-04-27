@@ -11,6 +11,7 @@ public class PlayerRecoil : MonoBehaviour
 	public Vector2 recoil;
 
 	// Recoil resetting
+	[SerializeField, Range(1f, 100f)] private float resetSpeed = 1f;
 	private Vector2 totalRecoil;
 	private bool isResettingRecoil;
 
@@ -131,10 +132,8 @@ public class PlayerRecoil : MonoBehaviour
 			return;
 		}
 
-		var speed = 100f;
-
-		movement.localRotation = Quaternion.RotateTowards(movement.localRotation, shootOriginYaw, Time.deltaTime * speed);
-		camera.localRotation = Quaternion.RotateTowards(camera.localRotation, shootOriginPitch, Time.deltaTime * speed);
+		movement.localRotation = Quaternion.RotateTowards(movement.localRotation, shootOriginYaw, Time.deltaTime * resetSpeed);
+		camera.localRotation = Quaternion.RotateTowards(camera.localRotation, shootOriginPitch, Time.deltaTime * resetSpeed);
 
 		if (camera.localRotation != shootOriginPitch) return;
 

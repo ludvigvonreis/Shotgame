@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class PlayerInteract : MonoBehaviour
 {
+	private Player player;
+	[SerializeField] private Transform interactTransform;
+
 	[SerializeField, Range(1, 100)]
 	private float range = 1;
-
-	private Player player;
-	private Transform interactTransform;
 
 	void Start()
 	{
@@ -18,7 +18,7 @@ public class PlayerInteract : MonoBehaviour
 
 	private void InputListener(string button, bool down)
 	{
-		if (button == "Interact") DoInteract();
+		if (button == "Interact" && down) DoInteract();
 	}
 
 	void DoInteract()
@@ -26,11 +26,12 @@ public class PlayerInteract : MonoBehaviour
 		RaycastHit hit;
 		if (Physics.Raycast(interactTransform.position, interactTransform.forward, out hit, range))
 		{
-			Debug.Log("Interacted with something");
-
-			var interaction = new Interaction(this.gameObject, hit);
-
-			player.m_Interact.Invoke(interaction);
+			// Check if object is interactable
+			if (hit.transform.TryGetComponent<IInteractible>(out _))
+			{
+				var interaction = new Interaction(this.gameObject, hit);
+				player.m_Interact.Invoke(interaction);
+			}
 		}
 	}
 }
