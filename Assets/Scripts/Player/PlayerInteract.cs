@@ -30,7 +30,7 @@ public class PlayerInteract : MonoBehaviour
 			if (hit.transform.TryGetComponent<IInteractible>(out _))
 			{
 				var interaction = new Interaction(this.gameObject, hit);
-				player.m_Interact.Invoke(interaction);
+				EventManager.Instance.m_Interact.Invoke(interaction);
 			}
 		}
 	}

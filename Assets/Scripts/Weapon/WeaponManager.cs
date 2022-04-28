@@ -25,7 +25,7 @@ public class WeaponManager : MonoBehaviour
 		playerRecoil = transform.root.GetComponent<PlayerRecoil>();
 		playerCamera = player.playerCam;
 
-		player.m_Interact.AddListener(InteractListener);
+		EventManager.Instance.m_Interact.AddListener(InteractListener);
 	}
 
 	// TODO: Implement weapon switching
@@ -33,9 +33,6 @@ public class WeaponManager : MonoBehaviour
 
 	void InteractListener(Interaction interaction)
 	{
-		Debug.LogFormat("{0} interacted with {1}, distance={2}",
-			interaction.from.name, interaction.to.name, interaction.distance);
-
 		var reciver = interaction.to;
 
 		WeaponObject obj;

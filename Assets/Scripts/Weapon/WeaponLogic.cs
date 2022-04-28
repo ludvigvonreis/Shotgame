@@ -166,10 +166,11 @@ public class WeaponLogic : MonoBehaviour, IWeapon
 		RaycastHit hit;
 		if (Physics.Raycast(shootCamera.transform.position, shootCamera.transform.forward, out hit, stats.range))
 		{
-			//Debug.LogFormat("I just hit {0}", hit.transform.name);
 			// Check if target hit is a "killable" object or something else
-			// if something else create a decal at point. Using a decal manager singleton
 
+			// FIXME: Currently weapon logic sits on weapon object so "this.gameobject" is not the player but
+			// the gun object. is this something important?
+			EventManager.Instance.m_HitEvent.Invoke(new Hit(this.transform.root.gameObject, hit, stats));
 			DecalManager.Instance.PlaceDecal(hit.point, Quaternion.identity);
 		}
 
