@@ -25,6 +25,9 @@ public class WeaponStats : ScriptableObject
 	[Header("Reloading and ammo")]
 	public int maxAmmo;
 
+	[Range(0.1f, 10f)]
+	public float reloadTime;
+
 	[Header("Visual")]
 	public GameObject weaponModel;
 

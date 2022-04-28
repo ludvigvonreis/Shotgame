@@ -6,9 +6,9 @@ using UnityEngine.Events;
 
 interface IWeapon
 {
-	public void PrimaryAction(bool letGo);
-	public void SecondaryAction(bool letGo);
-	public void ReloadAction();
+	public void PrimaryAction(bool down);
+	public void SecondaryAction(bool down);
+	public void ReloadAction(bool down);
 }
 
 public class WeaponLogic : MonoBehaviour, IWeapon
@@ -29,7 +29,7 @@ public class WeaponLogic : MonoBehaviour, IWeapon
 	[SerializeField]
 	private bool hasLetGo = false;
 	private bool hasShot = false;
-	private bool canShoot => (shootCamera != null);
+	private bool canShoot => (shootCamera != null && !state.isReloading);
 
 	[SerializeField] private float shootTimeout = .6f;
 	private bool canTimeout => (!isHolding && hasLetGo && hasShot);
@@ -55,7 +55,7 @@ public class WeaponLogic : MonoBehaviour, IWeapon
 
 		if (button == "Fire2") SecondaryAction(down);
 
-		if (button == "Reload") ReloadAction();
+		if (button == "Reload") ReloadAction(down);
 	}
 
 	public void SetPlayer(Player _player)
@@ -235,7 +235,57 @@ public class WeaponLogic : MonoBehaviour, IWeapon
 
 	#endregion
 
-	public void SecondaryAction(bool letGo) { }
+	public void SecondaryAction(bool down) { }
 
-	public void ReloadAction() { }
+	// TODO: Tactical and empty reloads??
+	public void ReloadAction(bool down)
+	{
+		if (!down) return;
+
+		// To stop trying to reload twice
+		if (state.isReloading) return;
+
+		// Magazine full, no reload
+		if (state.currentAmmo >= stats.maxAmmo) return;
+
+		// No ammo reserve to reload from
+		if (state.ammoReserve <= 0) return;
+
+		StartCoroutine(ReloadRoutine());
+	}
+
+	IEnumerator ReloadRoutine()
+	{
+		state.isReloading = true;
+
+		var reloadTime = stats.reloadTime;
+		var currentAmmo = state.currentAmmo;
+		var reserve = state.ammoReserve;
+		var maxAmmo = stats.maxAmmo;
+
+		var difference = maxAmmo - currentAmmo;
+
+		// Set diffrence to reserve if it has less that needed. i.e reload a non full magazine
+		// Otherwise add current ammo to it
+		if (reserve < difference)
+		{
+			difference = reserve;
+		}
+		else
+		{
+			difference += currentAmmo;
+		}
+
+		// Set ammo to zero to simulate removing magazine from weapon
+		state.currentAmmo = 0;
+
+		// TODO: Play a reload animation for the duration of reload time
+
+		yield return new WaitForSeconds(reloadTime);
+
+		state.currentAmmo += difference;
+		state.ammoReserve -= difference;
+
+		state.isReloading = false;
+	}
 }
