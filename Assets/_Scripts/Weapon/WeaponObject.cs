@@ -4,6 +4,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(WeaponState))]
 [RequireComponent(typeof(WeaponLogic))]
+[RequireComponent(typeof(WeaponVFX))]
 public class WeaponObject : MonoBehaviour, IInteractible
 {
 	[ReadOnly]

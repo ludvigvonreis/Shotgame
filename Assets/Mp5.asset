@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Mp5
   m_EditorClassIdentifier: 
   ID: 1a0cf7b9-4552-420c-9f62-7e7149aeea85
-  name: 
+  name: Temporary mp5
   damage: 5
   range: 100
   fireRate: 800

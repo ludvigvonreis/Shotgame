@@ -22,14 +22,13 @@ public class WeaponLogic : MonoBehaviour, IWeapon
 	private WeaponObject weaponObject;
 	private WeaponStats stats;
 	private WeaponState state;
+	private WeaponVFX weaponVFX;
 
 	[SerializeField]
 	private bool isHolding = false;
 	[SerializeField]
 	private bool hasLetGo = false;
-
 	private bool hasShot = false;
-
 	private bool canShoot => (shootCamera != null);
 
 	[SerializeField] private float shootTimeout = .6f;
@@ -39,6 +38,7 @@ public class WeaponLogic : MonoBehaviour, IWeapon
 	void Init()
 	{
 		weaponObject = GetComponent<WeaponObject>();
+		weaponVFX = GetComponent<WeaponVFX>();
 
 		state = weaponObject.state;
 		stats = weaponObject.stats;
@@ -175,6 +175,7 @@ public class WeaponLogic : MonoBehaviour, IWeapon
 		}
 
 		// Step 2 run visual stuff. Animations, particles.
+		weaponVFX.PlayMuzzleflash();
 
 		// Step 3 apply recoil to player
 		player.m_ShootEvent.Invoke();
