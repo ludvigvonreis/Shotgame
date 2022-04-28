@@ -28,6 +28,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 188170303089332483}
   m_RootOrder: 1
@@ -51,6 +52,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -59,7 +61,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -106,8 +108,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 188170302076145610}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.67, y: -0.21, z: 0.78}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 575995087131956238}
   m_RootOrder: 1
@@ -126,7 +129,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   heldWeapons: []
   holderAlignment: {x: 0.67, y: -0.21, z: 0.78}
-  playerCamera: {fileID: 188170303207468005}
   lerpTime: 0.2
 --- !u!1 &188170302584700396
 GameObject:
@@ -154,6 +156,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 575995087131956238}
   m_Father: {fileID: 188170303089332483}
@@ -195,6 +198,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 188170302584700397}
   - {fileID: 753327866}
@@ -218,17 +222,14 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   buttons:
-  - Fire 1
-  - Fire 2
-  - Reload
+  - Fire1
+  - Fire2
   - Interact
+  - Reload
   m_ShootEvent:
     m_PersistentCalls:
       m_Calls: []
   m_ResetRecoil:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Interact:
     m_PersistentCalls:
       m_Calls: []
 --- !u!114 &3082439615597165756
@@ -243,7 +244,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4d6340e6cef20f4b888a443137e3fa9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 1
+  interactTransform: {fileID: 188170303207468000}
+  range: 10
 --- !u!114 &188170303089332484
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -271,6 +273,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   recoil: {x: 0, y: 0}
+  resetSpeed: 60
 --- !u!54 &188170303089332482
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -384,22 +387,23 @@ MonoBehaviour:
   _useBrakingFriction: 0
   _brakingFriction: 8
   _airFriction: 0
-  _airControl: 0.2
+  _airControl: 0.6
   _canCrouch: 1
   _standingHeight: 2
   _crouchingHeight: 1
-  _baseJumpHeight: 1.5
-  _extraJumpTime: 0.5
+  _baseJumpHeight: 1
+  _extraJumpTime: 0
   _extraJumpPower: 25
   _jumpPreGroundedToleranceTime: 0.15
   _jumpPostGroundedToleranceTime: 0.15
-  _maxMidAirJumps: 1
+  _maxMidAirJumps: 0
   _useRootMotion: 0
   _rootMotionRotation: 0
+  jumpAllowed: 1
   _forwardSpeed: 5
   _backwardSpeed: 3
   _strafeSpeed: 4
-  _runSpeedMultiplier: 2
+  _runSpeedMultiplier: 1.7
 --- !u!1 &188170303207468004
 GameObject:
   m_ObjectHideFlags: 0
@@ -429,6 +433,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 575995087131956238}
   m_RootOrder: 0
@@ -518,6 +523,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1.6, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 188170303207468000}
   - {fileID: 188170302076145604}

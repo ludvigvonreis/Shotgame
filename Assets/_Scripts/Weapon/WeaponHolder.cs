@@ -29,6 +29,7 @@ public class WeaponHolder : MonoBehaviour
 	{
 		GameObject obj = weaponObject.gameObject;
 		obj.transform.parent = this.transform;
+		obj.GetComponent<BoxCollider>().enabled = false;
 
 		StartCoroutine(WeaponLerp(obj));
 
@@ -40,6 +41,7 @@ public class WeaponHolder : MonoBehaviour
 	{
 		var obj = heldWeapons.Single(w => w.GetComponent<WeaponObject>().ID == ID);
 		heldWeapons.Remove(obj);
+		obj.GetComponent<BoxCollider>().enabled = true;
 		Destroy(obj);
 	}
 
