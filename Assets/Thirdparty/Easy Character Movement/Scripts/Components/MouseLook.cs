@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace ECM.Components
 {
@@ -21,7 +22,7 @@ namespace ECM.Components
 
 		[Tooltip("The keyboard key to unlock the mouse cursor.")]
 		[SerializeField]
-		private KeyCode _unlockCursorKey = KeyCode.Escape;
+		private InputActionReference _unlockCursorKey;
 
 		[Tooltip("How fast the cursor moves in response to mouse lateral (x-axis) movement.")]
 		[SerializeField]
@@ -79,7 +80,7 @@ namespace ECM.Components
 		/// The keyboard key to unlock the mouse cursor.
 		/// </summary>
 
-		public KeyCode unlockCursorKey
+		public InputActionReference unlockCursorKey
 		{
 			get { return _unlockCursorKey; }
 			set { _unlockCursorKey = value; }
@@ -166,9 +167,20 @@ namespace ECM.Components
 			cameraTargetRotation = cameraTransform.localRotation;
 
 			weaponRecoil = this.transform.root.GetComponent<PlayerRecoil>();
+
+			var player = this.transform.root.GetComponent<Player>();
+
+			lockCursorAction = player.playerInput.actions[unlockCursorKey.action.name];
 		}
 
 		private PlayerRecoil weaponRecoil;
+		private InputAction mouseAction;
+		private InputAction lockCursorAction;
+
+		public void SetMouseAction(InputAction action)
+		{
+			mouseAction = action;
+		}
 
 		/// <summary>
 		/// Perform 'Look' rotation.
@@ -178,8 +190,10 @@ namespace ECM.Components
 		/// <param name="cameraTransform">The camera transform.</param>
 		public virtual void LookRotation(CharacterMovement movement, Transform cameraTransform)
 		{
-			var yaw = Input.GetAxis("Mouse X") * lateralSensitivity;
-			var pitch = Input.GetAxis("Mouse Y") * verticalSensitivity;
+			var mouseMove = mouseAction.ReadValue<Vector2>();
+
+			var yaw = mouseMove.x * lateralSensitivity;
+			var pitch = mouseMove.y * verticalSensitivity;
 
 			Quaternion yawRotation = Quaternion.Euler(0.0f, yaw, 0.0f);
 			Quaternion pitchRotation = Quaternion.Euler(-pitch, 0.0f, 0.0f);
@@ -248,10 +262,15 @@ namespace ECM.Components
 
 		protected virtual void InternalLockUpdate()
 		{
-			if (Input.GetKeyUp(unlockCursorKey))
+			if (lockCursorAction.ReadValue<float>() == 1)
 				_isCursorLocked = false;
-			else if (Input.GetMouseButtonUp(0))
+			else if (Mouse.current.leftButton.wasPressedThisFrame)
 				_isCursorLocked = true;
+
+			/*  if (Input.GetKeyUp(unlockCursorKey))
+					_isCursorLocked = false;
+				else if (Input.GetMouseButtonUp(0))
+					_isCursorLocked = true; */
 
 			if (_isCursorLocked)
 			{

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace ECM.Controllers
 {
@@ -13,7 +14,22 @@ namespace ECM.Controllers
 
 	public class BaseFirstPersonController : BaseCharacterController
 	{
+		private Player player;
+
 		#region EDITOR EXPOSED FIELDS
+
+		[Header("Input")]
+		[SerializeField]
+		private InputActionReference moveButton;
+
+		[SerializeField]
+		private InputActionReference jumpButton;
+
+		[SerializeField]
+		private InputActionReference crouchButton;
+
+		[SerializeField]
+		private InputActionReference mouseButton;
 
 		[Header("First Person")]
 		[Tooltip("Speed when moving forward.")]
@@ -35,6 +51,10 @@ namespace ECM.Controllers
 		#endregion
 
 		#region PROPERTIES
+
+		private InputAction moveAction;
+		private InputAction jumpAction;
+		private InputAction crouchAction;
 
 		/// <summary>
 		/// Cached camera pivot transform.
@@ -196,26 +216,28 @@ namespace ECM.Controllers
 
 		protected override void HandleInput()
 		{
-			// Toggle pause / resume.
-			// By default, will restore character's velocity on resume (eg: restoreVelocityOnResume = true)
-
-			if (Input.GetKeyDown(KeyCode.P))
-				pause = !pause;
-
-			// Player input
+			var move = moveAction.ReadValue<Vector2>();
 
 			moveDirection = new Vector3
 			{
-				x = Input.GetAxisRaw("Horizontal"),
+				x = move.x,
 				y = 0.0f,
-				z = Input.GetAxisRaw("Vertical")
+				z = move.y
 			};
 
-			run = Input.GetButton("Fire3");
+			jump = jumpAction.ReadValue<float>() == 1;
 
-			jump = Input.GetButton("Jump");
+			crouch = crouchAction.ReadValue<float>() == 1;
 
-			crouch = Input.GetKey(KeyCode.C);
+
+			/*
+			// Toggle pause / resume.
+			// By default, will restore character's velocity on resume (eg: restoreVelocityOnResume = true)
+
+			// FIXME: Should this be enabled?
+			//if (Input.GetKeyDown(KeyCode.P))
+			//	pause = !pause;
+			*/
 		}
 
 		#endregion
@@ -251,6 +273,12 @@ namespace ECM.Controllers
 
 			base.Awake();
 
+			player = GetComponent<Player>();
+
+			moveAction = player.playerInput.actions[moveButton.action.name];
+			jumpAction = player.playerInput.actions[jumpButton.action.name];
+			crouchAction = player.playerInput.actions[crouchButton.action.name];
+
 			// Cache and initialize this components
 
 			mouseLook = GetComponent<Components.MouseLook>();
@@ -261,6 +289,8 @@ namespace ECM.Controllers
 						"BaseFPSController: No 'MouseLook' found. Please add a 'MouseLook' component to '{0}' game object",
 						name));
 			}
+
+			mouseLook.SetMouseAction(player.playerInput.actions[mouseButton.action.name]);
 
 			cameraPivotTransform = transform.Find("Camera_Pivot");
 			if (cameraPivotTransform == null)

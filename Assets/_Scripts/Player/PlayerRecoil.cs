@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerRecoil : MonoBehaviour
 {
@@ -37,7 +36,8 @@ public class PlayerRecoil : MonoBehaviour
 
 		ResetSavedRotations();
 
-		mousePosition = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
+		// Very long line
+		//mousePosition = player.playerInput.actions[player.mouseButton.action.name].ReadValue<Vector2>();
 	}
 
 	void ResetRecoil()
@@ -126,7 +126,10 @@ public class PlayerRecoil : MonoBehaviour
 	{
 		if (!isResettingRecoil) return;
 
-		if (new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")) != mousePosition)
+		//var tempPos = player.playerInput.actions[player.mouseButton.action.name].ReadValue<Vector2>();
+
+		//if (tempPos != mousePosition)
+		if (Mouse.current.wasUpdatedThisFrame)
 		{
 			StopRecoilReset();
 			return;

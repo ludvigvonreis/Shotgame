@@ -1,109 +1,161 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
+using UnityEngine.InputSystem;
 
 interface IWeapon
 {
-	public void PrimaryAction(bool down);
-	public void SecondaryAction(bool down);
-	public void ReloadAction(bool down);
+	public void PrimaryAction();
+	public void SecondaryAction();
+	public void ReloadAction();
 }
 
 public class WeaponLogic : MonoBehaviour, IWeapon
 {
 	[SerializeField] private Transform shootPoint;
 
-	// This should be set when you pickup this gun
 	private Camera shootCamera;
-	private Player player;
+	private Player _player;
 
+	[HideInInspector]
+	public Player player
+	{
+		get { return _player; }
+		set
+		{
+			if (value == null)
+			{
+				_player = null;
+				shootCamera = null;
+			}
+
+			_player = value;
+			shootCamera = value.playerCam;
+
+			Init();
+		}
+	}
+
+	private bool isInitiated = false;
+
+	// Input
+	private InputAction shootAction;
+	private InputAction aimAction;
+	private InputAction reloadAction;
+
+	// Stats
 	private WeaponObject weaponObject;
-	private WeaponStats stats;
-	private WeaponState state;
+	private WeaponStats weaponStats;
+	private WeaponState weaponState;
 	private WeaponVFX weaponVFX;
 
-	[SerializeField]
-	private bool isHolding = false;
-	[SerializeField]
-	private bool hasLetGo = false;
-	private bool hasShot = false;
-	private bool canShoot => (shootCamera != null && !state.isReloading);
+	// Shooting state
+	private bool isHoldingFire = false;
+	private bool hasReleasedFire = false;
+	private bool hasFired = false;
+	private bool canShoot => (shootCamera != null && !weaponState.isReloading);
 
+	// Timeout
 	[SerializeField] private float shootTimeout = .6f;
-	private bool canTimeout => (!isHolding && hasLetGo && hasShot);
-	private bool hasTimedout = false;
+	private bool canTimeout => (!isHoldingFire && hasReleasedFire && hasFired);
+	private bool timeoutDone = false;
+
 
 	void Init()
 	{
 		weaponObject = GetComponent<WeaponObject>();
 		weaponVFX = GetComponent<WeaponVFX>();
 
-		state = weaponObject.state;
-		stats = weaponObject.stats;
+		weaponState = weaponObject.state;
+		weaponStats = weaponObject.stats;
 
 		StartCoroutine(PrimaryLoop());
 		StartCoroutine(StoppedShootingTimeout());
 
-		player.m_InputEvent.AddListener(InputListener);
+		shootAction = player.playerInput.actions[player.shootButton.action.name];
+		aimAction = player.playerInput.actions[player.shootButton.action.name];
+		reloadAction = player.playerInput.actions[player.reloadButton.action.name];
+
+		isInitiated = true;
 	}
 
-	private void InputListener(string button, bool down)
+	void Update()
 	{
-		if (button == "Fire1") PrimaryAction(down);
+		if (!isInitiated) return;
 
-		if (button == "Fire2") SecondaryAction(down);
-
-		if (button == "Reload") ReloadAction(down);
-	}
-
-	public void SetPlayer(Player _player)
-	{
-		player = _player;
-		shootCamera = _player.playerCam;
-
-		Init();
-	}
-
-	public void UnsetPlayer()
-	{
-		player = null;
-		shootCamera = null;
-	}
-
-	void UpdateCurrentAmmo(int value = 0)
-	{
-		state.currentAmmo += value;
+		PrimaryAction();
+		SecondaryAction();
+		ReloadAction();
 	}
 
 	#region Primary
 
-	// when holding primary button "isHolding" = true
-	// when let go primary button "isHolding" = false
-	public void PrimaryAction(bool startPress)
+	public void PrimaryAction()
 	{
-		//Debug.Log("Primary action");
+		if (shootAction.WasPerformedThisFrame())
+		{
+			timeoutDone = false;
+			isHoldingFire = true;
+		}
 
-		isHolding = startPress;
-		if (startPress == false)
+		if (shootAction.WasReleasedThisFrame())
 		{
-			hasLetGo = true;
+			isHoldingFire = false;
+			hasReleasedFire = true;
 		}
-		else
+	}
+
+	void BaseShoot()
+	{
+		weaponState.currentAmmo -= 1;
+
+		hasFired = true;
+
+		weaponState.IncreaseHeat();
+
+		// Shoot from camera
+		RaycastHit hit;
+		if (Physics.Raycast(shootCamera.transform.position, shootCamera.transform.forward, out hit, weaponStats.range))
 		{
-			hasTimedout = false;
+			// Check if target hit is a "killable" object or something else
+
+			// FIXME: Currently weapon logic sits on weapon object so "this.gameobject" is not the player but
+			// the gun object. is this something important?
+			EventManager.Instance.m_HitEvent.Invoke(new Hit(this.transform.root.gameObject, hit, weaponStats));
+			DecalManager.Instance.PlaceDecal(hit.point, Quaternion.identity);
 		}
+
+		// Step 2 run visual stuff. Animations, particles.
+		weaponVFX.PlayMuzzleflash();
+
+		// Step 3 apply recoil to player
+		player.m_ShootEvent.Invoke();
+	}
+
+	// Are these really needed?
+
+	void SingleFire()
+	{
+		BaseShoot();
+	}
+
+	void RapidFire()
+	{
+		BaseShoot();
+	}
+
+	void BurstFire()
+	{
+		BaseShoot();
 	}
 
 	IEnumerator PrimaryLoop()
 	{
-		var fireRate = 1 / (stats.fireRate / 60);
+		var fireRate = 1 / (weaponStats.fireRate / 60);
 		// To be able to stop shooting while out of ammo
 		while (true)
 		{
-			var currentAmmo = state.currentAmmo;
-			var fireMode = stats.fireMode;
+			var currentAmmo = weaponState.currentAmmo;
+			var fireMode = weaponStats.fireMode;
 
 			if (currentAmmo <= 0)
 			{
@@ -121,27 +173,27 @@ public class WeaponLogic : MonoBehaviour, IWeapon
 			switch (fireMode)
 			{
 				case FireMode.Rapid:
-					if (isHolding)
+					if (isHoldingFire)
 					{
-						hasLetGo = false;
+						hasReleasedFire = false;
 						RapidFire();
 						yield return new WaitForSeconds(fireRate);
 					}
 					break;
 
 				case FireMode.Single:
-					if (isHolding && hasLetGo)
+					if (isHoldingFire && hasReleasedFire)
 					{
-						hasLetGo = false;
+						hasReleasedFire = false;
 						SingleFire();
 						yield return new WaitForSeconds(fireRate);
 					}
 					break;
 
 				case FireMode.Burst:
-					if (isHolding && hasLetGo)
+					if (isHoldingFire && hasReleasedFire)
 					{
-						hasLetGo = false;
+						hasReleasedFire = false;
 
 						BurstFire();
 						yield return new WaitForSeconds(fireRate);
@@ -152,48 +204,6 @@ public class WeaponLogic : MonoBehaviour, IWeapon
 			// Super important
 			yield return null;
 		}
-	}
-
-	void BaseShoot()
-	{
-		UpdateCurrentAmmo(-1);
-
-		hasShot = true;
-
-		state.IncreaseHeat();
-
-		// Shoot from camera
-		RaycastHit hit;
-		if (Physics.Raycast(shootCamera.transform.position, shootCamera.transform.forward, out hit, stats.range))
-		{
-			// Check if target hit is a "killable" object or something else
-
-			// FIXME: Currently weapon logic sits on weapon object so "this.gameobject" is not the player but
-			// the gun object. is this something important?
-			EventManager.Instance.m_HitEvent.Invoke(new Hit(this.transform.root.gameObject, hit, stats));
-			DecalManager.Instance.PlaceDecal(hit.point, Quaternion.identity);
-		}
-
-		// Step 2 run visual stuff. Animations, particles.
-		weaponVFX.PlayMuzzleflash();
-
-		// Step 3 apply recoil to player
-		player.m_ShootEvent.Invoke();
-	}
-
-	void SingleFire()
-	{
-		BaseShoot();
-	}
-
-	void RapidFire()
-	{
-		BaseShoot();
-	}
-
-	void BurstFire()
-	{
-		BaseShoot();
 	}
 
 	IEnumerator StoppedShootingTimeout()
@@ -216,16 +226,16 @@ public class WeaponLogic : MonoBehaviour, IWeapon
 				if (stillWaiting)
 				{
 					// Stuff when pause is interrupted goes here
-					state.CancelDecrease();
+					weaponState.CancelDecrease();
 				}
 			}
 
-			if (hasTimedout == false)
+			if (timeoutDone == false)
 			{
-				state.DecreaseHeat();
+				weaponState.DecreaseHeat();
 
 				player.m_ResetRecoil.Invoke();
-				hasTimedout = true;
+				timeoutDone = true;
 			}
 
 
@@ -235,33 +245,35 @@ public class WeaponLogic : MonoBehaviour, IWeapon
 
 	#endregion
 
-	public void SecondaryAction(bool down) { }
+	public void SecondaryAction() { }
+
+	#region Reload
 
 	// TODO: Tactical and empty reloads??
-	public void ReloadAction(bool down)
+	public void ReloadAction()
 	{
-		if (!down) return;
+		if (!reloadAction.WasPerformedThisFrame()) return;
 
 		// To stop trying to reload twice
-		if (state.isReloading) return;
+		if (weaponState.isReloading) return;
 
 		// Magazine full, no reload
-		if (state.currentAmmo >= stats.maxAmmo) return;
+		if (weaponState.currentAmmo >= weaponStats.maxAmmo) return;
 
 		// No ammo reserve to reload from
-		if (state.ammoReserve <= 0) return;
+		if (weaponState.ammoReserve <= 0) return;
 
 		StartCoroutine(ReloadRoutine());
 	}
 
 	IEnumerator ReloadRoutine()
 	{
-		state.isReloading = true;
+		weaponState.isReloading = true;
 
-		var reloadTime = stats.reloadTime;
-		var currentAmmo = state.currentAmmo;
-		var reserve = state.ammoReserve;
-		var maxAmmo = stats.maxAmmo;
+		var reloadTime = weaponStats.reloadTime;
+		var currentAmmo = weaponState.currentAmmo;
+		var reserve = weaponState.ammoReserve;
+		var maxAmmo = weaponStats.maxAmmo;
 
 		var difference = maxAmmo - currentAmmo;
 
@@ -277,15 +289,17 @@ public class WeaponLogic : MonoBehaviour, IWeapon
 		}
 
 		// Set ammo to zero to simulate removing magazine from weapon
-		state.currentAmmo = 0;
+		weaponState.currentAmmo = 0;
 
 		// TODO: Play a reload animation for the duration of reload time
 
 		yield return new WaitForSeconds(reloadTime);
 
-		state.currentAmmo += difference;
-		state.ammoReserve -= difference;
+		weaponState.currentAmmo += difference;
+		weaponState.ammoReserve -= difference;
 
-		state.isReloading = false;
+		weaponState.isReloading = false;
 	}
+
+	#endregion
 }

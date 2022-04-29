@@ -2081,12 +2081,70 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 188170303089332486, guid: 6e172ca2ee0944640a023d224842d839, type: 3}
+      propertyPath: _unlockCursorKey
+      value: 
+      objectReference: {fileID: 5995024618655385168, guid: 82287d69b0529a4479f077285015f276, type: 3}
+    - target: {fileID: 188170303089332486, guid: 6e172ca2ee0944640a023d224842d839, type: 3}
+      propertyPath: _lateralSensitivity
+      value: 0.125
+      objectReference: {fileID: 0}
+    - target: {fileID: 188170303089332486, guid: 6e172ca2ee0944640a023d224842d839, type: 3}
+      propertyPath: _verticalSensitivity
+      value: 0.125
+      objectReference: {fileID: 0}
     - target: {fileID: 188170303089332490, guid: 6e172ca2ee0944640a023d224842d839, type: 3}
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 3082439615597165756, guid: 6e172ca2ee0944640a023d224842d839, type: 3}
+      propertyPath: interactTransform
+      value: 
+      objectReference: {fileID: 188170302905005725}
+    - target: {fileID: 6825554786132485206, guid: 6e172ca2ee0944640a023d224842d839, type: 3}
+      propertyPath: aimButton
+      value: 
+      objectReference: {fileID: -5675818417072232823, guid: 82287d69b0529a4479f077285015f276, type: 3}
+    - target: {fileID: 6825554786132485206, guid: 6e172ca2ee0944640a023d224842d839, type: 3}
+      propertyPath: playerCam
+      value: 
+      objectReference: {fileID: 188170302905005726}
+    - target: {fileID: 6825554786132485206, guid: 6e172ca2ee0944640a023d224842d839, type: 3}
+      propertyPath: mouseButton
+      value: 
+      objectReference: {fileID: -7048408787612112732, guid: 82287d69b0529a4479f077285015f276, type: 3}
+    - target: {fileID: 6825554786132485206, guid: 6e172ca2ee0944640a023d224842d839, type: 3}
+      propertyPath: shootButton
+      value: 
+      objectReference: {fileID: -5571893971830954431, guid: 82287d69b0529a4479f077285015f276, type: 3}
+    - target: {fileID: 6825554786132485206, guid: 6e172ca2ee0944640a023d224842d839, type: 3}
+      propertyPath: reloadButton
+      value: 
+      objectReference: {fileID: -205009154527932223, guid: 82287d69b0529a4479f077285015f276, type: 3}
+    - target: {fileID: 6825554786132485206, guid: 6e172ca2ee0944640a023d224842d839, type: 3}
+      propertyPath: interactButton
+      value: 
+      objectReference: {fileID: -6193319190420350827, guid: 82287d69b0529a4479f077285015f276, type: 3}
+    - target: {fileID: 7049032219529045685, guid: 6e172ca2ee0944640a023d224842d839, type: 3}
+      propertyPath: field of view
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 7049032219529045685, guid: 6e172ca2ee0944640a023d224842d839, type: 3}
+      propertyPath: near clip plane
+      value: 0.1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6e172ca2ee0944640a023d224842d839, type: 3}
+--- !u!4 &188170302905005725 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 359210582183319631, guid: 6e172ca2ee0944640a023d224842d839, type: 3}
+  m_PrefabInstance: {fileID: 188170302905005724}
+  m_PrefabAsset: {fileID: 0}
+--- !u!20 &188170302905005726 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 7049032219529045685, guid: 6e172ca2ee0944640a023d224842d839, type: 3}
+  m_PrefabInstance: {fileID: 188170302905005724}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1690036379723274990
 PrefabInstance:
   m_ObjectHideFlags: 0

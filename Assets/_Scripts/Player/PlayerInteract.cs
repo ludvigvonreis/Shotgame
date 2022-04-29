@@ -1,27 +1,23 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerInteract : MonoBehaviour
 {
-	private Player player;
 	[SerializeField] private Transform interactTransform;
-
 	[SerializeField, Range(1, 100)]
 	private float range = 1;
+
+	private Player player;
 
 	void Start()
 	{
 		player = GetComponent<Player>();
-		player.m_InputEvent.AddListener(InputListener);
+
+		var interactAction = player.playerInput.actions[player.interactButton.action.name];
+		interactAction.performed += _ => { Interact(); };
 	}
 
-	private void InputListener(string button, bool down)
-	{
-		if (button == "Interact" && down) DoInteract();
-	}
 
-	void DoInteract()
+	void Interact()
 	{
 		RaycastHit hit;
 		if (Physics.Raycast(interactTransform.position, interactTransform.forward, out hit, range))

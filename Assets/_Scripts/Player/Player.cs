@@ -1,28 +1,30 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-
-[System.Serializable]
-public class InputEvent : UnityEvent<string, bool> { }
+using UnityEngine.InputSystem;
 
 
 public class Player : MonoBehaviour
 {
 	public Camera playerCam;
+	public PlayerInput playerInput;
 
-	// Input handling
-	[HideInInspector] public InputEvent m_InputEvent;
-	public List<string> buttons = new List<string>();
+	[Header("Button references")]
+	public InputActionReference interactButton;
+	public InputActionReference shootButton;
+	public InputActionReference aimButton;
+	public InputActionReference reloadButton;
+	public InputActionReference mouseButton; // Not really a button but watevs
 
 	[HideInInspector] public UnityEvent m_ShootEvent;
 	[HideInInspector] public UnityEvent m_ResetRecoil;
 
-	void Start()
+	void OnValidate()
 	{
-		if (m_InputEvent == null)
-			m_InputEvent = new InputEvent();
+		playerInput = GetComponent<PlayerInput>();
+	}
 
+	void Awake()
+	{
 		if (m_ShootEvent == null)
 			m_ShootEvent = new UnityEvent();
 
@@ -30,14 +32,15 @@ public class Player : MonoBehaviour
 			m_ResetRecoil = new UnityEvent();
 	}
 
-	void Update()
+	void Start()
 	{
-		foreach (var item in buttons)
-		{
-			if (Input.GetButtonDown(item)) m_InputEvent.Invoke(item, true);
+		if (interactButton == null) Debug.LogError("you need to define interact button");
 
+		if (shootButton == null) Debug.LogError("you need to define shoot button");
+		if (aimButton == null) Debug.LogError("you need to define aim button");
+		if (reloadButton == null) Debug.LogError("you need to define reload button");
 
-			if (Input.GetButtonUp(item)) m_InputEvent.Invoke(item, false);
-		}
+		if (mouseButton == null) Debug.LogError("you need to define mouse button");
 	}
+
 }
