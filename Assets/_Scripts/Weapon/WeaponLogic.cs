@@ -2,18 +2,17 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-interface IWeapon
+public abstract class AWeaponAction : MonoBehaviour
 {
-	public void PrimaryAction();
-	public void SecondaryAction();
-	public void ReloadAction();
+	public virtual void Init(WeaponObject weaponObject, WeaponLogic _logic) { }
+	public virtual void Run(InputAction action) { }
 }
 
-public class WeaponLogic : MonoBehaviour, IWeapon
+public class WeaponLogic : MonoBehaviour
 {
 	[SerializeField] private Transform shootPoint;
+	[SerializeField] public Camera shootCamera;
 
-	private Camera shootCamera;
 	private Player _player;
 
 	[HideInInspector]
@@ -35,13 +34,21 @@ public class WeaponLogic : MonoBehaviour, IWeapon
 		}
 	}
 
+	[SerializeField]
+	private AWeaponAction primaryAction;
+	[SerializeField]
+	private AWeaponAction secondaryAction;
+	[SerializeField]
+	private AWeaponAction reloadAction;
+
 	private bool isInitiated = false;
 
 	// Input
-	private InputAction shootAction;
-	private InputAction aimAction;
-	private InputAction reloadAction;
+	private InputAction primaryInput;
+	private InputAction secondaryInput;
+	private InputAction reloadInput;
 
+	/*
 	// Stats
 	private WeaponObject weaponObject;
 	private WeaponStats weaponStats;
@@ -58,22 +65,27 @@ public class WeaponLogic : MonoBehaviour, IWeapon
 	[SerializeField] private float shootTimeout = .6f;
 	private bool canTimeout => (!isHoldingFire && hasReleasedFire && hasFired);
 	private bool timeoutDone = false;
-
+	*/
 
 	void Init()
 	{
-		weaponObject = GetComponent<WeaponObject>();
-		weaponVFX = GetComponent<WeaponVFX>();
+		var weaponObject = GetComponent<WeaponObject>();
 
-		weaponState = weaponObject.state;
-		weaponStats = weaponObject.stats;
+		//weaponVFX = weaponObject.vfx;
+		//weaponState = weaponObject.state;
+		//weaponStats = weaponObject.stats;
 
-		StartCoroutine(PrimaryLoop());
-		StartCoroutine(StoppedShootingTimeout());
+		//StartCoroutine(PrimaryLoop());
+		//StartCoroutine(StoppedShootingTimeout());
 
-		shootAction = player.playerInput.actions[player.shootButton.action.name];
-		aimAction = player.playerInput.actions[player.shootButton.action.name];
-		reloadAction = player.playerInput.actions[player.reloadButton.action.name];
+		primaryInput = player.playerInput.actions[player.shootButton.action.name];
+		secondaryInput = player.playerInput.actions[player.shootButton.action.name];
+		reloadInput = player.playerInput.actions[player.reloadButton.action.name];
+
+		primaryAction.Init(weaponObject, this);
+		secondaryAction.Init(weaponObject, this);
+		reloadAction.Init(weaponObject, this);
+
 
 		isInitiated = true;
 	}
@@ -82,11 +94,12 @@ public class WeaponLogic : MonoBehaviour, IWeapon
 	{
 		if (!isInitiated) return;
 
-		PrimaryAction();
-		SecondaryAction();
-		ReloadAction();
+		primaryAction.Run(primaryInput);
+		secondaryAction.Run(secondaryInput);
+		reloadAction.Run(reloadInput);
 	}
 
+	/*
 	#region Primary
 
 	public void PrimaryAction()
@@ -302,4 +315,5 @@ public class WeaponLogic : MonoBehaviour, IWeapon
 	}
 
 	#endregion
+	*/
 }

@@ -12,6 +12,7 @@ public class WeaponObject : MonoBehaviour, IInteractible
 
 	public WeaponState state;
 	public WeaponStats stats;
+	public WeaponVFX vfx;
 	public WeaponLogic logic;
 
 	public GameObject worldModel;

@@ -37,7 +37,7 @@ public class PlayerRecoil : MonoBehaviour
 		ResetSavedRotations();
 
 		// Very long line
-		//mousePosition = player.playerInput.actions[player.mouseButton.action.name].ReadValue<Vector2>();
+		mousePosition = player.playerInput.actions[player.mouseButton.action.name].ReadValue<Vector2>();
 	}
 
 	void ResetRecoil()
@@ -126,14 +126,14 @@ public class PlayerRecoil : MonoBehaviour
 	{
 		if (!isResettingRecoil) return;
 
-		//var tempPos = player.playerInput.actions[player.mouseButton.action.name].ReadValue<Vector2>();
+		var tempPos = player.playerInput.actions[player.mouseButton.action.name].ReadValue<Vector2>();
 
-		//if (tempPos != mousePosition)
-		if (Mouse.current.wasUpdatedThisFrame)
+		if (tempPos != mousePosition)
 		{
 			StopRecoilReset();
 			return;
 		}
+
 
 		movement.localRotation = Quaternion.RotateTowards(movement.localRotation, shootOriginYaw, Time.deltaTime * resetSpeed);
 		camera.localRotation = Quaternion.RotateTowards(camera.localRotation, shootOriginPitch, Time.deltaTime * resetSpeed);
