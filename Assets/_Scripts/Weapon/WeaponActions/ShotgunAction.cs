@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 namespace WeaponActions
 {
-	class ShootAction : AWeaponAction
+	class ShotgunAction : AWeaponAction
 	{
 		private Player player;
 		private WeaponObject weaponObject;
@@ -79,22 +79,29 @@ namespace WeaponActions
 
 		void BaseShoot()
 		{
+			// FIXME: Temporary implementation
+
+			if (!(weaponStats is ShotgunStats)) return;
+
 			weaponState.currentAmmo -= 1;
-
 			hasFired = true;
-
 			weaponState.IncreaseHeat();
 
 			// Shoot from camera
-			RaycastHit hit;
-			if (Physics.Raycast(
-				shootCamera.transform.position, shootCamera.transform.forward, out hit, weaponStats.range
-			))
+			for (int i = 0; i < ((ShotgunStats)weaponStats).totalPellets; i++)
 			{
-				// Check if target hit is a "killable" object or something else
+				Vector3 deviation3D = Random.insideUnitCircle * ((ShotgunStats)weaponStats).maxDevitation;
+				Quaternion rot = Quaternion.LookRotation(Vector3.forward * weaponStats.range + deviation3D);
+				Vector3 forwardVector = shootCamera.transform.rotation * rot * Vector3.forward;
 
-				EventManager.Instance.m_HitEvent.Invoke(new Hit(player.gameObject, hit, weaponStats));
-				DecalManager.Instance.PlaceDecal(hit.point, Quaternion.identity);
+				RaycastHit hit;
+				if (Physics.Raycast(
+					shootCamera.transform.position, forwardVector, out hit, weaponStats.range
+				))
+				{
+					EventManager.Instance.m_HitEvent.Invoke(new Hit(player.gameObject, hit, weaponStats));
+					DecalManager.Instance.PlaceDecal(hit.point, Quaternion.identity);
+				}
 			}
 
 			// Step 2 run visual stuff. Animations, particles.
@@ -104,10 +111,6 @@ namespace WeaponActions
 			player.m_ShootEvent.Invoke();
 		}
 
-		void Burst()
-		{
-			BaseShoot();
-		}
 
 		IEnumerator PrimaryLoop()
 		{
@@ -147,16 +150,6 @@ namespace WeaponActions
 						{
 							hasReleasedFire = false;
 							BaseShoot();
-							yield return new WaitForSeconds(fireRate);
-						}
-						break;
-
-					case FireMode.Burst:
-						if (isHoldingFire && hasReleasedFire)
-						{
-							hasReleasedFire = false;
-
-							Burst();
 							yield return new WaitForSeconds(fireRate);
 						}
 						break;

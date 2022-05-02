@@ -8,26 +8,40 @@ namespace WeaponActions
 	class ReloadAction : AWeaponAction
 	{
 		private Player player;
-		private WeaponLogic weaponLogic;
+		private WeaponObject weaponObject;
+		private InputAction action;
 
 		// Weapon stats
 		private WeaponStats weaponStats;
 		private WeaponState weaponState;
 		private WeaponVFX weaponVFX;
 
-		public override void Init(WeaponObject weaponObject, WeaponLogic _logic)
+		void Start()
 		{
-			weaponLogic = _logic;
-			player = _logic.player;
-
+			weaponObject = GetComponent<WeaponObject>();
 			weaponVFX = weaponObject.vfx;
 			weaponState = weaponObject.state;
 			weaponStats = weaponObject.stats;
 		}
 
-		// TODO: Tactical and empty reloads??
-		public override void Run(InputAction action)
+		public override void Init(Player _player)
 		{
+			player = _player;
+			action = player.playerInput.actions[player.reloadButton.action.name];
+		}
+
+		public override void Terminate()
+		{
+			player = null;
+			action = null;
+			StopAllCoroutines();
+		}
+
+		// TODO: Tactical and empty reloads??
+		void Update()
+		{
+			if (!weaponObject.isHeld) return;
+
 			if (!action.WasPerformedThisFrame()) return;
 
 			// To stop trying to reload twice

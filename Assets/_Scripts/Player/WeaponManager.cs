@@ -57,8 +57,9 @@ public class WeaponManager : MonoBehaviour
 
 		// FIXME: Temporary until weapon switching is implemented
 		SelectWeapon(wepObj.ID);
+		wepObj.isHeld = true;
 
-		wepObj.logic.player = player;
+		wepObj.GetComponents<AWeaponAction>().ToList().ForEach(e => e.Init(player));
 
 		playerRecoil.UpdateCurrentWeapon();
 	}
@@ -67,12 +68,14 @@ public class WeaponManager : MonoBehaviour
 	{
 		equippedWeapons.Remove(wepObj.ID);
 		equippedWeaponIds.Remove(wepObj.ID);
-		wepObj.logic.player = null;
+		wepObj.isHeld = false;
+		wepObj.GetComponents<AWeaponAction>().ToList().ForEach(e => e.Terminate());
 	}
 
 	public void RemoveWeapon(string wepId)
 	{
-		equippedWeapons[wepId].logic.player = null;
+		equippedWeapons[wepId].isHeld = false;
+		equippedWeapons[wepId].GetComponents<AWeaponAction>().ToList().ForEach(e => e.Terminate());
 		equippedWeapons.Remove(wepId);
 		equippedWeaponIds.Remove(wepId);
 	}

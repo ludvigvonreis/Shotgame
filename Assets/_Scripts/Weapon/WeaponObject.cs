@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(WeaponState))]
-[RequireComponent(typeof(WeaponLogic))]
 [RequireComponent(typeof(WeaponVFX))]
 public class WeaponObject : MonoBehaviour, IInteractible
 {
 	[ReadOnly]
 	public string ID;
 
+	public bool isHeld;
+
 	public WeaponState state;
 	public WeaponStats stats;
 	public WeaponVFX vfx;
-	public WeaponLogic logic;
 
 	public GameObject worldModel;
 
@@ -25,7 +25,6 @@ public class WeaponObject : MonoBehaviour, IInteractible
 	void Start()
 	{
 		state = GetComponent<WeaponState>();
-		logic = GetComponent<WeaponLogic>();
 
 		state.heat = 0;
 		state.currentAmmo = stats.maxAmmo;

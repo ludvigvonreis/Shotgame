@@ -9,7 +9,7 @@ public enum FireMode
 	Burst,
 }
 
-[CreateAssetMenu(fileName = "New Weapon", menuName = "Weapon", order = 2)]
+[CreateAssetMenu(fileName = "New Weapon", menuName = "Weapons/Standard", order = 2)]
 public class WeaponStats : ScriptableObject
 {
 	[ReadOnly]

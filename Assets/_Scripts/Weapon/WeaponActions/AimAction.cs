@@ -7,11 +7,12 @@ namespace WeaponActions
 {
 	class AimAction : AWeaponAction
 	{
-		public override void Init(WeaponObject weaponObject, WeaponLogic _logic)
+		void Start() { }
+
+		void Update()
 		{
+			//if (!weaponObject.isHeld) return;
 
 		}
-
-		public override void Run(InputAction action) { }
 	}
 }
