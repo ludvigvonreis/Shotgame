@@ -12,7 +12,7 @@ public class WeaponObject : MonoBehaviour, IInteractible
 	public bool isHeld;
 
 	public WeaponState state;
-	public WeaponStats stats;
+	public BaseStats stats;
 	public WeaponVFX vfx;
 
 	public GameObject worldModel;
@@ -27,14 +27,17 @@ public class WeaponObject : MonoBehaviour, IInteractible
 		state = GetComponent<WeaponState>();
 
 		state.heat = 0;
-		state.currentAmmo = stats.maxAmmo;
-		state.ammoReserve = stats.maxAmmo * 5;
+		if (stats is WeaponStats)
+		{
+			state.currentAmmo = ((WeaponStats)stats).maxAmmo;
+			state.ammoReserve = ((WeaponStats)stats).maxAmmo * 5;
+		}
 		state.isReloading = false;
 	}
 
 	public void SpawnModel(WeaponObject wepObj)
 	{
-		var model = Instantiate(wepObj.stats.weaponModel, Vector3.zero, Quaternion.identity);
+		var model = Instantiate(wepObj.stats.model, Vector3.zero, Quaternion.identity);
 		model.name = wepObj.stats.ID;
 		worldModel = model;
 		model.transform.parent = this.transform;

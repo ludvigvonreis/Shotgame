@@ -1,21 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public enum FireMode
+[CreateAssetMenu(fileName = "New Weapon", menuName = "Weapons/Weapon")]
+public class WeaponStats : BaseStats
 {
-	Single,
-	Rapid,
-	Burst,
-}
-
-[CreateAssetMenu(fileName = "New Weapon", menuName = "Weapons/Standard", order = 2)]
-public class WeaponStats : ScriptableObject
-{
-	[ReadOnly]
-	public string ID;
-	public new string name;
-
 	[Header("Basic stats")]
 	public float damage;
 	public float range;
@@ -28,9 +15,6 @@ public class WeaponStats : ScriptableObject
 	[Range(0.1f, 10f)]
 	public float reloadTime;
 
-	[Header("Visual")]
-	public GameObject weaponModel;
-
 	[Header("Recoil")]
 	public AnimationCurve recoilHoriz;
 	public AnimationCurve recoilVerti;
@@ -39,10 +23,4 @@ public class WeaponStats : ScriptableObject
 	public float recoilHorizMult;
 	[Range(0.1f, 10f)]
 	public float recoilVertiMult;
-
-	void OnValidate()
-	{
-		if (!System.Guid.TryParse(ID, out _))
-			ID = System.Guid.NewGuid().ToString();
-	}
 }

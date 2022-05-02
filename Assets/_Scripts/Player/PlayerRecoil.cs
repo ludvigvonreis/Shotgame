@@ -66,14 +66,19 @@ public class PlayerRecoil : MonoBehaviour
 			saveOrigin = true;
 		};
 
+		if (!(weaponObject.stats is WeaponStats)) return;
+
+
+		var stats = (WeaponStats)weaponObject.stats;
+
 		var heat = weaponObject.state.heat;
-		var maxAmmo = weaponObject.stats.maxAmmo;
+		var maxAmmo = stats.maxAmmo;
 
 		// TODO: investigate better ways to normalize heat between 0 and 1
 		float recoilPoint = (float)heat / (float)maxAmmo;
 
-		float horizEvaluation = weaponObject.stats.recoilHoriz.Evaluate(recoilPoint) * weaponObject.stats.recoilHorizMult;
-		float vertiEvaluation = weaponObject.stats.recoilVerti.Evaluate(recoilPoint) * weaponObject.stats.recoilVertiMult;
+		float horizEvaluation = stats.recoilHoriz.Evaluate(recoilPoint) * stats.recoilHorizMult;
+		float vertiEvaluation = stats.recoilVerti.Evaluate(recoilPoint) * stats.recoilVertiMult;
 
 		float horiz = 0f;
 		float verti = 0f;

@@ -21,7 +21,11 @@ namespace WeaponActions
 			weaponObject = GetComponent<WeaponObject>();
 			weaponVFX = weaponObject.vfx;
 			weaponState = weaponObject.state;
-			weaponStats = weaponObject.stats;
+
+			if (weaponObject.stats is WeaponStats)
+				weaponStats = (WeaponStats)weaponObject.stats;
+			else
+				Debug.LogError("Weapon is not shootable");
 		}
 
 		public override void Init(Player _player)

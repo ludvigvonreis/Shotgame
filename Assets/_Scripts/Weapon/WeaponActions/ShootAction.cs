@@ -57,7 +57,10 @@ namespace WeaponActions
 
 			weaponVFX = weaponObject.vfx;
 			weaponState = weaponObject.state;
-			weaponStats = weaponObject.stats;
+			if (weaponObject.stats is WeaponStats)
+				weaponStats = (WeaponStats)weaponObject.stats;
+			else
+				Debug.LogError("Weapon is not shootable");
 		}
 
 		void Update()

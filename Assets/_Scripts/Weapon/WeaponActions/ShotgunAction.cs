@@ -11,7 +11,7 @@ namespace WeaponActions
 		private WeaponObject weaponObject;
 
 		// Weapon stats
-		private WeaponStats weaponStats;
+		private ShotgunStats weaponStats;
 		private WeaponState weaponState;
 		private WeaponVFX weaponVFX;
 
@@ -57,7 +57,10 @@ namespace WeaponActions
 
 			weaponVFX = weaponObject.vfx;
 			weaponState = weaponObject.state;
-			weaponStats = weaponObject.stats;
+			if (weaponObject.stats is ShotgunStats)
+				weaponStats = (ShotgunStats)weaponObject.stats;
+			else
+				Debug.LogError("Weapon is not shootable");
 		}
 
 		void Update()
@@ -81,16 +84,14 @@ namespace WeaponActions
 		{
 			// FIXME: Temporary implementation
 
-			if (!(weaponStats is ShotgunStats)) return;
-
 			weaponState.currentAmmo -= 1;
 			hasFired = true;
 			weaponState.IncreaseHeat();
 
 			// Shoot from camera
-			for (int i = 0; i < ((ShotgunStats)weaponStats).totalPellets; i++)
+			for (int i = 0; i < weaponStats.totalPellets; i++)
 			{
-				Vector3 deviation3D = Random.insideUnitCircle * ((ShotgunStats)weaponStats).maxDevitation;
+				Vector3 deviation3D = Random.insideUnitCircle * weaponStats.maxDevitation;
 				Quaternion rot = Quaternion.LookRotation(Vector3.forward * weaponStats.range + deviation3D);
 				Vector3 forwardVector = shootCamera.transform.rotation * rot * Vector3.forward;
 
