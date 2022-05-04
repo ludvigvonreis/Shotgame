@@ -9,65 +9,55 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf9c0d3ca1de2274692f2e2a43ac0b25, type: 3}
-  m_Name: Mp5
+  m_Script: {fileID: 11500000, guid: 58e599184d0c30e4e9b72f1e55d425ba, type: 3}
+  m_Name: MP5
   m_EditorClassIdentifier: 
-  ID: 1a0cf7b9-4552-420c-9f62-7e7149aeea85
-  name: Temporary mp5
-  damage: 5
+  ID: 1d2ac3cc-4b5a-424a-9f24-50b2e65a7523
+  name: MP5
+  model: {fileID: 0}
+  damage: 12
   range: 100
-  fireRate: 800
-  fireMode: 1
-  maxAmmo: 35
-  reloadTime: 2.9
-  weaponModel: {fileID: 6338986245547879652, guid: cb8a42a7fd94d164492afbd2589aaf10, type: 3}
+  fireRate: 400
+  maxAmmo: 30
+  reloadTime: 1.2
   recoilHoriz:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: -0.0015563965
-      value: 0.40322876
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
+      time: 0
+      value: 0
+      inSlope: -0.9300538
+      outSlope: -0.9300538
+      tangentMode: 34
       weightedMode: 0
       inWeight: 0
-      outWeight: 0
+      outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.14079785
-      value: 1.1259135
-      inSlope: 4.704649
-      outSlope: 4.704649
+      time: 0.2953025
+      value: -0.2746472
+      inSlope: 0.77225107
+      outSlope: 0.77225107
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.16368206
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.5740462
+      value: 1.2191029
+      inSlope: -1.6789625
+      outSlope: -1.6789625
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0.17911892
+      outWeight: 0.12503682
     - serializedVersion: 3
-      time: 0.36768702
-      value: 0.020986319
-      inSlope: -3.2134414
-      outSlope: -3.2134414
-      tangentMode: 0
+      time: 1
+      value: 1
+      inSlope: -0.51438177
+      outSlope: -0.51438177
+      tangentMode: 34
       weightedMode: 0
-      inWeight: 0.16886228
-      outWeight: 0.1325371
-    - serializedVersion: 3
-      time: 0.7043128
-      value: -0.41487634
-      inSlope: -22.33521
-      outSlope: -22.33521
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.019187294
-      outWeight: 0.25424623
-    - serializedVersion: 3
-      time: 0.9735718
-      value: -0.41744614
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
+      inWeight: 0.33333334
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -76,43 +66,52 @@ MonoBehaviour:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0.003485117
-      value: 0.93941444
-      inSlope: 0.9922451
-      outSlope: 0.9922451
-      tangentMode: 0
+      time: 0
+      value: 0
+      inSlope: 2.8948288
+      outSlope: 2.8948288
+      tangentMode: 34
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.12370081
+      outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.21865676
-      value: 1.0120894
-      inSlope: -0.070534445
-      outSlope: -0.070534445
+      time: 0.1684339
+      value: 0.48758733
+      inSlope: 8.224764
+      outSlope: 8.224764
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.13899536
-      outWeight: 0.15544586
+      inWeight: 0.33333334
+      outWeight: 0.060103092
     - serializedVersion: 3
-      time: 0.5055431
-      value: 0.9768717
-      inSlope: 0.15607978
-      outSlope: 0.15607978
+      time: 0.38436544
+      value: 1.3754402
+      inSlope: 1.1860623
+      outSlope: 1.1860623
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.13093121
-      outWeight: 0.06271532
+      inWeight: 0.3409671
+      outWeight: 0.14227815
     - serializedVersion: 3
-      time: 1.0023193
-      value: 0.95770264
-      inSlope: 0
-      outSlope: 0
+      time: 0.7356837
+      value: 1.004361
+      inSlope: -0.6174617
+      outSlope: -0.6174617
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0
+      inWeight: 0.33333334
+      outWeight: 0.12244009
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: -0.016499298
+      outSlope: -0.016499298
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  recoilHorizMult: 1.3
-  recoilVertiMult: 1.2
+  recoilHorizMult: 1
+  recoilVertiMult: 1

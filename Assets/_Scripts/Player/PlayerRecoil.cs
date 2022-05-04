@@ -1,11 +1,31 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+public class RecoilData
+{
+	public int heat;
+	public int maxAmmo;
+
+	public AnimationCurve recoilHoriz;
+	public AnimationCurve recoilVerti;
+
+	public float recoilHorizMult;
+	public float recoilVertiMult;
+
+	public RecoilData(WeaponSystem.WeaponState state, WeaponSystem.WeaponStats stats)
+	{
+		heat = state.heat;
+		maxAmmo = stats.maxAmmo;
+		recoilHoriz = stats.recoilHoriz;
+		recoilVerti = stats.recoilVerti;
+		recoilHorizMult = stats.recoilHorizMult;
+		recoilVertiMult = stats.recoilVertiMult;
+	}
+}
+
 public class PlayerRecoil : MonoBehaviour
 {
-	private WeaponManager weaponManager;
 	private Player player;
-	private WeaponObject weaponObject;
 
 	public Vector2 recoil;
 
@@ -25,10 +45,10 @@ public class PlayerRecoil : MonoBehaviour
 	void Start()
 	{
 		player = GetComponent<Player>();
-		weaponManager = GetComponent<WeaponManager>();
+		TempWeap tempWeap = GetComponent<TempWeap>();
 
-		player.m_ShootEvent.AddListener(CalculateRecoil);
-		player.m_ResetRecoil.AddListener(ResetRecoil);
+		tempWeap.m_ShootEvent.AddListener(CalculateRecoil);
+		tempWeap.m_ResetRecoil.AddListener(ResetRecoil);
 
 		recoil = Vector2.zero;
 		totalRecoil = Vector2.zero;
@@ -54,31 +74,26 @@ public class PlayerRecoil : MonoBehaviour
 
 	public void UpdateCurrentWeapon()
 	{
-		weaponObject = weaponManager.GetCurrentWeapon();
+		//weaponObject = weaponManager.GetCurrentWeapon();
 	}
 
-	void CalculateRecoil()
+	void CalculateRecoil(RecoilData recoilData)
 	{
-		if (weaponObject == null) return;
+		//if (weaponObject == null) return;
 
 		if (!saveOrigin)
 		{
 			saveOrigin = true;
-		};
+		}
 
-		if (!(weaponObject.stats is WeaponStats)) return;
-
-
-		var stats = (WeaponStats)weaponObject.stats;
-
-		var heat = weaponObject.state.heat;
-		var maxAmmo = stats.maxAmmo;
+		var heat = recoilData.heat;
+		var maxAmmo = recoilData.maxAmmo;
 
 		// TODO: investigate better ways to normalize heat between 0 and 1
 		float recoilPoint = (float)heat / (float)maxAmmo;
 
-		float horizEvaluation = stats.recoilHoriz.Evaluate(recoilPoint) * stats.recoilHorizMult;
-		float vertiEvaluation = stats.recoilVerti.Evaluate(recoilPoint) * stats.recoilVertiMult;
+		float horizEvaluation = recoilData.recoilHoriz.Evaluate(recoilPoint) * recoilData.recoilHorizMult;
+		float vertiEvaluation = recoilData.recoilVerti.Evaluate(recoilPoint) * recoilData.recoilVertiMult;
 
 		float horiz = 0f;
 		float verti = 0f;
