@@ -8,6 +8,7 @@ namespace WeaponSystem
 {
 	public class WeaponModuleGroup : MonoBehaviour
 	{
+		[HideInInspector]
 		public Weapon weaponReference;
 
 		public List<Weapon.IBehaviour> behaviours { get; protected set; } = new List<Weapon.IBehaviour>();
