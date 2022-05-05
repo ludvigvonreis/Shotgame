@@ -2,6 +2,7 @@ using UnityEngine.InputSystem;
 
 namespace WeaponSystem
 {
+	[System.Serializable]
 	public class WeaponSingleFire : Weapon.Module, WeaponConstraint.IInterface
 	{
 		private InputAction.CallbackContext inputContext;

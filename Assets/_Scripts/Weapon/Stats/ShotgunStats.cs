@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Shotgun", menuName = "Weapons/Shotgun")]
+//[CreateAssetMenu(fileName = "New Shotgun", menuName = "Weapons/Shotgun")]
 public class ShotgunStats : WeaponStats
 {
 	public int totalPellets;

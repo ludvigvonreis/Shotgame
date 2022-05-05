@@ -2,6 +2,7 @@ using UnityEngine;
 
 namespace WeaponSystem
 {
+	[System.Serializable]
 	public class WeaponRPM : Weapon.Module, WeaponConstraint.IInterface
 	{
 		//[SerializeField]

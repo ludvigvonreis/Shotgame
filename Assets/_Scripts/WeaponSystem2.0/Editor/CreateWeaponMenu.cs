@@ -8,7 +8,7 @@ namespace WeaponSystem
 		[MenuItem("GameObject/WeaponSystem/Weapon", false, 0)]
 		public static void CreateWeapon()
 		{
-			var gameObject = new GameObject("New Weapon", typeof(Weapon), typeof(WeaponStats));
+			var gameObject = new GameObject("New Weapon", typeof(Weapon), typeof(WeaponState));
 
 			var modules = new GameObject("Modules");
 			var action = new GameObject("Action");

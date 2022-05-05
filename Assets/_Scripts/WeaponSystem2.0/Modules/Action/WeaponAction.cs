@@ -6,6 +6,7 @@ using System;
 
 namespace WeaponSystem
 {
+	[System.Serializable]
 	public class WeaponAction : Weapon.Module
 	{
 		public IProcessor Processor { get; protected set; }

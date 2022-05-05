@@ -24,8 +24,8 @@ namespace WeaponSystem
 		{
 			weaponReference = reference;
 
-			behaviours = GetComponentsInChildren<Weapon.IBehaviour>(true).ToList();
-			modules = GetComponentsInChildren<Weapon.IModule>(true).ToList();
+			behaviours = GetComponentsInChildren<Weapon.IBehaviour>(false).ToList();
+			modules = GetComponentsInChildren<Weapon.IModule>(false).ToList();
 
 			Action = modules.First(x => x is WeaponAction) as WeaponAction;
 			Constraint = modules.First(x => x is WeaponConstraint) as WeaponConstraint;

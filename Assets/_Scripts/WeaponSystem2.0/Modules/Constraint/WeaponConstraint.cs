@@ -6,6 +6,7 @@ using System.Collections.Generic;
 
 namespace WeaponSystem
 {
+	[System.Serializable]
 	public class WeaponConstraint : Weapon.Module
 	{
 		public List<IInterface> List { get; protected set; }

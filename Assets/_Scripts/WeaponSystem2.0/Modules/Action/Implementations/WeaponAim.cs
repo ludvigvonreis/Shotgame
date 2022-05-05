@@ -2,13 +2,22 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.VFX;
+using System.Linq;
 
 namespace WeaponSystem
 {
+	[System.Serializable]
 	public class WeaponAim : WeaponAction
 	{
+		[SerializeField] private Transform aimPoint;
+		[SerializeField] private float fovMoveDuration;
+		[SerializeField] private float aimedFov;
+		private float originFov;
+		private float origin2Fov;
+
+		private float moveDuration;
+
 		[SerializeField]
-		private Transform aimPoint;
 		private bool isAiming;
 		private bool isAtOrigin;
 		private bool isMoving;
@@ -19,13 +28,8 @@ namespace WeaponSystem
 		private Vector3 origin;
 		private Transform weaponTransform;
 
-		[SerializeField]
-		private Camera tempCamera;
-
-		[SerializeField, Range(0.0f, 10.0f)]
-		private float test;
-
-		private float moveDuration;
+		private Camera ownerCamera;
+		private Camera ownerWeaponCamera;
 
 		public override void Init()
 		{
@@ -41,6 +45,11 @@ namespace WeaponSystem
 			origin = weaponTransform.position;
 
 			moveDuration = groupReference.weaponStats.aimDownSightTime;
+
+			// FIXME: Temporary until player script is activated
+			var cameras = groupReference.owner.ownerObject.GetComponentsInChildren<Camera>();
+			ownerCamera = cameras.Single(x => x.name == "PlayerCamera");
+			ownerWeaponCamera = cameras.Single(x => x.name == "WeaponCamera");
 		}
 
 		protected override void ProcessInput(InputAction.CallbackContext context)
@@ -83,12 +92,11 @@ namespace WeaponSystem
 			if (isMoving) return;
 
 			origin = groupReference.weaponReference.transform.localPosition;
+			originFov = ownerCamera.fieldOfView;
+			origin2Fov = ownerWeaponCamera.fieldOfView;
 
-			var pos = tempCamera.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, test));
-			var absolute = weaponTransform.InverseTransformPoint(pos) - aimPoint.localPosition;
-			var to = weaponTransform.localPosition + absolute;
-
-			StartCoroutine(MoveWeapon(to));
+			StartCoroutine(MoveWeapon(aimPoint.localPosition));
+			StartCoroutine(MoveFov(aimedFov, aimedFov));
 
 			isAtOrigin = false;
 		}
@@ -99,6 +107,7 @@ namespace WeaponSystem
 			if (isMoving) return;
 
 			StartCoroutine(MoveWeapon(origin));
+			StartCoroutine(MoveFov(originFov, origin2Fov));
 
 			isAtOrigin = true;
 		}
@@ -113,7 +122,7 @@ namespace WeaponSystem
 
 				for (float progress = 0; progress < moveDuration; progress += Time.deltaTime)
 				{
-					weaponTransform.localPosition = Vector3.Lerp(startPosition, to, EaseInOutQuad(progress / moveDuration));
+					weaponTransform.localPosition = Vector3.Lerp(startPosition, to, EasingFunctions.EaseInOutQuad(progress / moveDuration));
 					yield return null;
 				}
 			}
@@ -122,9 +131,20 @@ namespace WeaponSystem
 			isMoving = false;
 		}
 
-		float EaseInOutQuad(float x)
+		IEnumerator MoveFov(float to, float to2)
 		{
-			return x < 0.5 ? 2 * x * x : 1 - Mathf.Pow(-2 * x + 2, 2) / 2;
+			var start1 = ownerCamera.fieldOfView;
+			var start2 = ownerWeaponCamera.fieldOfView;
+
+			for (float progress = 0; progress < fovMoveDuration; progress += Time.deltaTime)
+			{
+				ownerCamera.fieldOfView = Mathf.Lerp(start1, to, EasingFunctions.EaseInOutQuad(progress / fovMoveDuration));
+				ownerWeaponCamera.fieldOfView = Mathf.Lerp(start2, to2, EasingFunctions.EaseInOutQuad(progress / fovMoveDuration));
+				yield return null;
+			}
+
+			ownerCamera.fieldOfView = to;
+			ownerWeaponCamera.fieldOfView = to2;
 		}
 	}
 }

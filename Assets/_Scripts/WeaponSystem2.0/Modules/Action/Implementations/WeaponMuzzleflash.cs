@@ -3,6 +3,7 @@ using UnityEngine.VFX;
 
 namespace WeaponSystem
 {
+	[System.Serializable]
 	public class WeaponMuzzleflash : WeaponAction
 	{
 		[SerializeField]
@@ -15,7 +16,6 @@ namespace WeaponSystem
 			groupReference.Action.OnPerfom += Action;
 		}
 
-		// TODO: Implement rest of shooting function
 		void Action()
 		{
 			if (inputContext.performed)

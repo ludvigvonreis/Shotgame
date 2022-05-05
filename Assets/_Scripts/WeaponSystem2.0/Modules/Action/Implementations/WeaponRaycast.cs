@@ -3,6 +3,7 @@ using UnityEngine.InputSystem;
 
 namespace WeaponSystem
 {
+	[System.Serializable]
 	public class WeaponRaycast : WeaponAction
 	{
 		[SerializeField]
