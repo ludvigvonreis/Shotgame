@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class WeaponHolder : MonoBehaviour
 {
+	/*
 	[SerializeField] private List<GameObject> heldWeapons;
 
 	[SerializeField] private Vector3 holderAlignment;
@@ -65,4 +66,5 @@ public class WeaponHolder : MonoBehaviour
 
 		yield return null;
 	}
+	*/
 }

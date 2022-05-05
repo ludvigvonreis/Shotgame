@@ -42,6 +42,8 @@ public class PlayerRecoil : MonoBehaviour
 
 	private Vector2 mousePosition;
 
+	public InputActionReference mouseButton;
+
 	void Start()
 	{
 		player = GetComponent<Player>();
@@ -57,7 +59,7 @@ public class PlayerRecoil : MonoBehaviour
 		ResetSavedRotations();
 
 		// Very long line
-		mousePosition = player.playerInput.actions[player.mouseButton.action.name].ReadValue<Vector2>();
+		mousePosition = GetComponent<PlayerInput>().actions[mouseButton.action.name].ReadValue<Vector2>();
 	}
 
 	void ResetRecoil()
@@ -146,7 +148,8 @@ public class PlayerRecoil : MonoBehaviour
 	{
 		if (!isResettingRecoil) return;
 
-		var tempPos = player.playerInput.actions[player.mouseButton.action.name].ReadValue<Vector2>();
+		// TODO FIXMe
+		var tempPos = GetComponent<PlayerInput>().actions[mouseButton.action.name].ReadValue<Vector2>();
 
 		if (tempPos != mousePosition)
 		{

@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
+/*
 public class Hit
 {
 	public GameObject from;
@@ -19,15 +20,19 @@ public class Hit
 		weaponStats = stats;
 	}
 }
+*/
 
+/*
 [System.Serializable]
 public class InteractEvent : UnityEvent<Interaction> { }
 
 [System.Serializable]
 public class HitEvent : UnityEvent<Hit> { }
+*/
 
 public class EventManager : MonoBehaviour
 {
+	/*
 	[SerializeField] private bool debugPrint;
 
 	// Events
@@ -81,4 +86,5 @@ public class EventManager : MonoBehaviour
 	{
 		DontDestroyOnLoad(gameObject);
 	}
+	*/
 }

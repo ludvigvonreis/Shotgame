@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class PlayerInteract : MonoBehaviour
 {
+	/*
 	[SerializeField] private Transform interactTransform;
 	[SerializeField, Range(1, 100)]
 	private float range = 1;
@@ -30,4 +31,5 @@ public class PlayerInteract : MonoBehaviour
 			}
 		}
 	}
+	*/
 }

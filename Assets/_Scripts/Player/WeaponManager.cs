@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class WeaponManager : MonoBehaviour
 {
+	/*
 	private Dictionary<string, WeaponObject> equippedWeapons = new Dictionary<string, WeaponObject>();
 	private List<string> equippedWeaponIds = new List<string>();
 	private string currentWeaponID;
@@ -89,4 +90,5 @@ public class WeaponManager : MonoBehaviour
 	{
 		currentWeaponID = equippedWeaponIds[index];
 	}
+	*/
 }

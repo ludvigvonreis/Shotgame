@@ -21,6 +21,7 @@ public class HealthChangeEvent : UnityEvent<HealthChange> { }
 
 public class Player : MonoBehaviour
 {
+	/*
 	public Camera playerCam;
 	public PlayerInput playerInput;
 
@@ -80,4 +81,5 @@ public class Player : MonoBehaviour
 
 		m_HealthChange.Invoke(new HealthChange(health, maxHealth));
 	}
+	*/
 }

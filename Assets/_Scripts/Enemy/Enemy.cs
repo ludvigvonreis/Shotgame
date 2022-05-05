@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+	/*
 	[SerializeField] private float maxHealth;
 	[SerializeField] private float health;
 
@@ -43,4 +44,5 @@ public class Enemy : MonoBehaviour
 
 		Destroy(this.gameObject);
 	}
+	*/
 }
