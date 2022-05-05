@@ -34,7 +34,7 @@ namespace WeaponSystem
 
 			List = new List<IInterface>();
 
-			var selection = weaponReference.behaviours.Where(x => x is IInterface).Cast<IInterface>();
+			var selection = groupReference.behaviours.Where(x => x is IInterface).Cast<IInterface>();
 
 			List.AddRange(selection);
 		}

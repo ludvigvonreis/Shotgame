@@ -17,10 +17,10 @@ namespace WeaponSystem
 		{
 			base.Init();
 
-			weaponReference.OnProcess.AddListener(Process);
-			weaponReference.Action.OnPerfom.AddListener(Action);
+			groupReference.OnGroupProcess.AddListener(Process);
+			groupReference.Action.OnPerfom.AddListener(Action);
 
-			rpm = weaponReference.weaponStats.fireRate;
+			rpm = groupReference.weaponStats.fireRate;
 		}
 
 		void Process()

@@ -13,7 +13,7 @@ namespace WeaponSystem
 		{
 			base.Init();
 
-			weaponReference.Action.OnPerfom.AddListener(Action);
+			groupReference.Action.OnPerfom.AddListener(Action);
 		}
 
 		void Action()

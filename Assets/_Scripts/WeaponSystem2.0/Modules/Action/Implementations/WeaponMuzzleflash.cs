@@ -12,7 +12,7 @@ namespace WeaponSystem
 		{
 			base.Init();
 
-			weaponReference.Action.OnPerfom.AddListener(Action);
+			groupReference.Action.OnPerfom.AddListener(Action);
 		}
 
 		// TODO: Implement rest of shooting function

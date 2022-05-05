@@ -16,10 +16,10 @@ namespace WeaponSystem
 		{
 			base.Init();
 
-			weaponReference.OnProcess.AddListener(Process);
-			weaponReference.Action.OnPerfom.AddListener(Action);
+			groupReference.OnGroupProcess.AddListener(Process);
+			groupReference.Action.OnPerfom.AddListener(Action);
 
-			inputContext = weaponReference.Action.inputContext;
+			inputContext = groupReference.Action.inputContext;
 		}
 
 		void Process()

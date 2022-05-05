@@ -17,11 +17,11 @@ namespace WeaponSystem
 		{
 			base.Init();
 
-			weaponReference.Action.OnPerfom.AddListener(Action);
-			weaponStats = weaponReference.weaponStats;
-			weaponState = weaponReference.weaponState;
+			groupReference.Action.OnPerfom.AddListener(Action);
+			weaponStats = groupReference.weaponStats;
+			weaponState = groupReference.weaponState;
 
-			ownerObject = weaponReference.owner.ownerObject;
+			ownerObject = groupReference.owner.ownerObject;
 		}
 
 		// TODO: Implement rest of shooting function

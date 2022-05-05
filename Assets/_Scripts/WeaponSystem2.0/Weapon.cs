@@ -34,16 +34,16 @@ namespace WeaponSystem
 
 		public interface IModule
 		{
-			void Set(Weapon reference);
+			void Set(WeaponModuleGroup reference);
 		}
 
 		public abstract class Module : Behaviour, IModule
 		{
-			public Weapon weaponReference { get; protected set; }
+			public WeaponModuleGroup groupReference { get; protected set; }
 
-			public virtual void Set(Weapon reference)
+			public virtual void Set(WeaponModuleGroup reference)
 			{
-				weaponReference = reference;
+				groupReference = reference;
 			}
 		}
 
@@ -51,37 +51,23 @@ namespace WeaponSystem
 		#endregion
 
 		public IOwner owner { get; protected set; }
-		public List<IBehaviour> behaviours { get; protected set; } = new List<IBehaviour>();
-		public List<IModule> modules { get; protected set; } = new List<IModule>();
-
-
-		public WeaponAction Action { get; protected set; }
-		public WeaponConstraint Constraint { get; protected set; }
+		public List<WeaponModuleGroup> moduleGroups { get; protected set; } = new List<WeaponModuleGroup>();
 
 		public WeaponState weaponState;
 		public WeaponStats weaponStats;
 
 		public void Setup(IOwner reference)
 		{
+			owner = reference;
+
 			if (!TryGetComponent<WeaponState>(out weaponState))
 			{
 				weaponState = this.gameObject.AddComponent<WeaponState>();
 			}
 			weaponState.Init(weaponStats);
 
-			owner = reference;
-
-			behaviours = GetComponentsInChildren<IBehaviour>(true).ToList();
-			modules = GetComponentsInChildren<IModule>(true).ToList();
-
-			Action = modules.First(x => x is WeaponAction) as WeaponAction;
-			Constraint = modules.First(x => x is WeaponConstraint) as WeaponConstraint;
-
-
-
-			modules.ForEach(x => x.Set(this));
-			behaviours.ForEach(x => x.Configure());
-			behaviours.ForEach(x => x.Init());
+			moduleGroups = GetComponentsInChildren<WeaponModuleGroup>(true).ToList();
+			moduleGroups.ForEach(x => x.Init(this));
 		}
 
 		void Update()

@@ -13,15 +13,15 @@ namespace WeaponSystem
 			Dictionary<string, InputAction> inputActions { get; }
 		}
 
-		public WeaponConstraint Constraint => weaponReference.Constraint;
+		public WeaponConstraint Constraint => groupReference.Constraint;
 
 		public override void Init()
 		{
 			base.Init();
 
-			Processor = weaponReference.GetProcessor<IProcessor>();
+			Processor = groupReference.GetProcessor<IProcessor>();
 
-			weaponReference.OnProcess.AddListener(Process);
+			groupReference.OnGroupProcess.AddListener(Process);
 
 			Processor.inputActions[actionButton.action.name].canceled += ProcessInput;
 			Processor.inputActions[actionButton.action.name].performed += ProcessInput;
