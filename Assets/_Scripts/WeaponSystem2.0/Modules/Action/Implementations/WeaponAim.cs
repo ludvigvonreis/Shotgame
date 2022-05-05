@@ -1,12 +1,13 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.VFX;
 
 namespace WeaponSystem
 {
-	public class WeaponMuzzleflash : WeaponAction
+	public class WeaponAim : WeaponAction
 	{
 		[SerializeField]
-		private VisualEffect muzzleFlash;
+		private Transform aimPoint;
 
 		public override void Init()
 		{
@@ -15,12 +16,11 @@ namespace WeaponSystem
 			weaponReference.Action.OnPerfom.AddListener(Action);
 		}
 
-		// TODO: Implement rest of shooting function
 		void Action()
 		{
 			if (inputContext.performed)
 			{
-				muzzleFlash.Play();
+				Debug.Log("Aim in");
 			}
 		}
 	}

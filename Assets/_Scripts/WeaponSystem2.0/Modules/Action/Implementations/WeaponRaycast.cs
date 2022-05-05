@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace WeaponSystem
 {
@@ -26,7 +27,7 @@ namespace WeaponSystem
 		// TODO: Implement rest of shooting function
 		void Action()
 		{
-			if (Processor.performed)
+			if (inputContext.performed)
 			{
 				weaponState.currentAmmo -= 1;
 
@@ -41,9 +42,6 @@ namespace WeaponSystem
 					//EventManager.Instance.m_HitEvent.Invoke(new Hit(temp, hit, weaponStats));
 					DecalManager.Instance.PlaceDecal(hit.point, Quaternion.identity);
 				}
-
-				// Step 2 run visual stuff. Animations, particles.
-				//weaponVFX.PlayMuzzleflash();
 
 				// Step 3 apply recoil to player
 				// FIXME: Temporary

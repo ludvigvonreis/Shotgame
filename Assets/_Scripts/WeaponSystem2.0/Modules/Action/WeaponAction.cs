@@ -1,5 +1,7 @@
 using UnityEngine;
+using System.Collections.Generic;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
 
 namespace WeaponSystem
 {
@@ -8,8 +10,7 @@ namespace WeaponSystem
 		public IProcessor Processor { get; protected set; }
 		public interface IProcessor : Weapon.IProcessor
 		{
-			bool performed { get; }
-			bool canceled { get; }
+			Dictionary<string, InputAction> inputActions { get; }
 		}
 
 		public WeaponConstraint Constraint => weaponReference.Constraint;
@@ -21,6 +22,9 @@ namespace WeaponSystem
 			Processor = weaponReference.GetProcessor<IProcessor>();
 
 			weaponReference.OnProcess.AddListener(Process);
+
+			Processor.inputActions[actionButton.action.name].canceled += ProcessInput;
+			Processor.inputActions[actionButton.action.name].performed += ProcessInput;
 		}
 
 		void Process()
@@ -35,6 +39,16 @@ namespace WeaponSystem
 		void Perform()
 		{
 			OnPerfom?.Invoke();
+		}
+
+		[SerializeField]
+		InputActionReference actionButton;
+		[HideInInspector]
+		public InputAction.CallbackContext inputContext;
+
+		void ProcessInput(InputAction.CallbackContext context)
+		{
+			inputContext = context;
 		}
 	}
 }

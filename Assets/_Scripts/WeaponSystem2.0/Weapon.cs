@@ -77,6 +77,8 @@ namespace WeaponSystem
 			Action = modules.First(x => x is WeaponAction) as WeaponAction;
 			Constraint = modules.First(x => x is WeaponConstraint) as WeaponConstraint;
 
+
+
 			modules.ForEach(x => x.Set(this));
 			behaviours.ForEach(x => x.Configure());
 			behaviours.ForEach(x => x.Init());

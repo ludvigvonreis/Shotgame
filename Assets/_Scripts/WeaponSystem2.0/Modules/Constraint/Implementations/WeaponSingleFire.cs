@@ -1,8 +1,10 @@
+using UnityEngine.InputSystem;
+
 namespace WeaponSystem
 {
 	public class WeaponSingleFire : Weapon.Module, WeaponConstraint.IInterface
 	{
-		public WeaponAction.IProcessor Processor { get; protected set; }
+		private InputAction.CallbackContext inputContext;
 
 		private bool isHolding = false;
 		private bool hasReleased = false;
@@ -17,17 +19,17 @@ namespace WeaponSystem
 			weaponReference.OnProcess.AddListener(Process);
 			weaponReference.Action.OnPerfom.AddListener(Action);
 
-			Processor = weaponReference.Action.Processor;
+			inputContext = weaponReference.Action.inputContext;
 		}
 
 		void Process()
 		{
-			if (Processor.performed)
+			if (inputContext.performed)
 			{
 				isHolding = true;
 			}
 
-			if (Processor.canceled)
+			if (inputContext.canceled)
 			{
 				isHolding = false;
 				hasReleased = true;
