@@ -2,8 +2,6 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.InputSystem;
 
 namespace WeaponSystem
 {
@@ -76,7 +74,7 @@ namespace WeaponSystem
 		}
 
 		[HideInInspector]
-		public UnityEvent OnProcess;
+		public event Action OnProcess;
 		void Process()
 		{
 			OnProcess?.Invoke();

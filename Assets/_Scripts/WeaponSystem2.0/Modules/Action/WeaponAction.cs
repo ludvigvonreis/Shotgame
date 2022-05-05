@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using System;
 
 namespace WeaponSystem
 {
@@ -21,32 +22,32 @@ namespace WeaponSystem
 
 			Processor = groupReference.GetProcessor<IProcessor>();
 
-			groupReference.OnGroupProcess.AddListener(Process);
+			groupReference.OnGroupProcess += Process;
 
-			Processor.inputActions[actionButton.action.name].canceled += ProcessInput;
 			Processor.inputActions[actionButton.action.name].performed += ProcessInput;
+			Processor.inputActions[actionButton.action.name].canceled += ProcessInput;
 		}
 
 		void Process()
 		{
+			//Debug.LogFormat("Contstraints active?: {0}, {1}", this.gameObject.name, Constraint.Active);
+
 			if (Constraint.Active) return;
 
 			Perform();
 		}
 
 		[HideInInspector]
-		public UnityEvent OnPerfom;
+		public event Action OnPerfom;
 		void Perform()
 		{
 			OnPerfom?.Invoke();
 		}
 
-		[SerializeField]
-		InputActionReference actionButton;
+		public InputActionReference actionButton;
 		[HideInInspector]
 		public InputAction.CallbackContext inputContext;
-
-		void ProcessInput(InputAction.CallbackContext context)
+		protected virtual void ProcessInput(InputAction.CallbackContext context)
 		{
 			inputContext = context;
 		}

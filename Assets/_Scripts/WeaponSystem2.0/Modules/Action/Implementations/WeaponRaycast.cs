@@ -17,7 +17,7 @@ namespace WeaponSystem
 		{
 			base.Init();
 
-			groupReference.Action.OnPerfom.AddListener(Action);
+			groupReference.Action.OnPerfom += Action;
 			weaponStats = groupReference.weaponStats;
 			weaponState = groupReference.weaponState;
 

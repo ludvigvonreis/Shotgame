@@ -16,25 +16,31 @@ namespace WeaponSystem
 		{
 			base.Init();
 
-			groupReference.OnGroupProcess.AddListener(Process);
-			groupReference.Action.OnPerfom.AddListener(Action);
+			groupReference.OnGroupProcess += Process;
+			groupReference.Action.OnPerfom += Action;
 
-			inputContext = groupReference.Action.inputContext;
+			var actionButton = groupReference.Action.actionButton;
+
+			groupReference.Action.Processor.inputActions[actionButton.action.name].performed += ProcessInput;
+			groupReference.Action.Processor.inputActions[actionButton.action.name].canceled += ProcessInput;
 		}
 
-		void Process()
+		protected void ProcessInput(InputAction.CallbackContext context)
 		{
-			if (inputContext.performed)
+			if (context.performed)
 			{
 				isHolding = true;
 			}
 
-			if (inputContext.canceled)
+			if (context.canceled)
 			{
 				isHolding = false;
 				hasReleased = true;
 			}
+		}
 
+		void Process()
+		{
 			_canShoot = (isHolding && hasReleased);
 		}
 

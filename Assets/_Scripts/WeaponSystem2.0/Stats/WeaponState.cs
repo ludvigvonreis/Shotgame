@@ -12,6 +12,7 @@ namespace WeaponSystem
 		public int currentAmmo;
 		public int ammoReserve;
 		public bool isReloading;
+		public bool isAiming;
 
 		public void Init(WeaponStats stats)
 		{

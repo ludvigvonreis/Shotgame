@@ -18,6 +18,7 @@ MonoBehaviour:
   damage: 12
   range: 100
   fireRate: 400
+  aimDownSightTime: 0.2
   maxAmmo: 30
   reloadTime: 1.2
   recoilHoriz:
@@ -66,23 +67,23 @@ MonoBehaviour:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 2.8948288
-      outSlope: 2.8948288
+      time: -0.008583069
+      value: 1.486084
+      inSlope: 1.4057984
+      outSlope: 1.4057984
       tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.1684339
-      value: 0.48758733
-      inSlope: 8.224764
-      outSlope: 8.224764
+      time: 0.10074592
+      value: 1.6397785
+      inSlope: 0.53602254
+      outSlope: 0.53602254
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0.060103092
+      outWeight: 0.26113755
     - serializedVersion: 3
       time: 0.38436544
       value: 1.3754402
@@ -114,4 +115,4 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   recoilHorizMult: 1
-  recoilVertiMult: 1
+  recoilVertiMult: 1.7

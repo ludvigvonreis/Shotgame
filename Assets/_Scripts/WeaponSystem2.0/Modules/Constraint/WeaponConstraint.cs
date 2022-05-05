@@ -18,6 +18,8 @@ namespace WeaponSystem
 		{
 			get
 			{
+				if (List.Count <= 0) return false;
+
 				for (int i = 0; i < List.Count; i++)
 				{
 					if (List[i].Constraint)

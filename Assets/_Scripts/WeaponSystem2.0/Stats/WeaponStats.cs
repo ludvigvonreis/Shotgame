@@ -25,6 +25,7 @@ namespace WeaponSystem
 		public float damage;
 		public float range;
 		public float fireRate;
+		public float aimDownSightTime;
 
 		[Header("Reloading and ammo")]
 		public int maxAmmo;

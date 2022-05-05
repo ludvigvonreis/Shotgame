@@ -2,12 +2,13 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using System;
 
 namespace WeaponSystem
 {
 	public class WeaponModuleGroup : MonoBehaviour
 	{
-		Weapon weaponReference;
+		public Weapon weaponReference;
 
 		public List<Weapon.IBehaviour> behaviours { get; protected set; } = new List<Weapon.IBehaviour>();
 		public List<Weapon.IModule> modules { get; protected set; } = new List<Weapon.IModule>();
@@ -33,11 +34,11 @@ namespace WeaponSystem
 			behaviours.ForEach(x => x.Configure());
 			behaviours.ForEach(x => x.Init());
 
-			weaponReference.OnProcess.AddListener(Process);
+			weaponReference.OnProcess += Process;
 		}
 
 		[HideInInspector]
-		public UnityEvent OnGroupProcess;
+		public event Action OnGroupProcess;
 		void Process()
 		{
 			OnGroupProcess?.Invoke();

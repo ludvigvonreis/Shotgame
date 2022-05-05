@@ -17,8 +17,8 @@ namespace WeaponSystem
 		{
 			base.Init();
 
-			groupReference.OnGroupProcess.AddListener(Process);
-			groupReference.Action.OnPerfom.AddListener(Action);
+			groupReference.OnGroupProcess += Process;
+			groupReference.Action.OnPerfom += Action;
 
 			rpm = groupReference.weaponStats.fireRate;
 		}
