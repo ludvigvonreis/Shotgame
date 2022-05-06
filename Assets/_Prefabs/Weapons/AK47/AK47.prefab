@@ -888,6 +888,8 @@ GameObject:
   - component: {fileID: 5353132062831629318}
   - component: {fileID: 5353132062831629319}
   - component: {fileID: 5353132062831629320}
+  - component: {fileID: 1919709932}
+  - component: {fileID: 1919709931}
   m_Layer: 3
   m_Name: AK47
   m_TagString: Untagged
@@ -928,6 +930,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponState: {fileID: 0}
   weaponStats: {fileID: 11400000, guid: a5f5b662e85248443aa14e7f633ddc28, type: 2}
+  isRunning: 1
 --- !u!114 &5353132062831629320
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -946,6 +949,46 @@ MonoBehaviour:
   ammoReserve: 0
   isReloading: 0
   isAiming: 0
+--- !u!114 &1919709932
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5353132062831629321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54fc22b1d5d88e640af1c0975f803476, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponCollider: {fileID: 1919709931}
+  equippedLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  droppedLayer:
+    serializedVersion: 2
+    m_Bits: 1
+  throwForce: 5
+  throwExtraForce: 7
+  rotationForce: 120
+  mass: 4
+  drag: 0.3
+  m_onWeaponInteract:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!65 &1919709931
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5353132062831629321}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.064921424, y: 0.43346643, z: 1.4097021}
+  m_Center: {x: -0.0021593925, y: -0.10410738, z: -0.033440232}
 --- !u!1 &5353132062954501555
 GameObject:
   m_ObjectHideFlags: 0

@@ -266,6 +266,7 @@ GameObject:
   - component: {fileID: 188170303089332483}
   - component: {fileID: 6825554786132485206}
   - component: {fileID: 7401736189960325712}
+  - component: {fileID: 7129325563805080687}
   - component: {fileID: 188170303089332484}
   - component: {fileID: 1144068473899769527}
   - component: {fileID: 7962639733022714900}
@@ -400,6 +401,21 @@ MonoBehaviour:
   m_DefaultActionMap: Main
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &7129325563805080687
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 188170303089332490}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4d6340e6cef20f4b888a443137e3fa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactTransform: {fileID: 359210582183319631}
+  range: 5
+  radius: 7
 --- !u!114 &188170303089332484
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -428,6 +444,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponHolderTransform: {fileID: 188170302076145604}
+  animTime: 1.5
 --- !u!114 &7962639733022714900
 MonoBehaviour:
   m_ObjectHideFlags: 0

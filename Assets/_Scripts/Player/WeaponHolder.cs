@@ -11,16 +11,7 @@ public class WeaponHolder : MonoBehaviour
 	[SerializeField] private Transform weaponHolderTransform;
 	[SerializeField] private float animTime = 1.5f;
 
-	[Header("Throwing")]
-	[SerializeField] private float throwForce;
-	[SerializeField] private float throwExtraForce;
-	[SerializeField] private float rotationForce;
-
 	private bool isMoving = false;
-
-	// TODO: move this into weapon logic??
-	[SerializeField] private LayerMask equippedLayer;
-	[SerializeField] private LayerMask droppedLayer;
 
 	private WeaponManager weaponManager;
 	private Player player;
@@ -50,16 +41,8 @@ public class WeaponHolder : MonoBehaviour
 	{
 		var weapon = weaponManager.GetWeaponByUUID(uuid);
 		var weaponObject = weapon.gameObject;
-		weaponObject.transform.parent = weaponHolderTransform;
-		SetLayerRecursively(weaponObject, (int)Mathf.Log(equippedLayer.value, 2));
 
-		Rigidbody rb;
-		if (weaponObject.TryGetComponent<Rigidbody>(out rb))
-		{
-			Destroy(rb);
-		}
-
-		weaponObject.GetComponent<BoxCollider>().enabled = false;
+		weapon.GetComponent<WeaponInteract>().m_onWeaponInteract.Invoke(weaponHolderTransform, false);
 
 		StartCoroutine(WeaponObjectAnimation(weaponObject.transform));
 	}
@@ -67,23 +50,11 @@ public class WeaponHolder : MonoBehaviour
 	void Throw(string uuid)
 	{
 		var weapon = weaponManager.GetWeaponByUUID(uuid);
-
 		var weaponObject = weapon.gameObject;
-		weaponObject.transform.parent = null;
-		SetLayerRecursively(weaponObject, (int)Mathf.Log(droppedLayer.value, 2));
+		weapon.GetComponent<WeaponInteract>().m_onWeaponInteract.Invoke(weaponHolderTransform, true);
 
-		var rb = weaponObject.AddComponent<Rigidbody>();
-		rb.mass = 0.1f;
-		weaponObject.transform.localPosition = Vector3.zero;
-		weaponObject.transform.localRotation = Quaternion.identity;
-		var forward = player.playerCam.transform.forward;
-
-		forward.y = 0f;
-		rb.velocity = forward * throwForce;
-		rb.velocity += Vector3.up * throwExtraForce;
-		rb.angularVelocity = UnityEngine.Random.onUnitSphere * rotationForce;
-
-		weaponObject.GetComponent<BoxCollider>().enabled = true;
+		var weaponCollider = weaponObject.GetComponent<BoxCollider>();
+		Physics.IgnoreCollision(weaponCollider, player.GetComponent<Collider>());
 	}
 
 	IEnumerator WeaponObjectAnimation(Transform objectTransform)
@@ -108,13 +79,5 @@ public class WeaponHolder : MonoBehaviour
 		objectTransform.localRotation = Quaternion.identity;
 
 		isMoving = false;
-	}
-
-	static void SetLayerRecursively(GameObject go, int layerNumber)
-	{
-		foreach (Transform trans in go.GetComponentsInChildren<Transform>(true))
-		{
-			trans.gameObject.layer = layerNumber;
-		}
 	}
 }

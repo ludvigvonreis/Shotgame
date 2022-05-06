@@ -54,9 +54,21 @@ namespace WeaponSystem
 		[HideInInspector] public WeaponState weaponState;
 		public WeaponStats weaponStats;
 
+		public bool isRunning;
+		public bool isSetup;
+
+		void Start()
+		{
+			isRunning = false;
+			isSetup = false;
+		}
+
 		public void Setup(IOwner reference)
 		{
 			owner = reference;
+			isRunning = true;
+
+			if (isSetup) return;
 
 			if (!TryGetComponent<WeaponState>(out weaponState))
 			{
@@ -66,14 +78,14 @@ namespace WeaponSystem
 
 			moduleGroups = GetComponentsInChildren<WeaponModuleGroup>(true).ToList();
 			moduleGroups.ForEach(x => x.Init(this));
+
+			isSetup = true;
 		}
 
-		public bool isRunning;
 		// Stops weapon execution when not used
 		public void Reset()
 		{
 			owner = null;
-			enabled = false;
 			isRunning = false;
 		}
 

@@ -1,26 +1,23 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public interface IInteractible
 {
 	public void Interact();
-
-	public void PostInteract();
+	public string InteractType();
 }
 
-public class Interaction
+public class InteractionEvent
 {
-	public GameObject from;
-	public GameObject to;
+	public GameObject interacter;
+	public GameObject subject;
 
 	public float distance;
 
-	public Interaction(GameObject _from, RaycastHit hit)
+	public InteractionEvent(GameObject _from, RaycastHit hit)
 	{
-		from = _from;
+		interacter = _from;
 
-		to = hit.transform.gameObject;
+		subject = hit.transform.gameObject;
 		distance = hit.distance;
 	}
 }

@@ -33,8 +33,7 @@ public class WeaponManager : MonoBehaviour, Weapon.IOwner, WeaponAction.IProcess
 
 	public UnityEvent<WeaponEquipEvent> m_onEquip;
 
-	public Weapon testWeapon;
-	public InputActionReference throwButton;
+	//public InputActionReference throwButton;
 
 	// Setup by player
 	public void Setup(Player reference)
@@ -46,9 +45,15 @@ public class WeaponManager : MonoBehaviour, Weapon.IOwner, WeaponAction.IProcess
 
 		weapons.Values.ToList().ForEach(weapon => SetupWeapon(weapon));
 
-		EquipWeapon(testWeapon);
+		//playerInput.actions[throwButton.name].performed += _DropWeapon;
+	}
 
-		//player.playerInput.actions[throwButton.name].performed += DropWeapon;
+	void _DropWeapon(InputAction.CallbackContext context)
+	{
+		if (context.performed)
+		{
+			DropWeapon(currentWeaponUUID);
+		}
 	}
 
 	void SetupWeapon(Weapon weapon)
@@ -56,7 +61,7 @@ public class WeaponManager : MonoBehaviour, Weapon.IOwner, WeaponAction.IProcess
 		weapon.Setup(this);
 	}
 
-	void EquipWeapon(Weapon weapon)
+	public void EquipWeapon(Weapon weapon)
 	{
 		var uuid = System.Guid.NewGuid().ToString();
 		weapons.Add(uuid, weapon);
@@ -65,6 +70,8 @@ public class WeaponManager : MonoBehaviour, Weapon.IOwner, WeaponAction.IProcess
 		m_onEquip.Invoke(new WeaponEquipEvent(uuid, false));
 
 		SetupWeapon(weapon);
+
+		currentWeaponUUID = uuid;
 	}
 
 	void DropWeapon(string uuid)
@@ -75,6 +82,11 @@ public class WeaponManager : MonoBehaviour, Weapon.IOwner, WeaponAction.IProcess
 		m_onEquip.Invoke(new WeaponEquipEvent(uuid, true));
 
 		weapons.Remove(uuid);
+	}
+
+	public void DropCurrent()
+	{
+		DropWeapon(currentWeaponUUID);
 	}
 
 
