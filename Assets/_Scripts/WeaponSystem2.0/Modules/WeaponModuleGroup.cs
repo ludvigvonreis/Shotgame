@@ -21,6 +21,8 @@ namespace WeaponSystem
 		public WeaponStats weaponStats => weaponReference.weaponStats;
 		public Weapon.IOwner owner => weaponReference.owner;
 
+		public bool isRunning => weaponReference.isRunning;
+
 		public void Init(Weapon reference)
 		{
 			weaponReference = reference;
@@ -42,6 +44,8 @@ namespace WeaponSystem
 		public event Action OnGroupProcess;
 		void Process()
 		{
+			if (!isRunning) return;
+
 			OnGroupProcess?.Invoke();
 		}
 

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.VFX;
 
 namespace WeaponSystem
@@ -9,6 +10,8 @@ namespace WeaponSystem
 		[SerializeField]
 		private VisualEffect muzzleFlash;
 
+		bool performed;
+
 		public override void Init()
 		{
 			base.Init();
@@ -16,9 +19,16 @@ namespace WeaponSystem
 			groupReference.Action.OnPerfom += Action;
 		}
 
+		protected override void ProcessInput(InputAction.CallbackContext context)
+		{
+			if (groupReference.isRunning == false) return;
+
+			performed = context.performed;
+		}
+
 		void Action()
 		{
-			if (inputContext.performed)
+			if (performed)
 			{
 				muzzleFlash.Play();
 			}

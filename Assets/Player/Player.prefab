@@ -201,7 +201,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 188170302076145604}
-  - component: {fileID: 188170302076145611}
   m_Layer: 0
   m_Name: WeaponHolder
   m_TagString: Untagged
@@ -224,18 +223,6 @@ Transform:
   m_Father: {fileID: 575995087131956238}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &188170302076145611
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 188170302076145610}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f65f35ff6ffddea4388b1e0a1f5473c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &188170302584700396
 GameObject:
   m_ObjectHideFlags: 0
@@ -278,17 +265,16 @@ GameObject:
   m_Component:
   - component: {fileID: 188170303089332483}
   - component: {fileID: 6825554786132485206}
-  - component: {fileID: 3082439615597165756}
-  - component: {fileID: 188170303089332484}
-  - component: {fileID: 7962639733022714900}
   - component: {fileID: 7401736189960325712}
+  - component: {fileID: 188170303089332484}
+  - component: {fileID: 1144068473899769527}
+  - component: {fileID: 7962639733022714900}
   - component: {fileID: 188170303089332485}
   - component: {fileID: 188170303089332487}
   - component: {fileID: 188170303089332486}
   - component: {fileID: 188170303089332480}
   - component: {fileID: 188170303089332482}
   - component: {fileID: 188170303089332481}
-  - component: {fileID: 1963732343}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -320,14 +306,15 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 188170303089332490}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ea8c0e5632a87f54e8cc29245d959e30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   playerCam: {fileID: 7049032219529045685}
-  weaponCam: {fileID: 0}
+  weaponCam: {fileID: 738080073}
   playerInput: {fileID: 7401736189960325712}
+  weaponManager: {fileID: 188170303089332484}
   health: 0
   maxHealth: 100
   interactButton: {fileID: -6193319190420350827, guid: 82287d69b0529a4479f077285015f276, type: 3}
@@ -347,45 +334,6 @@ MonoBehaviour:
   m_AmmoChange:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &3082439615597165756
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 188170303089332490}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d4d6340e6cef20f4b888a443137e3fa9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &188170303089332484
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 188170303089332490}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 21ea5bfa1b4c8b44fbfbb0c88417b87a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &7962639733022714900
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 188170303089332490}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f94708d40d3bda94f92489046e2e24ec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  recoil: {x: 0, y: 0}
-  resetSpeed: 60
-  mouseButton: {fileID: 0}
 --- !u!114 &7401736189960325712
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -452,6 +400,49 @@ MonoBehaviour:
   m_DefaultActionMap: Main
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &188170303089332484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 188170303089332490}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21ea5bfa1b4c8b44fbfbb0c88417b87a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_onEquip:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &1144068473899769527
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 188170303089332490}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f65f35ff6ffddea4388b1e0a1f5473c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponHolderTransform: {fileID: 188170302076145604}
+--- !u!114 &7962639733022714900
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 188170303089332490}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f94708d40d3bda94f92489046e2e24ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  recoil: {x: 0, y: 0}
+  resetSpeed: 60
+  mouseButton: {fileID: -7048408787612112732, guid: 82287d69b0529a4479f077285015f276, type: 3}
 --- !u!114 &188170303089332485
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -586,25 +577,6 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
---- !u!114 &1963732343
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 188170303089332490}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee458748edb58d54a98ad86f799d841b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  weapon: {fileID: 0}
-  m_ShootEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ResetRecoil:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &4470427247709944082
 GameObject:
   m_ObjectHideFlags: 0
@@ -618,7 +590,7 @@ GameObject:
   - component: {fileID: 3041820461473958398}
   - component: {fileID: 1444350972733254644}
   m_Layer: 0
-  m_Name: Camera
+  m_Name: PlayerCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -46,11 +46,9 @@ namespace WeaponSystem
 		}
 
 		public InputActionReference actionButton;
-		[HideInInspector]
-		public InputAction.CallbackContext inputContext;
 		protected virtual void ProcessInput(InputAction.CallbackContext context)
 		{
-			inputContext = context;
+			if (groupReference.isRunning == false) return;
 		}
 	}
 }

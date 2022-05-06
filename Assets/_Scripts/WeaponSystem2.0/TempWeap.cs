@@ -5,6 +5,7 @@ using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using WeaponSystem;
 
+[System.Obsolete("TempWeap is obsolete, use weaponManager instead")]
 public class TempWeap : MonoBehaviour, Weapon.IOwner, WeaponAction.IProcessor
 {
 	[SerializeField]

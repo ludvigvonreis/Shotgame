@@ -14,6 +14,8 @@ namespace WeaponSystem
 
 		GameObject ownerObject;
 
+		bool performed;
+
 		public override void Init()
 		{
 			base.Init();
@@ -25,10 +27,17 @@ namespace WeaponSystem
 			ownerObject = groupReference.owner.ownerObject;
 		}
 
+		protected override void ProcessInput(InputAction.CallbackContext context)
+		{
+			if (groupReference.isRunning == false) return;
+
+			performed = context.performed;
+		}
+
 		// TODO: Implement rest of shooting function
 		void Action()
 		{
-			if (inputContext.performed)
+			if (performed)
 			{
 				weaponState.currentAmmo -= 1;
 
@@ -46,7 +55,7 @@ namespace WeaponSystem
 
 				// Step 3 apply recoil to player
 				// FIXME: Temporary
-				ownerObject.GetComponent<TempWeap>().m_ShootEvent.Invoke(new RecoilData(weaponState, weaponStats));
+				//ownerObject.GetComponent<TempWeap>().m_ShootEvent.Invoke(new RecoilData(weaponState, weaponStats));
 			}
 		}
 	}

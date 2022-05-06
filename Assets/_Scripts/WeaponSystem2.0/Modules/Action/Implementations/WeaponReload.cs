@@ -22,9 +22,6 @@ namespace WeaponSystem
 		{
 			base.Init();
 
-			Processor.inputActions[actionButton.action.name].performed += ProcessInput;
-			Processor.inputActions[actionButton.action.name].canceled += ProcessInput;
-
 			groupReference.Action.OnPerfom += Action;
 
 			weaponState = groupReference.weaponState;
@@ -33,6 +30,8 @@ namespace WeaponSystem
 
 		protected override void ProcessInput(InputAction.CallbackContext context)
 		{
+			if (groupReference.isRunning == false) return;
+
 			performed = context.performed;
 		}
 

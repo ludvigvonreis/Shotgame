@@ -17,13 +17,12 @@ namespace WeaponSystem
 		{
 			base.Init();
 
-			groupReference.Action.OnPerfom += Action; //OnGroupProcess += Action;
+			groupReference.Action.OnPerfom += Action;
 			mouseAction = Processor.inputActions[actionButton.action.name];
 		}
 
 		void Action()
 		{
-
 			var extra = groupReference.weaponState.isAiming ? 0.1f : 1f;
 			var mouseDelta = (-mouseAction.ReadValue<Vector2>() * mouseSensitivity) * extra;
 			swayHolder.localPosition = Vector3.Lerp(swayHolder.localPosition, Vector3.zero, swaySmooth * Time.deltaTime);

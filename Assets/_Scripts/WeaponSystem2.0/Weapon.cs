@@ -51,7 +51,7 @@ namespace WeaponSystem
 		public IOwner owner { get; protected set; }
 		public List<WeaponModuleGroup> moduleGroups { get; protected set; } = new List<WeaponModuleGroup>();
 
-		public WeaponState weaponState;
+		[HideInInspector] public WeaponState weaponState;
 		public WeaponStats weaponStats;
 
 		public void Setup(IOwner reference)
@@ -66,6 +66,15 @@ namespace WeaponSystem
 
 			moduleGroups = GetComponentsInChildren<WeaponModuleGroup>(true).ToList();
 			moduleGroups.ForEach(x => x.Init(this));
+		}
+
+		public bool isRunning;
+		// Stops weapon execution when not used
+		public void Reset()
+		{
+			owner = null;
+			enabled = false;
+			isRunning = false;
 		}
 
 		void Update()

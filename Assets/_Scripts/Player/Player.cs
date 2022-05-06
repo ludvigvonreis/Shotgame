@@ -25,6 +25,9 @@ public class Player : MonoBehaviour
 	public Camera weaponCam;
 	public PlayerInput playerInput;
 
+	[SerializeField]
+	public WeaponManager weaponManager;
+
 	[Header("Player stats")]
 	public float health;
 	public float maxHealth;
@@ -48,17 +51,10 @@ public class Player : MonoBehaviour
 
 	void Awake()
 	{
-		if (m_ShootEvent == null)
-			m_ShootEvent = new UnityEvent();
-
-		if (m_HealthChange == null)
-			m_HealthChange = new HealthChangeEvent();
-
-		if (m_ResetRecoil == null)
-			m_ResetRecoil = new UnityEvent();
-
-		if (m_AmmoChange == null)
-			m_AmmoChange = new UnityEvent();
+		m_ShootEvent = new UnityEvent();
+		m_HealthChange = new HealthChangeEvent();
+		m_ResetRecoil = new UnityEvent();
+		m_AmmoChange = new UnityEvent();
 	}
 
 	void Start()
@@ -72,6 +68,8 @@ public class Player : MonoBehaviour
 		if (reloadButton == null) Debug.LogError("you need to define reload button");
 
 		if (mouseButton == null) Debug.LogError("you need to define mouse button");
+
+		weaponManager.Setup(this);
 	}
 
 	// TODO: Refactor this in a better way

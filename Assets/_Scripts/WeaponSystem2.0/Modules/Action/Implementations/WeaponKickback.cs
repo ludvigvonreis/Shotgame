@@ -18,14 +18,13 @@ namespace WeaponSystem
 		{
 			base.Init();
 
-			//groupReference.OnGroupProcess += Action;
 			groupReference.Action.OnPerfom += Action;
-			Processor.inputActions[actionButton.action.name].performed += ProcessInput;
-			Processor.inputActions[actionButton.action.name].canceled += ProcessInput;
 		}
 
 		protected override void ProcessInput(InputAction.CallbackContext context)
 		{
+			if (groupReference.isRunning == false) return;
+
 			if (context.performed)
 			{
 				isShooting = true;

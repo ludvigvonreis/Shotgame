@@ -1,70 +1,120 @@
+using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using WeaponSystem;
 
 public class WeaponHolder : MonoBehaviour
 {
-	/*
-	[SerializeField] private List<GameObject> heldWeapons;
+	[SerializeField] private Transform weaponHolderTransform;
+	[SerializeField] private float animTime = 1.5f;
 
-	[SerializeField] private Vector3 holderAlignment;
+	[Header("Throwing")]
+	[SerializeField] private float throwForce;
+	[SerializeField] private float throwExtraForce;
+	[SerializeField] private float rotationForce;
 
+	private bool isMoving = false;
+
+	// TODO: move this into weapon logic??
+	[SerializeField] private LayerMask equippedLayer;
+	[SerializeField] private LayerMask droppedLayer;
+
+	private WeaponManager weaponManager;
 	private Player player;
-	private Camera playerCamera;
-
-	[SerializeField, Range(0.001f, 3)] private float lerpTime = 1;
 
 	void Start()
 	{
-		player = transform.root.GetComponent<Player>();
-		playerCamera = player.playerCam;
+		if (!weaponHolderTransform) throw new Exception("Weapon holder transform not set");
+
+		player = GetComponent<Player>();
+		weaponManager = player.weaponManager;
+		weaponManager.m_onEquip.AddListener(EquipEvent);
 	}
 
-	void Update()
+	void EquipEvent(WeaponEquipEvent weaponEquipEvent)
 	{
-		this.transform.localPosition = holderAlignment;
-	}
-
-	public void AddWeapon(WeaponObject weaponObject)
-	{
-		GameObject obj = weaponObject.gameObject;
-		obj.transform.parent = this.transform;
-		obj.GetComponent<BoxCollider>().enabled = false;
-
-		StartCoroutine(WeaponLerp(obj));
-
-		heldWeapons.Add(obj);
-	}
-
-	// TODO: Make this dropping instead of destruction
-	public void RemoveWeaponObject(string ID)
-	{
-		var obj = heldWeapons.Single(w => w.GetComponent<WeaponObject>().ID == ID);
-		heldWeapons.Remove(obj);
-		obj.GetComponent<BoxCollider>().enabled = true;
-		Destroy(obj);
-	}
-
-	IEnumerator WeaponLerp(GameObject weaponObject)
-	{
-		Vector3 currentPos = weaponObject.transform.localPosition;
-		Quaternion currentRot = weaponObject.transform.localRotation;
-
-		float elapsedTime = 0;
-		while (elapsedTime < lerpTime)
+		if (!weaponEquipEvent.removed)
 		{
-			weaponObject.transform.localPosition = Vector3.Slerp(currentPos, Vector3.zero, (elapsedTime / lerpTime));
-			weaponObject.transform.localRotation = Quaternion.Slerp(currentRot, Quaternion.identity, (elapsedTime / lerpTime));
-			elapsedTime += Time.deltaTime;
+			Pickup(weaponEquipEvent.uuid);
+		}
+		else
+		{
+			Throw(weaponEquipEvent.uuid);
+		}
+	}
 
+	void Pickup(string uuid)
+	{
+		var weapon = weaponManager.GetWeaponByUUID(uuid);
+		var weaponObject = weapon.gameObject;
+		weaponObject.transform.parent = weaponHolderTransform;
+		SetLayerRecursively(weaponObject, (int)Mathf.Log(equippedLayer.value, 2));
+
+		Rigidbody rb;
+		if (weaponObject.TryGetComponent<Rigidbody>(out rb))
+		{
+			Destroy(rb);
+		}
+
+		weaponObject.GetComponent<BoxCollider>().enabled = false;
+
+		StartCoroutine(WeaponObjectAnimation(weaponObject.transform));
+	}
+
+	void Throw(string uuid)
+	{
+		var weapon = weaponManager.GetWeaponByUUID(uuid);
+
+		var weaponObject = weapon.gameObject;
+		weaponObject.transform.parent = null;
+		SetLayerRecursively(weaponObject, (int)Mathf.Log(droppedLayer.value, 2));
+
+		var rb = weaponObject.AddComponent<Rigidbody>();
+		rb.mass = 0.1f;
+		weaponObject.transform.localPosition = Vector3.zero;
+		weaponObject.transform.localRotation = Quaternion.identity;
+		var forward = player.playerCam.transform.forward;
+
+		forward.y = 0f;
+		rb.velocity = forward * throwForce;
+		rb.velocity += Vector3.up * throwExtraForce;
+		rb.angularVelocity = UnityEngine.Random.onUnitSphere * rotationForce;
+
+		weaponObject.GetComponent<BoxCollider>().enabled = true;
+	}
+
+	IEnumerator WeaponObjectAnimation(Transform objectTransform)
+	{
+		isMoving = true;
+
+		Vector3 startPosition = objectTransform.localPosition;
+		Quaternion startRotation = objectTransform.localRotation;
+
+		var time = 0f;
+		while (time < animTime)
+		{
+			time += Time.deltaTime;
+			//var delta = -(Mathf.Cos(Mathf.PI * (time / animTime)) - 1f) / 2f;
+			var delta = EasingFunctions.EaseInOutQuad(time / animTime);
+			objectTransform.localPosition = Vector3.Lerp(startPosition, Vector3.zero, delta);
+			objectTransform.localRotation = Quaternion.Lerp(startRotation, Quaternion.identity, delta);
 			yield return null;
 		}
 
-		transform.localPosition = Vector3.zero;
-		transform.localRotation = Quaternion.identity;
+		objectTransform.localPosition = Vector3.zero;
+		objectTransform.localRotation = Quaternion.identity;
 
-		yield return null;
+		isMoving = false;
 	}
-	*/
+
+	static void SetLayerRecursively(GameObject go, int layerNumber)
+	{
+		foreach (Transform trans in go.GetComponentsInChildren<Transform>(true))
+		{
+			trans.gameObject.layer = layerNumber;
+		}
+	}
 }

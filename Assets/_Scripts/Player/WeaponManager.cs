@@ -2,93 +2,84 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using WeaponSystem;
+using UnityEngine.Events;
 
-public class WeaponManager : MonoBehaviour
+[System.Serializable]
+public class WeaponEquipEvent
 {
-	/*
-	private Dictionary<string, WeaponObject> equippedWeapons = new Dictionary<string, WeaponObject>();
-	private List<string> equippedWeaponIds = new List<string>();
-	private string currentWeaponID;
+	public string uuid;
+	public bool removed;
 
-	[SerializeField, Range(1, 10)] private int maxWeapons = 1;
-
-	[SerializeField] private WeaponHolder weaponHolder;
-
-	private Player player;
-	private Camera playerCamera;
-	private PlayerRecoil playerRecoil;
-
-	public bool CanEquip => equippedWeapons.Count < maxWeapons;
-
-	void Start()
+	public WeaponEquipEvent(string _uuid, bool _removed)
 	{
-		player = transform.root.GetComponent<Player>();
-		playerRecoil = transform.root.GetComponent<PlayerRecoil>();
-		playerCamera = player.playerCam;
+		uuid = _uuid;
+		removed = _removed;
+	}
+}
 
-		EventManager.Instance.m_Interact.AddListener(InteractListener);
+public class WeaponManager : MonoBehaviour, Weapon.IOwner, WeaponAction.IProcessor
+{
+	// Processor interface
+	GameObject Weapon.IOwner.ownerObject => this.gameObject;
+
+	public List<Weapon.IProcessor> Processors { get; protected set; } = new List<Weapon.IProcessor>();
+	public Dictionary<string, InputAction> inputActions => _inputActions;
+	Dictionary<string, InputAction> _inputActions = new Dictionary<string, InputAction>();
+
+	private Dictionary<string, Weapon> weapons = new Dictionary<string, Weapon>();
+	private string currentWeaponUUID;
+
+	public UnityEvent<WeaponEquipEvent> m_onEquip;
+
+	public Weapon testWeapon;
+	public InputActionReference throwButton;
+
+	// Setup by player
+	public void Setup(Player reference)
+	{
+		var playerInput = reference.playerInput;
+		playerInput.actions.ToList().ForEach(action => _inputActions.Add(action.name, action));
+
+		Processors = GetComponentsInChildren<Weapon.IProcessor>(true).ToList();
+
+		weapons.Values.ToList().ForEach(weapon => SetupWeapon(weapon));
+
+		EquipWeapon(testWeapon);
+
+		//player.playerInput.actions[throwButton.name].performed += DropWeapon;
 	}
 
-	// TODO: Implement weapon switching
-
-
-	void InteractListener(Interaction interaction)
+	void SetupWeapon(Weapon weapon)
 	{
-		var reciver = interaction.to;
-
-		WeaponObject obj;
-		if (reciver.TryGetComponent<WeaponObject>(out obj))
-		{
-			obj.Interact();
-			obj.PostInteract();
-
-			AddWeapon(obj);
-		}
+		weapon.Setup(this);
 	}
 
-	public WeaponObject GetWeapon(string wepId) => equippedWeapons[wepId];
-
-	public WeaponObject GetCurrentWeapon() => equippedWeapons[currentWeaponID];
-
-	public void AddWeapon(WeaponObject wepObj)
+	void EquipWeapon(Weapon weapon)
 	{
-		weaponHolder.AddWeapon(wepObj);
-		equippedWeapons.Add(wepObj.ID, wepObj);
-		equippedWeaponIds.Add(wepObj.ID);
+		var uuid = System.Guid.NewGuid().ToString();
+		weapons.Add(uuid, weapon);
 
-		// FIXME: Temporary until weapon switching is implemented
-		SelectWeapon(wepObj.ID);
-		wepObj.isHeld = true;
+		// Signal on equip event, false means equipped. Used by weapon holder
+		m_onEquip.Invoke(new WeaponEquipEvent(uuid, false));
 
-		wepObj.GetComponents<AWeaponAction>().ToList().ForEach(e => e.Init(player));
-
-		playerRecoil.UpdateCurrentWeapon();
+		SetupWeapon(weapon);
 	}
 
-	public void RemoveWeapon(WeaponObject wepObj)
+	void DropWeapon(string uuid)
 	{
-		equippedWeapons.Remove(wepObj.ID);
-		equippedWeaponIds.Remove(wepObj.ID);
-		wepObj.isHeld = false;
-		wepObj.GetComponents<AWeaponAction>().ToList().ForEach(e => e.Terminate());
+		var weapon = weapons[uuid];
+		weapon.Reset();
+		// Signal on equip event, true means removed.
+		m_onEquip.Invoke(new WeaponEquipEvent(uuid, true));
+
+		weapons.Remove(uuid);
 	}
 
-	public void RemoveWeapon(string wepId)
-	{
-		equippedWeapons[wepId].isHeld = false;
-		equippedWeapons[wepId].GetComponents<AWeaponAction>().ToList().ForEach(e => e.Terminate());
-		equippedWeapons.Remove(wepId);
-		equippedWeaponIds.Remove(wepId);
-	}
 
-	public void SelectWeapon(string wepId)
+	public Weapon GetWeaponByUUID(string uuid)
 	{
-		currentWeaponID = wepId;
+		return weapons[uuid];
 	}
-
-	public void SelectWeapon(int index)
-	{
-		currentWeaponID = equippedWeaponIds[index];
-	}
-	*/
 }
