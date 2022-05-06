@@ -28,7 +28,7 @@ public class TempWeap : MonoBehaviour, Weapon.IOwner, WeaponAction.IProcessor
 
 	void Awake()
 	{
-		var playerInput = GetComponent<PlayerInput>();
+		var playerInput = GetComponent<Player>().playerInput;
 		playerInput.actions.ToList().ForEach(x => AddInputAction(x));
 	}
 

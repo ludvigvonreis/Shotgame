@@ -21,8 +21,8 @@ public class HealthChangeEvent : UnityEvent<HealthChange> { }
 
 public class Player : MonoBehaviour
 {
-	/*
 	public Camera playerCam;
+	public Camera weaponCam;
 	public PlayerInput playerInput;
 
 	[Header("Player stats")]
@@ -75,11 +75,10 @@ public class Player : MonoBehaviour
 	}
 
 	// TODO: Refactor this in a better way
-	public void DealDamage(float damage)
+	/*public void DealDamage(float damage)
 	{
 		health = Mathf.Max(health - damage, 0);
 
 		m_HealthChange.Invoke(new HealthChange(health, maxHealth));
-	}
-	*/
+	}*/
 }

@@ -1,0 +1,118 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58e599184d0c30e4e9b72f1e55d425ba, type: 3}
+  m_Name: AK47 stats
+  m_EditorClassIdentifier: 
+  ID: b67af821-8f80-44b8-ad27-d9b51e36dbd2
+  name: AK47
+  model: {fileID: 0}
+  damage: 5
+  range: 100
+  fireRate: 500
+  aimDownSightTime: 0.5
+  maxAmmo: 30
+  reloadTime: 1.6
+  recoilHoriz:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.3494004
+      value: 0.5626008
+      inSlope: -4.4977283
+      outSlope: -4.4977283
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.3654367
+    - serializedVersion: 3
+      time: 0.48800936
+      value: -0.24143481
+      inSlope: -0.31331894
+      outSlope: -0.31331894
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.24855071
+    - serializedVersion: 3
+      time: 0.60706407
+      value: 1.0319307
+      inSlope: 3.5909312
+      outSlope: 3.5909312
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  recoilVerti:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.9600525
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.2246834
+      value: 1.6705215
+      inSlope: 1.0462022
+      outSlope: 1.0462022
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.5698614
+      value: 1.3489001
+      inSlope: -1.2630816
+      outSlope: -1.2630816
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  recoilHorizMult: 1.2
+  recoilVertiMult: 2.1

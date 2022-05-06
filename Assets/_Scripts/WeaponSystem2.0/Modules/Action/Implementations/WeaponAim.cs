@@ -47,9 +47,9 @@ namespace WeaponSystem
 			moveDuration = groupReference.weaponStats.aimDownSightTime;
 
 			// FIXME: Temporary until player script is activated
-			var cameras = groupReference.owner.ownerObject.GetComponentsInChildren<Camera>();
-			ownerCamera = cameras.Single(x => x.name == "PlayerCamera");
-			ownerWeaponCamera = cameras.Single(x => x.name == "WeaponCamera");
+			var player = groupReference.owner.ownerObject.GetComponent<Player>();
+			ownerCamera = player.playerCam;
+			ownerWeaponCamera = player.weaponCam;
 		}
 
 		protected override void ProcessInput(InputAction.CallbackContext context)
