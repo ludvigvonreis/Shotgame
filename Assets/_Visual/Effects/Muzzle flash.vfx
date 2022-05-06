@@ -1679,7 +1679,7 @@ MonoBehaviour:
   - {fileID: 8926484042661614654}
   m_ExposedName: Color01
   m_Exposed: 1
-  m_Order: 2
+  m_Order: 3
   m_Category: Color
   m_Min:
     m_Type:
@@ -5504,7 +5504,7 @@ MonoBehaviour:
   - {fileID: 8926484042661614898}
   m_ExposedName: Random ScaleA01
   m_Exposed: 1
-  m_Order: 1
+  m_Order: 2
   m_Category: Scale
   m_Min:
     m_Type:
@@ -5686,7 +5686,7 @@ MonoBehaviour:
   - {fileID: 8926484042661614903}
   m_ExposedName: Random ScaleB01
   m_Exposed: 1
-  m_Order: 3
+  m_Order: 4
   m_Category: Scale
   m_Min:
     m_Type:

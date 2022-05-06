@@ -17,7 +17,7 @@ MonoBehaviour:
   model: {fileID: 0}
   damage: 5
   range: 100
-  fireRate: 500
+  fireRate: 800
   aimDownSightTime: 0.5
   maxAmmo: 30
   reloadTime: 1.6
