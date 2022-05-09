@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 namespace WeaponSystem
@@ -6,6 +7,12 @@ namespace WeaponSystem
 	[System.Serializable]
 	public class WeaponRaycast : WeaponAction
 	{
+		public IShootProcessor ShootProcessor { get; protected set; }
+		public interface IShootProcessor : Weapon.IProcessor
+		{
+			UnityEvent<RecoilData> m_shootRecoil { get; }
+		}
+
 		[SerializeField]
 		Transform point;
 
@@ -19,6 +26,8 @@ namespace WeaponSystem
 		public override void Init()
 		{
 			base.Init();
+
+			ShootProcessor = groupReference.GetProcessor<IShootProcessor>();
 
 			groupReference.Action.OnPerfom += Action;
 			weaponStats = groupReference.weaponStats;
@@ -54,8 +63,7 @@ namespace WeaponSystem
 				}
 
 				// Step 3 apply recoil to player
-				// FIXME: Temporary
-				//ownerObject.GetComponent<TempWeap>().m_ShootEvent.Invoke(new RecoilData(weaponState, weaponStats));
+				ShootProcessor.m_shootRecoil.Invoke(new RecoilData(weaponState, weaponStats));
 			}
 		}
 	}

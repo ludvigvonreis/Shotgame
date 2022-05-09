@@ -1,5 +1,7 @@
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using WeaponSystem;
 
 public class RecoilData
 {
@@ -23,7 +25,7 @@ public class RecoilData
 	}
 }
 
-public class PlayerRecoil : MonoBehaviour
+public class PlayerRecoil : MonoBehaviour, WeaponSystem.WeaponRaycast.IShootProcessor
 {
 	private Player player;
 
@@ -44,13 +46,19 @@ public class PlayerRecoil : MonoBehaviour
 
 	public InputActionReference mouseButton;
 
+	UnityEvent<RecoilData> WeaponRaycast.IShootProcessor.m_shootRecoil { get => m_shootEvent; }
+	private UnityEvent<RecoilData> m_shootEvent;
+	private UnityEvent m_resetRecoilEvent;
+
 	void Start()
 	{
 		player = GetComponent<Player>();
-		TempWeap tempWeap = GetComponent<TempWeap>();
 
-		tempWeap.m_ShootEvent.AddListener(CalculateRecoil);
-		tempWeap.m_ResetRecoil.AddListener(ResetRecoil);
+		m_shootEvent = new UnityEvent<RecoilData>();
+		m_resetRecoilEvent = new UnityEvent();
+
+		m_shootEvent.AddListener(CalculateRecoil);
+		m_resetRecoilEvent.AddListener(ResetRecoil);
 
 		recoil = Vector2.zero;
 		totalRecoil = Vector2.zero;
