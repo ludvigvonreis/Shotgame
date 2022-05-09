@@ -41,7 +41,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4866322883732373145}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Sway Holder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -106,7 +106,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5555222331842610844}
   - component: {fileID: 4497033017585451240}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Sway
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -156,7 +156,7 @@ GameObject:
   - component: {fileID: 2997454043807565377}
   - component: {fileID: 2997454043807565382}
   - component: {fileID: 2997454043807565383}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Muzzle flash
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -267,7 +267,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3117625601895296634}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Action
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -300,7 +300,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3117625603543941499}
   - component: {fileID: 3117625603543941498}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Constraint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -381,6 +381,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   actionButton: {fileID: -205009154527932223, guid: 82287d69b0529a4479f077285015f276, type: 3}
   animationHolder: {fileID: 4866322883732373145}
+  forwardSpin: 0
 --- !u!1 &4063808065053586633
 GameObject:
   m_ObjectHideFlags: 0
@@ -391,7 +392,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5887196621358319389}
   - component: {fileID: 4530580645511181497}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Kickback
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -666,7 +667,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6565081924389641935}
   - component: {fileID: 6565081924389641934}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: AimGroup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -713,7 +714,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6565081924463395760}
   - component: {fileID: 6565081924463395767}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: SingleFire
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -756,7 +757,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6565081924743615338}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: AimPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -771,7 +772,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6565081924743615339}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.42, y: 0.225, z: -0.2}
+  m_LocalPosition: {x: -0.334, y: 0.14, z: -0.12}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -788,7 +789,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6565081924787143201}
   - component: {fileID: 6565081924787143200}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Constraint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -836,7 +837,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6565081924882585654}
   - component: {fileID: 6565081924882585653}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Muzzle Flash
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -882,7 +883,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6565081925318829212}
   - component: {fileID: 6565081925318829219}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Raycast
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -928,7 +929,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6565081925450777687}
   - component: {fileID: 6565081925450777686}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Weapon Aim
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -964,8 +965,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   actionButton: {fileID: -5675818417072232823, guid: 82287d69b0529a4479f077285015f276, type: 3}
   aimPoint: {fileID: 6565081924743615338}
-  fovMoveDuration: 0
-  aimedFov: 0
+  fovMoveDuration: 0.2
+  aimedFov: 60
   isAiming: 0
 --- !u!1 &6565081925587347492
 GameObject:
@@ -976,7 +977,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6565081925587347499}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1008,7 +1009,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6565081925619536816}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Action
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1043,7 +1044,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6565081925643249249}
   - component: {fileID: 6565081925643249248}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Ammo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1087,7 +1088,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6565081925715327336}
   - component: {fileID: 6565081925715327343}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: ShootGroup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1133,7 +1134,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6565081925813874934}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1166,7 +1167,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6565081925998827021}
   - component: {fileID: 6565081925998827020}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: RPM
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1209,7 +1210,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6565081926044683037}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Modules
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1246,7 +1247,9 @@ GameObject:
   - component: {fileID: 6565081926051607454}
   - component: {fileID: 6565081926051607459}
   - component: {fileID: 6565081926051607458}
-  m_Layer: 3
+  - component: {fileID: 606703503}
+  - component: {fileID: 606703502}
+  m_Layer: 0
   m_Name: Pistol
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1286,6 +1289,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponState: {fileID: 6565081926051607458}
   weaponStats: {fileID: 11400000, guid: cc8d5b266987dfe4781acda6c9b3c89a, type: 2}
+  isRunning: 1
+  isSetup: 0
 --- !u!114 &6565081926051607458
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1299,11 +1304,51 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   heat: 0
-  decreaseTime: 0
+  decreaseTime: 0.2
   currentAmmo: 0
   ammoReserve: 0
   isReloading: 0
   isAiming: 0
+--- !u!114 &606703503
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6565081926051607455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54fc22b1d5d88e640af1c0975f803476, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponCollider: {fileID: 606703502}
+  equippedLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  droppedLayer:
+    serializedVersion: 2
+    m_Bits: 1
+  throwForce: 5
+  throwExtraForce: 7
+  rotationForce: 120
+  mass: 4
+  drag: 0.3
+  m_onWeaponInteract:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!65 &606703502
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6565081926051607455}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.06621307, y: 0.23482305, z: 0.36027145}
+  m_Center: {x: 0.00574103, y: -0.03107062, z: 0.038919687}
 --- !u!1 &7526720168365501265
 GameObject:
   m_ObjectHideFlags: 0
@@ -1314,7 +1359,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7650940825052121339}
   - component: {fileID: 1169395620381445483}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Is Reloading
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1358,7 +1403,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6880004492049790980}
   - component: {fileID: 1423885268638587445}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Is Reloading
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1405,19 +1450,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: 7d3e381b0d85d9f44925d515130ce3c1, type: 3}
       propertyPath: m_Layer
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 100002, guid: 7d3e381b0d85d9f44925d515130ce3c1, type: 3}
       propertyPath: m_Layer
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 100004, guid: 7d3e381b0d85d9f44925d515130ce3c1, type: 3}
       propertyPath: m_Layer
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 100006, guid: 7d3e381b0d85d9f44925d515130ce3c1, type: 3}
       propertyPath: m_Layer
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 7d3e381b0d85d9f44925d515130ce3c1, type: 3}
       propertyPath: m_RootOrder

@@ -19,7 +19,7 @@ public class WeaponEquipEvent
 	}
 }
 
-public class WeaponManager : MonoBehaviour, Weapon.IOwner, WeaponAction.IProcessor
+public class WeaponManager : MonoBehaviour, Weapon.IOwner, WeaponAction.IProcessor, WeaponState.IUpdator
 {
 	// Processor interface
 	GameObject Weapon.IOwner.ownerObject => this.gameObject;
@@ -33,7 +33,14 @@ public class WeaponManager : MonoBehaviour, Weapon.IOwner, WeaponAction.IProcess
 
 	public UnityEvent<WeaponEquipEvent> m_onEquip;
 
-	//public InputActionReference throwButton;
+	// Weapon events
+	public UnityEvent<AmmoChangeEvent> m_ammoChange => _m_ammoChange;
+	public UnityEvent<AmmoChangeEvent> _m_ammoChange;
+
+	void Awake()
+	{
+		_m_ammoChange = new UnityEvent<AmmoChangeEvent>();
+	}
 
 	// Setup by player
 	public void Setup(Player reference)
@@ -44,16 +51,6 @@ public class WeaponManager : MonoBehaviour, Weapon.IOwner, WeaponAction.IProcess
 		Processors = GetComponentsInChildren<Weapon.IProcessor>(true).ToList();
 
 		weapons.Values.ToList().ForEach(weapon => SetupWeapon(weapon));
-
-		//playerInput.actions[throwButton.name].performed += _DropWeapon;
-	}
-
-	void _DropWeapon(InputAction.CallbackContext context)
-	{
-		if (context.performed)
-		{
-			DropWeapon(currentWeaponUUID);
-		}
 	}
 
 	void SetupWeapon(Weapon weapon)

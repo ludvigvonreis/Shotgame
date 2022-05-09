@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class HealthBarDisplay : MonoBehaviour
 {
+	/*
 	[SerializeField] private Player player;
 
 	[SerializeField] private Image bar;
@@ -47,4 +48,5 @@ public class HealthBarDisplay : MonoBehaviour
 
 		bar.fillAmount = percent;
 	}
+	*/
 }

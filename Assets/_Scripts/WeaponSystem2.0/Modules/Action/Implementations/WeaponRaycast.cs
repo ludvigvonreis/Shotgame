@@ -10,7 +10,8 @@ namespace WeaponSystem
 		public IShootProcessor ShootProcessor { get; protected set; }
 		public interface IShootProcessor : Weapon.IProcessor
 		{
-			UnityEvent<RecoilData> m_shootRecoil { get; }
+			public UnityEvent<RecoilData> m_shootRecoil { get; }
+			public UnityEvent m_resetRecoil { get; }
 		}
 
 		[SerializeField]
