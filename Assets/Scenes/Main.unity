@@ -2151,7 +2151,7 @@ PrefabInstance:
       objectReference: {fileID: -6193319190420350827, guid: 82287d69b0529a4479f077285015f276, type: 3}
     - target: {fileID: 7962639733022714900, guid: 6e172ca2ee0944640a023d224842d839, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7962639733022714900, guid: 6e172ca2ee0944640a023d224842d839, type: 3}
       propertyPath: mouseButton
