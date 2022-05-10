@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -10,8 +12,8 @@ namespace WeaponSystem
 		public IShootProcessor ShootProcessor { get; protected set; }
 		public interface IShootProcessor : Weapon.IProcessor
 		{
-			public UnityEvent<RecoilData> m_shootRecoil { get; }
-			public UnityEvent m_resetRecoil { get; }
+			public UnityEvent m_OnShoot { get; }
+			public UnityEvent m_OnTimeout { get; }
 		}
 
 		[SerializeField]
@@ -23,6 +25,10 @@ namespace WeaponSystem
 		GameObject ownerObject;
 
 		bool performed;
+		bool isNotHeld;
+
+		bool hasTimedOut;
+		private bool sentTimoutEvent;
 
 		public override void Init()
 		{
@@ -31,10 +37,13 @@ namespace WeaponSystem
 			ShootProcessor = groupReference.GetProcessor<IShootProcessor>();
 
 			groupReference.Action.OnPerfom += Action;
+			groupReference.OnGroupProcess += GroupProcess;
 			weaponStats = groupReference.weaponStats;
 			weaponState = groupReference.weaponState;
 
 			ownerObject = groupReference.owner.ownerObject;
+
+			StartCoroutine(ShootTimeoutLoop());
 		}
 
 		protected override void ProcessInput(InputAction.CallbackContext context)
@@ -42,6 +51,30 @@ namespace WeaponSystem
 			if (groupReference.isRunning == false) return;
 
 			performed = context.performed;
+
+			if (context.performed)
+			{
+				isNotHeld = false;
+			}
+
+			if (context.canceled)
+			{
+				isNotHeld = true;
+			}
+		}
+
+		private void GroupProcess()
+		{
+			if (hasTimedOut)
+			{
+				weaponState.DecreaseHeat();
+
+				if (!sentTimoutEvent)
+				{
+					ShootProcessor.m_OnTimeout.Invoke();
+					sentTimoutEvent = true;
+				}
+			}
 		}
 
 		// TODO: Implement rest of shooting function
@@ -51,9 +84,12 @@ namespace WeaponSystem
 			{
 				weaponState.currentAmmo -= 1;
 
+				weaponState.CancelDecrease();
+				sentTimoutEvent = false;
+
 				weaponState.IncreaseHeat();
 
-				// Shoot from camera
+				// Shoot from position
 				RaycastHit hit;
 				if (Physics.Raycast(
 					point.transform.position, point.transform.forward, out hit, weaponStats.range
@@ -63,8 +99,20 @@ namespace WeaponSystem
 					DecalManager.Instance.PlaceDecal(hit.point, Quaternion.identity);
 				}
 
-				// Step 3 apply recoil to player
-				ShootProcessor.m_shootRecoil.Invoke(new RecoilData(weaponState, weaponStats));
+				// Signal event for shooting.
+				ShootProcessor.m_OnShoot.Invoke();
+			}
+		}
+
+		IEnumerator ShootTimeoutLoop()
+		{
+			while (true)
+			{
+				yield return new WaitUntilForSeconds(() => isNotHeld, weaponStats.shootTimeoutTime, (_) => { hasTimedOut = false; });
+				hasTimedOut = true;
+
+				// needed??
+				yield return null;
 			}
 		}
 	}

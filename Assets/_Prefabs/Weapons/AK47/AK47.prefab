@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2012949018225913455}
   - component: {fileID: 2012949018225913452}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Is Reloading
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -54,7 +54,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2012949018264226905}
   - component: {fileID: 2012949018264226902}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Constraint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -100,7 +100,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2012949018701420041}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Action
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -166,7 +166,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2012949018809198672}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Sway holder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -230,7 +230,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2012949019090315893}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Aim Point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -263,7 +263,7 @@ GameObject:
   - component: {fileID: 2012949019197245377}
   - component: {fileID: 2012949019197245407}
   - component: {fileID: 2012949019197245406}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Muzzle flash
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -395,7 +395,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2012949019330400610}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -519,7 +519,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5353132061806820357}
   - component: {fileID: 5353132061806820356}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: ShootGroup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -566,7 +566,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5353132061817308096}
   - component: {fileID: 5353132061817308127}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Constraint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -702,7 +702,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5353132062412520051}
   - component: {fileID: 5353132062412520050}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Is Reloading
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -746,7 +746,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5353132062515478784}
   - component: {fileID: 5353132062515478815}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: RPM
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -790,7 +790,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5353132062696756828}
   - component: {fileID: 5353132062696756827}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Kickback
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -838,7 +838,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5353132062706538671}
   - component: {fileID: 5353132062706538670}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Sway
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -890,7 +890,7 @@ GameObject:
   - component: {fileID: 5353132062831629320}
   - component: {fileID: 1919709932}
   - component: {fileID: 1919709931}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: AK47
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -930,7 +930,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponState: {fileID: 0}
   weaponStats: {fileID: 11400000, guid: a5f5b662e85248443aa14e7f633ddc28, type: 2}
-  isRunning: 1
+  isRunning: 0
+  isSetup: 0
 --- !u!114 &5353132062831629320
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -944,9 +945,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   heat: 0
-  decreaseTime: 0
-  currentAmmo: 0
-  ammoReserve: 0
+  decreaseTime: 0.2
+  isDecreasing: 0
   isReloading: 0
   isAiming: 0
 --- !u!114 &1919709932
@@ -999,7 +999,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5353132062954501554}
   - component: {fileID: 5353132062954501553}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Ammo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1043,7 +1043,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5353132062997135291}
   - component: {fileID: 5353132062997135290}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Muzzle Flash
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1181,7 +1181,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5353132063362859161}
   - component: {fileID: 5353132063362859160}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: AimGroup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1227,7 +1227,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5353132063489962544}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1260,7 +1260,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5353132063532990531}
   - component: {fileID: 5353132063532990530}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Weapon Aim
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1308,7 +1308,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5353132063580297275}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Action
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1340,7 +1340,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5353132063634147992}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Modules
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1376,7 +1376,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5353132063731338307}
   - component: {fileID: 5353132063731338306}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Raycast
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1425,19 +1425,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: 4974c3aa5aa3dca4e847ca65904285a1, type: 3}
       propertyPath: m_Layer
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 100002, guid: 4974c3aa5aa3dca4e847ca65904285a1, type: 3}
       propertyPath: m_Layer
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 100004, guid: 4974c3aa5aa3dca4e847ca65904285a1, type: 3}
       propertyPath: m_Layer
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 100006, guid: 4974c3aa5aa3dca4e847ca65904285a1, type: 3}
       propertyPath: m_Layer
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 4974c3aa5aa3dca4e847ca65904285a1, type: 3}
       propertyPath: m_RootOrder

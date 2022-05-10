@@ -49,14 +49,15 @@ namespace WeaponSystem
 		[Header("Heat")]
 		public int heat;
 		[SerializeField] private float decreaseTime;
-		private bool isDecreasing = false;
+		[SerializeField] private bool isDecreasing = false;
 
 		[Header("State")]
 		public bool isReloading;
 		public bool isAiming;
 
-		public void Init(WeaponStats stats)
+		public void Init(WeaponStats stats, Weapon reference)
 		{
+			weaponReference = reference;
 			weaponReference.owner.ownerObject.TryGetComponent<IStateUpdate>(out stateUpdate);
 
 			// FIXME: Derive ammo reserve from somewhere else

@@ -19,6 +19,8 @@ public class WeaponEquipEvent
 	}
 }
 
+[RequireComponent(typeof(PlayerRecoil))]
+[RequireComponent(typeof(WeaponHolder))]
 public class WeaponManager : MonoBehaviour, Weapon.IOwner, WeaponAction.IProcessor, IStateUpdate
 {
 	// Processor interface
@@ -33,7 +35,8 @@ public class WeaponManager : MonoBehaviour, Weapon.IOwner, WeaponAction.IProcess
 	private UnityEvent m_stateChangeEvent;
 
 	// UI events
-
+	[SerializeField]
+	private UnityEvent<AmmoChangeEvent> m_ammoChange;
 
 	// Manager stuff
 	private Dictionary<string, Weapon> weapons = new Dictionary<string, Weapon>();
@@ -48,7 +51,10 @@ public class WeaponManager : MonoBehaviour, Weapon.IOwner, WeaponAction.IProcess
 
 	void StateChangeHandler()
 	{
+		if (currentWeaponUUID == null) return;
 
+		var weaponState = GetCurrentWeapon().weaponState;
+		m_ammoChange?.Invoke(new AmmoChangeEvent(weaponState.currentAmmo, weaponState.ammoReserve));
 	}
 
 	// Setup by player
@@ -103,6 +109,8 @@ public class WeaponManager : MonoBehaviour, Weapon.IOwner, WeaponAction.IProcess
 
 	public Weapon GetCurrentWeapon()
 	{
+		if (currentWeaponUUID == null) return null;
+
 		return weapons[currentWeaponUUID];
 	}
 }

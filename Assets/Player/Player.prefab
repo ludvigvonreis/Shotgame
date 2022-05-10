@@ -264,8 +264,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 188170303089332483}
-  - component: {fileID: 6825554786132485206}
   - component: {fileID: 7401736189960325712}
+  - component: {fileID: 6825554786132485206}
   - component: {fileID: 7129325563805080687}
   - component: {fileID: 188170303089332484}
   - component: {fileID: 1144068473899769527}
@@ -300,41 +300,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6825554786132485206
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 188170303089332490}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ea8c0e5632a87f54e8cc29245d959e30, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerCam: {fileID: 7049032219529045685}
-  weaponCam: {fileID: 738080073}
-  playerInput: {fileID: 7401736189960325712}
-  weaponManager: {fileID: 188170303089332484}
-  health: 0
-  maxHealth: 100
-  interactButton: {fileID: -6193319190420350827, guid: 82287d69b0529a4479f077285015f276, type: 3}
-  shootButton: {fileID: -5571893971830954431, guid: 82287d69b0529a4479f077285015f276, type: 3}
-  aimButton: {fileID: -5675818417072232823, guid: 82287d69b0529a4479f077285015f276, type: 3}
-  reloadButton: {fileID: -205009154527932223, guid: 82287d69b0529a4479f077285015f276, type: 3}
-  mouseButton: {fileID: -7048408787612112732, guid: 82287d69b0529a4479f077285015f276, type: 3}
-  m_ShootEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ResetRecoil:
-    m_PersistentCalls:
-      m_Calls: []
-  m_HealthChange:
-    m_PersistentCalls:
-      m_Calls: []
-  m_AmmoChange:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &7401736189960325712
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -401,6 +366,24 @@ MonoBehaviour:
   m_DefaultActionMap: Main
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &6825554786132485206
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 188170303089332490}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea8c0e5632a87f54e8cc29245d959e30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerCam: {fileID: 7049032219529045685}
+  weaponCam: {fileID: 738080073}
+  playerInput: {fileID: 7401736189960325712}
+  weaponManager: {fileID: 188170303089332484}
+  health: 0
+  maxHealth: 100
 --- !u!114 &7129325563805080687
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -413,6 +396,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4d6340e6cef20f4b888a443137e3fa9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interactButton: {fileID: 0}
+  dropButton: {fileID: 0}
   interactTransform: {fileID: 359210582183319631}
   range: 5
   radius: 7
@@ -428,6 +413,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21ea5bfa1b4c8b44fbfbb0c88417b87a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_ammoChange:
+    m_PersistentCalls:
+      m_Calls: []
   m_onEquip:
     m_PersistentCalls:
       m_Calls: []

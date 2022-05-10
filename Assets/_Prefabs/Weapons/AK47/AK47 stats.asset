@@ -18,7 +18,8 @@ MonoBehaviour:
   damage: 5
   range: 100
   fireRate: 800
-  aimDownSightTime: 0.5
+  aimDownSightTime: 0.3
+  aimDownSightFov: 60
   maxAmmo: 30
   reloadTime: 1.6
   recoilHoriz:
@@ -34,8 +35,8 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.3494004
-      value: 0.5626008
+      time: 0.30975807
+      value: 0.14502114
       inSlope: -4.4977283
       outSlope: -4.4977283
       tangentMode: 0
@@ -43,8 +44,8 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.3654367
     - serializedVersion: 3
-      time: 0.48800936
-      value: -0.24143481
+      time: 0.45826176
+      value: -0.99540263
       inSlope: -0.31331894
       outSlope: -0.31331894
       tangentMode: 0
@@ -85,26 +86,26 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.2246834
-      value: 1.6705215
-      inSlope: 1.0462022
-      outSlope: 1.0462022
+      time: 0.43747425
+      value: 0.825498
+      inSlope: -2.7415938
+      outSlope: -2.7415938
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0.33333334
+      outWeight: 0.090918906
     - serializedVersion: 3
-      time: 0.5698614
-      value: 1.3489001
-      inSlope: -1.2630816
-      outSlope: -1.2630816
+      time: 0.60416317
+      value: 0.4570315
+      inSlope: -1.7422497
+      outSlope: -1.7422497
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0.33333334
+      outWeight: 0.11963465
     - serializedVersion: 3
-      time: 1
-      value: 1
+      time: 0.99871826
+      value: 0.30444336
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -116,3 +117,4 @@ MonoBehaviour:
     m_RotationOrder: 4
   recoilHorizMult: 1.2
   recoilVertiMult: 2.1
+  shootTimeoutTime: 0.3

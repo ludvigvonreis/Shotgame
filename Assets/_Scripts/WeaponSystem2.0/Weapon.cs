@@ -74,7 +74,7 @@ namespace WeaponSystem
 			{
 				weaponState = this.gameObject.AddComponent<WeaponState>();
 			}
-			weaponState.Init(weaponStats);
+			weaponState.Init(weaponStats, this);
 
 			moduleGroups = GetComponentsInChildren<WeaponModuleGroup>(true).ToList();
 			moduleGroups.ForEach(x => x.Init(this));

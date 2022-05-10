@@ -186,7 +186,7 @@ VFXRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2997454043807565376}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -1255,7 +1255,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6565081926051607454
 Transform:
   m_ObjectHideFlags: 0
@@ -1289,7 +1289,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponState: {fileID: 6565081926051607458}
   weaponStats: {fileID: 11400000, guid: cc8d5b266987dfe4781acda6c9b3c89a, type: 2}
-  isRunning: 1
+  isRunning: 0
   isSetup: 0
 --- !u!114 &6565081926051607458
 MonoBehaviour:
@@ -1305,8 +1305,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   heat: 0
   decreaseTime: 0.2
-  currentAmmo: 0
-  ammoReserve: 0
+  isDecreasing: 0
   isReloading: 0
   isAiming: 0
 --- !u!114 &606703503

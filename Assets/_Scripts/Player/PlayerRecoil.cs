@@ -28,7 +28,6 @@ public class RecoilData
 public class PlayerRecoil : MonoBehaviour, WeaponSystem.WeaponRaycast.IShootProcessor
 {
 	private Player player;
-
 	public Vector2 recoil;
 
 	// Recoil resetting
@@ -46,17 +45,19 @@ public class PlayerRecoil : MonoBehaviour, WeaponSystem.WeaponRaycast.IShootProc
 
 	public InputActionReference mouseButton;
 
-	UnityEvent<RecoilData> WeaponRaycast.IShootProcessor.m_shootRecoil => m_shootEvent;
-	public UnityEvent m_resetRecoil => m_resetRecoilEvent;
+	UnityEvent WeaponRaycast.IShootProcessor.m_OnShoot => m_shootEvent;
+	public UnityEvent m_OnTimeout => m_resetRecoilEvent;
 
-	private UnityEvent<RecoilData> m_shootEvent;
+	private UnityEvent m_shootEvent;
 	private UnityEvent m_resetRecoilEvent;
+
+	private Weapon currentWeapon;
 
 	void Start()
 	{
 		player = GetComponent<Player>();
 
-		m_shootEvent = new UnityEvent<RecoilData>();
+		m_shootEvent = new UnityEvent();
 		m_resetRecoilEvent = new UnityEvent();
 
 		m_shootEvent.AddListener(CalculateRecoil);
@@ -72,6 +73,12 @@ public class PlayerRecoil : MonoBehaviour, WeaponSystem.WeaponRaycast.IShootProc
 		mousePosition = player.playerInput.actions[mouseButton.action.name].ReadValue<Vector2>();
 	}
 
+	void GetCurrentWeapon()
+	{
+		var wep = player.weaponManager.GetCurrentWeapon();
+		if (wep != currentWeapon) currentWeapon = wep;
+	}
+
 	void ResetRecoil()
 	{
 		isResettingRecoil = true;
@@ -84,8 +91,11 @@ public class PlayerRecoil : MonoBehaviour, WeaponSystem.WeaponRaycast.IShootProc
 		shootOriginYaw = Quaternion.identity;
 	}
 
-	void CalculateRecoil(RecoilData recoilData)
+	void CalculateRecoil()
 	{
+		GetCurrentWeapon();
+
+		RecoilData recoilData = new RecoilData(currentWeapon.weaponState, currentWeapon.weaponStats);
 		if (!saveOrigin)
 		{
 			saveOrigin = true;

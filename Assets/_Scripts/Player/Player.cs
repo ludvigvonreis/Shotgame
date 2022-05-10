@@ -19,6 +19,9 @@ public class HealthChange
 [System.Serializable]
 public class HealthChangeEvent : UnityEvent<HealthChange> { }
 
+[RequireComponent(typeof(WeaponManager))]
+[RequireComponent(typeof(PlayerInput))]
+[RequireComponent(typeof(PlayerInteract))]
 public class Player : MonoBehaviour
 {
 	public Camera playerCam;

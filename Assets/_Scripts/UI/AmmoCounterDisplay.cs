@@ -20,12 +20,10 @@ public class AmmoCounterDisplay : MonoBehaviour
 	[SerializeField] private WeaponManager weaponManager;
 	[SerializeField] private TMP_Text text;
 
-	//private UnityEvent<AmmoChangeEvent> m_ammoChange;
-
 	void Start()
 	{
-		m_ammoChange = new UnityEvent<AmmoChangeEvent>();
-		m_ammoChange.AddListener(HandleAmmoChange);
+		//m_ammoChange = new UnityEvent<AmmoChangeEvent>();
+		//m_ammoChange.AddListener(HandleAmmoChange);
 	}
 
 	public void HandleAmmoChange(AmmoChangeEvent ammoChange)

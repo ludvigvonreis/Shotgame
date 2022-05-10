@@ -25,7 +25,10 @@ namespace WeaponSystem
 		public float damage;
 		public float range;
 		public float fireRate;
+
+		[Header("Aim down sight")]
 		public float aimDownSightTime;
+		public float aimDownSightFov;
 
 		[Header("Reloading and ammo")]
 		public int maxAmmo;
@@ -39,5 +42,7 @@ namespace WeaponSystem
 
 		[Range(0.1f, 10f)] public float recoilHorizMult;
 		[Range(0.1f, 10f)] public float recoilVertiMult;
+
+		[Range(0.01f, 10f)] public float shootTimeoutTime;
 	}
 }
