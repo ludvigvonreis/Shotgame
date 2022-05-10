@@ -45,12 +45,14 @@ namespace WeaponSystem
 
 		IEnumerator Reload()
 		{
-			weaponState.isReloading = true;
-			isReloading = true;
-
 			var currentAmmo = weaponState.currentAmmo;
 			var reserve = weaponState.ammoReserve;
 			var maxAmmo = weaponStats.maxAmmo;
+
+			if (reserve <= 0) yield break;
+
+			weaponState.isReloading = true;
+			isReloading = true;
 
 			var difference = maxAmmo - currentAmmo;
 

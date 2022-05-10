@@ -4,31 +4,19 @@ using UnityEngine.Events;
 
 namespace WeaponSystem
 {
-	[System.Serializable]
-	public class AmmoChangeEvent
+	public interface IStateUpdate
 	{
-		public int currentAmmo;
-		public int maxAmmo;
-
-		public AmmoChangeEvent(int _a, int _ma)
-		{
-			currentAmmo = _a;
-			maxAmmo = _ma;
-		}
+		public UnityEvent m_stateChange { get; }
 	}
 
 	public class WeaponState : MonoBehaviour
 	{
-		private IUpdator updator;
-		public interface IUpdator
-		{
-			public UnityEvent<AmmoChangeEvent> m_ammoChange { get; }
-			//public UnityEvent<HeatChangeEvent> m_heatChange { get; }
-		}
+		private Weapon weaponReference;
 
-		public int heat;
-		[SerializeField] private float decreaseTime;
-		private bool isDecreasing = false;
+		private IStateUpdate stateUpdate;
+
+		[Header("Ammo")]
+		private bool noting;
 
 		public int currentAmmo
 		{
@@ -39,24 +27,43 @@ namespace WeaponSystem
 			set
 			{
 				_currentAmmo = value;
-				updator.m_ammoChange.Invoke(new AmmoChangeEvent(currentAmmo, ammoReserve));
+				stateUpdate.m_stateChange.Invoke();
 			}
 		}
 		private int _currentAmmo;
 
-		public int ammoReserve;
+		public int ammoReserve
+		{
+			get
+			{
+				return _ammoReserve;
+			}
+			set
+			{
+				_ammoReserve = value;
+				stateUpdate?.m_stateChange.Invoke();
+			}
+		}
+		private int _ammoReserve;
+
+		[Header("Heat")]
+		public int heat;
+		[SerializeField] private float decreaseTime;
+		private bool isDecreasing = false;
+
+		[Header("State")]
 		public bool isReloading;
 		public bool isAiming;
 
 		public void Init(WeaponStats stats)
 		{
-			updator = transform.root.GetComponents<IUpdator>()[0];
+			weaponReference.owner.ownerObject.TryGetComponent<IStateUpdate>(out stateUpdate);
 
 			// FIXME: Derive ammo reserve from somewhere else
-			ammoReserve = stats.maxAmmo * 5;
+			_ammoReserve = stats.maxAmmo * 5;
 			_currentAmmo = stats.maxAmmo;
 
-			updator.m_ammoChange.Invoke(new AmmoChangeEvent(currentAmmo, ammoReserve));
+			stateUpdate?.m_stateChange.Invoke();
 		}
 
 		public void IncreaseHeat()

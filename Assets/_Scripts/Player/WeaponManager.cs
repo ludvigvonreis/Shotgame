@@ -19,7 +19,7 @@ public class WeaponEquipEvent
 	}
 }
 
-public class WeaponManager : MonoBehaviour, Weapon.IOwner, WeaponAction.IProcessor, WeaponState.IUpdator
+public class WeaponManager : MonoBehaviour, Weapon.IOwner, WeaponAction.IProcessor, IStateUpdate
 {
 	// Processor interface
 	GameObject Weapon.IOwner.ownerObject => this.gameObject;
@@ -28,18 +28,27 @@ public class WeaponManager : MonoBehaviour, Weapon.IOwner, WeaponAction.IProcess
 	public Dictionary<string, InputAction> inputActions => _inputActions;
 	Dictionary<string, InputAction> _inputActions = new Dictionary<string, InputAction>();
 
+	// Weapon events
+	public UnityEvent m_stateChange => m_stateChangeEvent;
+	private UnityEvent m_stateChangeEvent;
+
+	// UI events
+
+
+	// Manager stuff
 	private Dictionary<string, Weapon> weapons = new Dictionary<string, Weapon>();
 	private string currentWeaponUUID;
-
 	public UnityEvent<WeaponEquipEvent> m_onEquip;
-
-	// Weapon events
-	public UnityEvent<AmmoChangeEvent> m_ammoChange => _m_ammoChange;
-	public UnityEvent<AmmoChangeEvent> _m_ammoChange;
 
 	void Awake()
 	{
-		_m_ammoChange = new UnityEvent<AmmoChangeEvent>();
+		m_stateChangeEvent = new UnityEvent();
+		m_stateChangeEvent.AddListener(StateChangeHandler);
+	}
+
+	void StateChangeHandler()
+	{
+
 	}
 
 	// Setup by player
@@ -90,5 +99,10 @@ public class WeaponManager : MonoBehaviour, Weapon.IOwner, WeaponAction.IProcess
 	public Weapon GetWeaponByUUID(string uuid)
 	{
 		return weapons[uuid];
+	}
+
+	public Weapon GetCurrentWeapon()
+	{
+		return weapons[currentWeaponUUID];
 	}
 }
