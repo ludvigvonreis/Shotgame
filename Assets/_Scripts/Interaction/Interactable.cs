@@ -8,14 +8,14 @@ public interface IInteractible
 
 public class InteractionEvent
 {
-	public GameObject interacter;
+	public GameObject interactor;
 	public GameObject subject;
 
 	public float distance;
 
 	public InteractionEvent(GameObject _from, RaycastHit hit)
 	{
-		interacter = _from;
+		interactor = _from;
 
 		subject = hit.transform.gameObject;
 		distance = hit.distance;
