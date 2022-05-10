@@ -95,6 +95,8 @@ public class PlayerRecoil : MonoBehaviour, WeaponSystem.WeaponRaycast.IShootProc
 	{
 		GetCurrentWeapon();
 
+		if (currentWeapon == null) return;
+
 		RecoilData recoilData = new RecoilData(currentWeapon.weaponState, currentWeapon.weaponStats);
 		if (!saveOrigin)
 		{

@@ -23,6 +23,9 @@ public class WeaponEquipEvent
 [RequireComponent(typeof(WeaponHolder))]
 public class WeaponManager : MonoBehaviour, Weapon.IOwner, WeaponAction.IProcessor, IStateUpdate
 {
+	///// TODO: Add multiple weapons and switching
+
+
 	// Processor interface
 	GameObject Weapon.IOwner.ownerObject => this.gameObject;
 
@@ -51,9 +54,10 @@ public class WeaponManager : MonoBehaviour, Weapon.IOwner, WeaponAction.IProcess
 
 	void StateChangeHandler()
 	{
-		if (currentWeaponUUID == null) return;
+		var weaponState = GetCurrentWeapon()?.weaponState;
+		if (weaponState == null) return;
 
-		var weaponState = GetCurrentWeapon().weaponState;
+
 		m_ammoChange?.Invoke(new AmmoChangeEvent(weaponState.currentAmmo, weaponState.ammoReserve));
 	}
 
@@ -94,6 +98,7 @@ public class WeaponManager : MonoBehaviour, Weapon.IOwner, WeaponAction.IProcess
 		m_onEquip.Invoke(new WeaponEquipEvent(uuid, true));
 
 		weapons.Remove(uuid);
+		currentWeaponUUID = null;
 	}
 
 	public void DropCurrent()
@@ -110,6 +115,7 @@ public class WeaponManager : MonoBehaviour, Weapon.IOwner, WeaponAction.IProcess
 	public Weapon GetCurrentWeapon()
 	{
 		if (currentWeaponUUID == null) return null;
+		if (!weapons.ContainsKey(currentWeaponUUID)) return null;
 
 		return weapons[currentWeaponUUID];
 	}

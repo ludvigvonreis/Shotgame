@@ -19,6 +19,7 @@ MonoBehaviour:
   range: 100
   fireRate: 400
   aimDownSightTime: 0.2
+  aimDownSightFov: 60
   maxAmmo: 30
   reloadTime: 1.2
   recoilHoriz:
@@ -116,3 +117,4 @@ MonoBehaviour:
     m_RotationOrder: 4
   recoilHorizMult: 1
   recoilVertiMult: 1.7
+  shootTimeoutTime: 0.3
