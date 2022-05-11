@@ -23,7 +23,7 @@ namespace Gnome
 
 	[RequireComponent(typeof(PlayerRecoil))]
 	[RequireComponent(typeof(WeaponHolder))]
-	public class WeaponManager : MonoBehaviour, Weapon.IOwner, WeaponSystem.Actions.IProcessor, IStateUpdate
+	public class WeaponManager : MonoBehaviour, Weapon.IOwner, WeaponSystem.IProcessor, IStateUpdate
 	{
 		///// TODO: Add multiple weapons and switching
 
