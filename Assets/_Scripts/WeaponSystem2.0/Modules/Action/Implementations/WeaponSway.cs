@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace WeaponSystem
+namespace WeaponSystem.Actions
 {
 	[System.Serializable]
 	public class WeaponSway : WeaponAction

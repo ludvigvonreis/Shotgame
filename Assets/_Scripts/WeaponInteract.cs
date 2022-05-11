@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class WeaponInteract : MonoBehaviour, IInteractible
+public class WeaponInteract : MonoBehaviour, Gnome.IInteractible
 {
 	[SerializeField] private Collider weaponCollider;
 	[SerializeField] private LayerMask equippedLayer;

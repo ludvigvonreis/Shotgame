@@ -2,85 +2,88 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerInteract : MonoBehaviour
+namespace Gnome
 {
-	[SerializeField] private InputActionReference interactButton;
-	[SerializeField] private InputActionReference dropButton;
-
-	[SerializeField] private Transform interactTransform;
-	[SerializeField, Range(.01f, 5)] private float range = 3;
-	[SerializeField, Range(.01f, 5)] private float radius = .2f;
-
-	private Player player;
-
-	GameObject hovering;
-
-	void Start()
+	public class PlayerInteract : MonoBehaviour
 	{
-		player = GetComponent<Player>();
+		[SerializeField] private InputActionReference interactButton;
+		[SerializeField] private InputActionReference dropButton;
 
-		var interactAction = player.playerInput.actions[interactButton.action.name];
-		interactAction.performed += _ => { Interact(); };
+		[SerializeField] private Transform interactTransform;
+		[SerializeField, Range(.01f, 5)] private float range = 3;
+		[SerializeField, Range(.01f, 5)] private float radius = .2f;
 
-		var dropAction = player.playerInput.actions[dropButton.action.name];
-		dropAction.performed += _ => { Drop(); };
-	}
+		private Player player;
 
-	void Update()
-	{
-		if (Physics.SphereCast(interactTransform.position, radius, interactTransform.forward, out RaycastHit raycastHit, range))
+		GameObject hovering;
+
+		void Start()
 		{
-			if (!raycastHit.transform.TryGetComponent<IInteractible>(out _)) return;
-			if (!raycastHit.transform.TryGetComponent<IHoverable>(out IHoverable hoverable)) return;
+			player = GetComponent<Player>();
 
-			// HACK: Should be implemented much better.
-			if (player.weaponManager?.GetCurrentWeapon() && player.weaponManager.GetCurrentWeapon().weaponState.isAiming)
+			var interactAction = player.playerInput.actions[interactButton.action.name];
+			interactAction.performed += _ => { Interact(); };
+
+			var dropAction = player.playerInput.actions[dropButton.action.name];
+			dropAction.performed += _ => { Drop(); };
+		}
+
+		void Update()
+		{
+			if (Physics.SphereCast(interactTransform.position, radius, interactTransform.forward, out RaycastHit raycastHit, range))
 			{
-				// Hide when aiming down sights
-				hoverable.OnHover(true);
+				if (!raycastHit.transform.TryGetComponent<IInteractible>(out _)) return;
+				if (!raycastHit.transform.TryGetComponent<WeaponSystem.UI.IHoverable>(out WeaponSystem.UI.IHoverable hoverable)) return;
+
+				// HACK: Should be implemented much better.
+				if (player.weaponManager?.GetCurrentWeapon() && player.weaponManager.GetCurrentWeapon().weaponState.isAiming)
+				{
+					// Hide when aiming down sights
+					hoverable.OnHover(true);
+				}
+				else
+				{
+					hoverable.OnHover(false);
+				}
+
+				if (hovering != raycastHit.transform.gameObject)
+				{
+					// Start hover on new object
+					hovering = raycastHit.transform.gameObject;
+				}
 			}
 			else
 			{
-				hoverable.OnHover(false);
-			}
-
-			if (hovering != raycastHit.transform.gameObject)
-			{
-				// Start hover on new object
-				hovering = raycastHit.transform.gameObject;
+				// Stopped hovering, exit
+				if (hovering != null && hovering.TryGetComponent<WeaponSystem.UI.IHoverable>(out WeaponSystem.UI.IHoverable oldHoverable))
+				{
+					oldHoverable.OnHover(true);
+					hovering = null;
+				}
 			}
 		}
-		else
+
+		void Drop()
 		{
-			// Stopped hovering, exit
-			if (hovering != null && hovering.TryGetComponent<IHoverable>(out IHoverable oldHoverable))
-			{
-				oldHoverable.OnHover(true);
-				hovering = null;
-			}
+			var wepMan = GetComponent<WeaponManager>();
+			wepMan.DropCurrent();
 		}
-	}
 
-	void Drop()
-	{
-		var wepMan = GetComponent<WeaponManager>();
-		wepMan.DropCurrent();
-	}
-
-	void Interact()
-	{
-		if (hovering == null) return;
-
-		var interactable = hovering.transform.GetComponent<IInteractible>();
-
-		// FIXME: This is horrible.
-		var type = interactable.InteractType();
-		if (type == "Weapon")
+		void Interact()
 		{
-			var weapon = hovering.transform.GetComponent<WeaponSystem.Weapon>();
-			GetComponent<WeaponManager>().EquipWeapon(weapon);
-		}
+			if (hovering == null) return;
 
-		interactable.Interact();
+			var interactable = hovering.transform.GetComponent<IInteractible>();
+
+			// FIXME: This is horrible.
+			var type = interactable.InteractType();
+			if (type == "Weapon")
+			{
+				var weapon = hovering.transform.GetComponent<WeaponSystem.Weapon>();
+				GetComponent<WeaponManager>().EquipWeapon(weapon);
+			}
+
+			interactable.Interact();
+		}
 	}
 }

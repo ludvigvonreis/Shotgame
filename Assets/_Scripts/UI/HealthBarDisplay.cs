@@ -3,50 +3,53 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HealthBarDisplay : MonoBehaviour
+namespace Gnome.UI
 {
-	/*
-	[SerializeField] private Player player;
-
-	[SerializeField] private Image bar;
-	[SerializeField] private TMP_Text text;
-	[SerializeField, Range(0f, 10f)] private float animTime;
-
-	void Start()
+	public class HealthBarDisplay : MonoBehaviour
 	{
-		player.m_HealthChange.AddListener(HandleHealthChange);
-	}
+		/*
+		[SerializeField] private Player player;
 
-	public void HandleHealthChange(HealthChange healthChange)
-	{
-		UpdateDisplay(healthChange.health, healthChange.maxHealth);
-	}
+		[SerializeField] private Image bar;
+		[SerializeField] private TMP_Text text;
+		[SerializeField, Range(0f, 10f)] private float animTime;
 
-	void UpdateDisplay(float health, float maxHealth)
-	{
-		text.text = Mathf.CeilToInt(health).ToString();
-
-		StartCoroutine(HealthAnim(health, maxHealth));
-	}
-
-	IEnumerator HealthAnim(float health, float maxHealth)
-	{
-		var percent = health / maxHealth;
-		var oldAmount = bar.fillAmount;
-
-		var t = 0f;
-		var flow = 0f;
-		while (flow < 1f)
+		void Start()
 		{
-			t += Time.deltaTime;
-			flow = t / animTime;
-
-			bar.fillAmount = Mathf.Lerp(oldAmount, percent, flow);
-
-			yield return null;
+			player.m_HealthChange.AddListener(HandleHealthChange);
 		}
 
-		bar.fillAmount = percent;
+		public void HandleHealthChange(HealthChange healthChange)
+		{
+			UpdateDisplay(healthChange.health, healthChange.maxHealth);
+		}
+
+		void UpdateDisplay(float health, float maxHealth)
+		{
+			text.text = Mathf.CeilToInt(health).ToString();
+
+			StartCoroutine(HealthAnim(health, maxHealth));
+		}
+
+		IEnumerator HealthAnim(float health, float maxHealth)
+		{
+			var percent = health / maxHealth;
+			var oldAmount = bar.fillAmount;
+
+			var t = 0f;
+			var flow = 0f;
+			while (flow < 1f)
+			{
+				t += Time.deltaTime;
+				flow = t / animTime;
+
+				bar.fillAmount = Mathf.Lerp(oldAmount, percent, flow);
+
+				yield return null;
+			}
+
+			bar.fillAmount = percent;
+		}
+		*/
 	}
-	*/
 }

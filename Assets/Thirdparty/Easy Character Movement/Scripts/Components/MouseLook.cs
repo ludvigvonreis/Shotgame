@@ -166,14 +166,14 @@ namespace ECM.Components
 			characterTargetRotation = characterTransform.localRotation;
 			cameraTargetRotation = cameraTransform.localRotation;
 
-			weaponRecoil = this.transform.root.GetComponent<PlayerRecoil>();
+			weaponRecoil = this.transform.root.GetComponent<Gnome.PlayerRecoil>();
 
-			var player = this.transform.root.GetComponent<Player>();
+			var player = this.transform.root.GetComponent<Gnome.Player>();
 
 			lockCursorAction = player.playerInput.actions[unlockCursorKey.action.name];
 		}
 
-		private PlayerRecoil weaponRecoil;
+		private Gnome.PlayerRecoil weaponRecoil;
 		private InputAction mouseAction;
 		private InputAction lockCursorAction;
 

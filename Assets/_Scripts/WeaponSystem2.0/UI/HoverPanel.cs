@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 using TMPro;
 using System.Linq;
 
-namespace WeaponSystem
+namespace WeaponSystem.UI
 {
 	public class HoverPanel : MonoBehaviour
 	{

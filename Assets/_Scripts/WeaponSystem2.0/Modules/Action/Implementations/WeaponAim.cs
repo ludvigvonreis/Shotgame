@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.VFX;
 using static TimedMoving;
 
-namespace WeaponSystem
+namespace WeaponSystem.Actions
 {
 	[System.Serializable]
 	public class WeaponAim : WeaponAction

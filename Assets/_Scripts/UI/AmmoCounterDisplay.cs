@@ -3,36 +3,39 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class AmmoChangeEvent
+namespace Gnome.UI
 {
-	public int currentAmmo;
-	public int maxAmmo;
-
-	public AmmoChangeEvent(int _a, int _ma)
+	public class AmmoChangeEvent
 	{
-		currentAmmo = _a;
-		maxAmmo = _ma;
-	}
-}
+		public int currentAmmo;
+		public int maxAmmo;
 
-public class AmmoCounterDisplay : MonoBehaviour
-{
-	[SerializeField] private WeaponManager weaponManager;
-	[SerializeField] private TMP_Text text;
-
-	void Start()
-	{
-		//m_ammoChange = new UnityEvent<AmmoChangeEvent>();
-		//m_ammoChange.AddListener(HandleAmmoChange);
+		public AmmoChangeEvent(int _a, int _ma)
+		{
+			currentAmmo = _a;
+			maxAmmo = _ma;
+		}
 	}
 
-	public void HandleAmmoChange(AmmoChangeEvent ammoChange)
+	public class AmmoCounterDisplay : MonoBehaviour
 	{
-		UpdateDisplay(ammoChange.currentAmmo, ammoChange.maxAmmo);
-	}
+		[SerializeField] private WeaponManager weaponManager;
+		[SerializeField] private TMP_Text text;
 
-	void UpdateDisplay(int currentAmmo, int maxAmmo)
-	{
-		text.text = string.Format("{0} / {1}", currentAmmo, maxAmmo);
+		void Start()
+		{
+			//m_ammoChange = new UnityEvent<AmmoChangeEvent>();
+			//m_ammoChange.AddListener(HandleAmmoChange);
+		}
+
+		public void HandleAmmoChange(AmmoChangeEvent ammoChange)
+		{
+			UpdateDisplay(ammoChange.currentAmmo, ammoChange.maxAmmo);
+		}
+
+		void UpdateDisplay(int currentAmmo, int maxAmmo)
+		{
+			text.text = string.Format("{0} / {1}", currentAmmo, maxAmmo);
+		}
 	}
 }

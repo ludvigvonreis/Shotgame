@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-interface IHoverable
+namespace WeaponSystem.UI
 {
-	void OnHover(bool exit);
-}
+	interface IHoverable
+	{
+		void OnHover(bool exit);
+	}
 
-namespace WeaponSystem
-{
 	public class WeaponHoverController : MonoBehaviour, IHoverable
 	{
 		[SerializeField] private GameObject uiHolder;

@@ -1,20 +1,20 @@
 using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using UnityEngine.EventSystems;
 
-namespace WeaponSystem
+namespace WeaponSystem.Actions
 {
+	public interface IRaycastMessages : IEventSystemHandler
+	{
+		public void OnShoot();
+		public void OnTimeout();
+	}
+
 	[System.Serializable]
 	public class WeaponRaycast : WeaponAction
 	{
-		public IShootProcessor ShootProcessor { get; protected set; }
-		public interface IShootProcessor : Weapon.IProcessor
-		{
-			public UnityEvent m_OnShoot { get; }
-			public UnityEvent m_OnTimeout { get; }
-		}
 
 		[SerializeField]
 		Transform point;
@@ -24,9 +24,11 @@ namespace WeaponSystem
 
 		GameObject ownerObject;
 
+		/*
 		[SerializeField] GameObject trail;
 		TrailRenderer trailRenderer;
 		Rigidbody trailBody;
+		*/
 
 		bool performed;
 		bool isNotHeld;
@@ -38,8 +40,6 @@ namespace WeaponSystem
 		{
 			base.Init();
 
-			ShootProcessor = groupReference.GetProcessor<IShootProcessor>();
-
 			groupReference.Action.OnPerfom += Action;
 			groupReference.OnGroupProcess += GroupProcess;
 			weaponStats = groupReference.weaponStats;
@@ -49,8 +49,10 @@ namespace WeaponSystem
 
 			StartCoroutine(ShootTimeoutLoop());
 
+			/*
 			trailRenderer = trail.GetComponent<TrailRenderer>();
 			trailBody = trail.GetComponent<Rigidbody>();
+			*/
 		}
 
 		protected override void ProcessInput(InputAction.CallbackContext context)
@@ -78,7 +80,7 @@ namespace WeaponSystem
 
 				if (!sentTimoutEvent)
 				{
-					ShootProcessor.m_OnTimeout.Invoke();
+					MessagingUtil.ExecuteRecursive<IRaycastMessages>(transform.root.gameObject, (x, y) => x.OnTimeout());
 					sentTimoutEvent = true;
 				}
 			}
@@ -96,8 +98,10 @@ namespace WeaponSystem
 
 				weaponState.IncreaseHeat();
 
+				/*
 				trail.transform.position = point.transform.position;
 				trailBody.AddForce(point.transform.forward * 10, ForceMode.Impulse);
+				*/
 
 				// Shoot from position
 				RaycastHit hit;
@@ -110,7 +114,7 @@ namespace WeaponSystem
 				}
 
 				// Signal event for shooting.
-				ShootProcessor.m_OnShoot.Invoke();
+				MessagingUtil.ExecuteRecursive<IRaycastMessages>(transform.root.gameObject, (x, y) => x.OnShoot());
 			}
 		}
 

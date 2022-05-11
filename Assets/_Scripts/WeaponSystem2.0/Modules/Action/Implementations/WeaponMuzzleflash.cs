@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.VFX;
 
-namespace WeaponSystem
+namespace WeaponSystem.Actions
 {
 	[System.Serializable]
 	public class WeaponMuzzleflash : WeaponAction

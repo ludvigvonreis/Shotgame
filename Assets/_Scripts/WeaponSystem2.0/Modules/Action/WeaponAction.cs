@@ -1,19 +1,19 @@
-using UnityEngine;
-using System.Collections.Generic;
-using UnityEngine.Events;
-using UnityEngine.InputSystem;
 using System;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace WeaponSystem
 {
+	public interface IProcessor : Weapon.IProcessor
+	{
+		Dictionary<string, InputAction> inputActions { get; }
+	}
+
 	[System.Serializable]
 	public class WeaponAction : Weapon.Module
 	{
 		public IProcessor Processor { get; protected set; }
-		public interface IProcessor : Weapon.IProcessor
-		{
-			Dictionary<string, InputAction> inputActions { get; }
-		}
 
 		public WeaponConstraint Constraint => groupReference.Constraint;
 

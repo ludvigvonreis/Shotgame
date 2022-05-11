@@ -1,23 +1,26 @@
 using UnityEngine;
 
-public interface IInteractible
+namespace Gnome
 {
-	public void Interact();
-	public string InteractType();
-}
-
-public class InteractionEvent
-{
-	public GameObject interactor;
-	public GameObject subject;
-
-	public float distance;
-
-	public InteractionEvent(GameObject _from, RaycastHit hit)
+	public interface IInteractible
 	{
-		interactor = _from;
+		public void Interact();
+		public string InteractType();
+	}
 
-		subject = hit.transform.gameObject;
-		distance = hit.distance;
+	public class InteractionEvent
+	{
+		public GameObject interactor;
+		public GameObject subject;
+
+		public float distance;
+
+		public InteractionEvent(GameObject _from, RaycastHit hit)
+		{
+			interactor = _from;
+
+			subject = hit.transform.gameObject;
+			distance = hit.distance;
+		}
 	}
 }

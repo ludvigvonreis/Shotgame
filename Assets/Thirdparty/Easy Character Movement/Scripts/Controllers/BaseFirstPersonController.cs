@@ -14,7 +14,7 @@ namespace ECM.Controllers
 
 	public class BaseFirstPersonController : BaseCharacterController
 	{
-		private Player player;
+		private Gnome.Player player;
 
 		#region EDITOR EXPOSED FIELDS
 
@@ -273,7 +273,7 @@ namespace ECM.Controllers
 
 			base.Awake();
 
-			player = GetComponent<Player>();
+			player = GetComponent<Gnome.Player>();
 
 			moveAction = player.playerInput.actions[moveButton.action.name];
 			jumpAction = player.playerInput.actions[jumpButton.action.name];
