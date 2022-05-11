@@ -24,6 +24,10 @@ namespace WeaponSystem
 
 		GameObject ownerObject;
 
+		[SerializeField] GameObject trail;
+		TrailRenderer trailRenderer;
+		Rigidbody trailBody;
+
 		bool performed;
 		bool isNotHeld;
 
@@ -44,6 +48,9 @@ namespace WeaponSystem
 			ownerObject = groupReference.owner.ownerObject;
 
 			StartCoroutine(ShootTimeoutLoop());
+
+			trailRenderer = trail.GetComponent<TrailRenderer>();
+			trailBody = trail.GetComponent<Rigidbody>();
 		}
 
 		protected override void ProcessInput(InputAction.CallbackContext context)
@@ -88,6 +95,9 @@ namespace WeaponSystem
 				sentTimoutEvent = false;
 
 				weaponState.IncreaseHeat();
+
+				trail.transform.position = point.transform.position;
+				trailBody.AddForce(point.transform.forward * 10, ForceMode.Impulse);
 
 				// Shoot from position
 				RaycastHit hit;

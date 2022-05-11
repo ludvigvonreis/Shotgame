@@ -100,7 +100,7 @@ namespace WeaponSystem
 
 			StartCoroutine(MoveTransformPosition(weaponTransform, aimPoint.localPosition, moveDuration, EasingFunctions.EaseInOutQuad, true));
 			StartCoroutine(MoveFov(ownerCamera, aimedFov, moveDuration, EasingFunctions.EaseInOutQuad));
-			StartCoroutine(MoveFov(ownerWeaponCamera, aimedFov, moveDuration, EasingFunctions.EaseInOutQuad));
+			//StartCoroutine(MoveFov(ownerWeaponCamera, aimedFov, moveDuration, EasingFunctions.EaseInOutQuad));
 
 			isAtOrigin = false;
 		}
@@ -112,7 +112,7 @@ namespace WeaponSystem
 
 			StartCoroutine(MoveTransformPosition(weaponTransform, origin, moveDuration, EasingFunctions.EaseOutQuad, true));
 			StartCoroutine(MoveFov(ownerCamera, mainOriginFov, moveDuration, EasingFunctions.EaseInOutQuad));
-			StartCoroutine(MoveFov(ownerWeaponCamera, weaponOriginFov, moveDuration, EasingFunctions.EaseInOutQuad));
+			//StartCoroutine(MoveFov(ownerWeaponCamera, weaponOriginFov, moveDuration, EasingFunctions.EaseInOutQuad));
 
 			isAtOrigin = true;
 		}

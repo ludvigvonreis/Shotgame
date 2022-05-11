@@ -18,8 +18,8 @@ MonoBehaviour:
   damage: 12
   range: 100
   fireRate: 400
-  aimDownSightTime: 0.2
-  aimDownSightFov: 60
+  aimDownSightTime: 0.1
+  aimDownSightFov: 90
   maxAmmo: 30
   reloadTime: 1.2
   recoilHoriz:
