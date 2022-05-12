@@ -17,7 +17,7 @@ namespace Gnome.UI
 		public int gap;
 		[Range(0, 1)]
 		public int outline;
-		public Color color;
+		[ColorUsage(false)] public Color color;
 		public bool centerDot;
 		public bool tCross;
 
@@ -57,6 +57,8 @@ namespace Gnome.UI
 				outs.Add(ou);
 			}
 			hiddenGap = thickness + 1 + gap;
+
+			color.a = alpha;
 
 			// left
 			trans[0].sizeDelta = new Vector2(size, thickness);

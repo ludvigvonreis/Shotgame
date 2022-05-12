@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1530468946}
   - component: {fileID: 1530468947}
-  - component: {fileID: 1530468948}
+  - component: {fileID: 3571479945859249741}
   m_Layer: 0
   m_Name: UI Holder
   m_TagString: Untagged
@@ -43,11 +43,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1530468945}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a7becca406e0152468db7df16abb3522, type: 3}
+  m_Script: {fileID: 11500000, guid: 371b76509148fb142b4411de4ebddba7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   camTransform: {fileID: 0}
---- !u!114 &1530468948
+--- !u!114 &3571479945859249741
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -56,7 +56,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1530468945}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c72633b48c91e1840b4049d599b7b856, type: 3}
+  m_Script: {fileID: 11500000, guid: 4ad4ff8264608e846ab1a434dbfbb9a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   equipButton: {fileID: 2012949019026635011}
@@ -952,7 +952,7 @@ GameObject:
   - component: {fileID: 5353132062831629319}
   - component: {fileID: 5353132062831629320}
   - component: {fileID: 1919709932}
-  - component: {fileID: 1919709933}
+  - component: {fileID: 7447059802590029831}
   - component: {fileID: 1919709931}
   m_Layer: 0
   m_Name: AK47
@@ -1041,7 +1041,7 @@ MonoBehaviour:
   m_onWeaponInteract:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &1919709933
+--- !u!114 &7447059802590029831
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1050,11 +1050,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 5353132062831629321}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 13cc3a7283487c24abd7cbbc80351a96, type: 3}
+  m_Script: {fileID: 11500000, guid: 90f13cd145985b0449279f4d4c3a4119, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   uiHolder: {fileID: 1530468945}
-  hoverPanel: {fileID: 1530468948}
+  hoverPanel: {fileID: 3571479945859249741}
+  showPanel: 0
 --- !u!65 &1919709931
 BoxCollider:
   m_ObjectHideFlags: 0

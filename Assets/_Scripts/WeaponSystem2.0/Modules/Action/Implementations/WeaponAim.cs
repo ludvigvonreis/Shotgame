@@ -47,7 +47,7 @@ namespace WeaponSystem.Actions
 
 			// TODO: Should really not be coupled with Player script, find other way.
 			// Interface maybe
-			var player = groupReference.owner.ownerObject.GetComponent<Player>();
+			var player = groupReference.owner.ownerObject.GetComponent<Gnome.Player>();
 			ownerCamera = player.playerCam;
 			ownerWeaponCamera = player.weaponCam;
 
