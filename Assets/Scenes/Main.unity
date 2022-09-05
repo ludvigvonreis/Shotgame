@@ -2494,7 +2494,7 @@ PrefabInstance:
     - target: {fileID: 5353132063532990530, guid: 918ae2a8fc2e6b449aab9e4dfed769b3, type: 3}
       propertyPath: actionButton
       value: 
-      objectReference: {fileID: 8214480331480168944, guid: 82287d69b0529a4479f077285015f276, type: 3}
+      objectReference: {fileID: -5675818417072232823, guid: 82287d69b0529a4479f077285015f276, type: 3}
     - target: {fileID: 5353132063731338306, guid: 918ae2a8fc2e6b449aab9e4dfed769b3, type: 3}
       propertyPath: trail
       value: 
