@@ -322,10 +322,6 @@ PrefabInstance:
       propertyPath: camTransform
       value: 
       objectReference: {fileID: 270206760}
-    - target: {fileID: 2997454043807565382, guid: c5a749a1e1699f249be1873b0f331acd, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4346791960625418711, guid: c5a749a1e1699f249be1873b0f331acd, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -406,10 +402,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6565081925450777686, guid: c5a749a1e1699f249be1873b0f331acd, type: 3}
-      propertyPath: actionButton
-      value: 
-      objectReference: {fileID: 8214480331480168944, guid: 82287d69b0529a4479f077285015f276, type: 3}
     - target: {fileID: 6565081926051607454, guid: c5a749a1e1699f249be1873b0f331acd, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -458,12 +450,7 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pistol
       objectReference: {fileID: 0}
-    - target: {fileID: 6565081926051607455, guid: c5a749a1e1699f249be1873b0f331acd, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 1133516342, guid: c5a749a1e1699f249be1873b0f331acd, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c5a749a1e1699f249be1873b0f331acd, type: 3}
 --- !u!1 &383527195
 GameObject:
