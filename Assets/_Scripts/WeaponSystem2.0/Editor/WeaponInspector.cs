@@ -2,69 +2,46 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using UnityEngine.UIElements;
+using UnityEditor.UIElements;
 
 namespace WeaponSystem
 {
-	class WeaponInspector : EditorWindow
+	[CustomEditor(typeof(Weapon))]
+	class WeaponInspector : Editor
 	{
-		Vector2 scroll = new Vector2();
-		Dictionary<string, bool> foldState = new Dictionary<string, bool>();
+		public VisualTreeAsset m_InspectorXML;
 
-		[MenuItem("Window/My Window")]
-		public static void ShowWindow()
+		Weapon script;
+		GameObject scriptObject;
+
+		void OnEnable()
 		{
-			EditorWindow.GetWindow(typeof(WeaponInspector));
+			script = (Weapon)target;
+			scriptObject = script.gameObject;
 		}
 
-		bool RecursiveFoldout(GameObject obj, int indent = 0)
+		public override VisualElement CreateInspectorGUI()
 		{
-			if (!foldState.TryGetValue(obj.name, out _)) foldState[obj.name] = false;
+			// Create a new VisualElement to be the root of our inspector UI
+			VisualElement myInspector = new VisualElement();
 
-			EditorGUI.indentLevel = indent;
-			var indentedRect = EditorGUI.IndentedRect(EditorGUILayout.GetControlRect());
-			//Rect itemRect = EditorGUILayout.GetControlRect();
-			//var textDimensions = GUI.skin.label.CalcSize(new GUIContent(obj.name));
-			//itemRect.x += textDimensions.x + 20f;
-			//itemRect.x -= textDimensions.x + 20f;
-			//GUI.Button(itemRect, obj.name);
+			// Load from default reference
+			m_InspectorXML.CloneTree(myInspector);
 
-			//foldState[obj.name] = EditorGUI.Foldout(itemRect, foldState[obj.name], "");
-			foldState[obj.name] =
-				EditorGUI.BeginFoldoutHeaderGroup(indentedRect, foldState[obj.name], obj.name, null, delegate (Rect a)
-				{
-					Debug.Log("Test!");
-				});
-			EditorGUI.EndFoldoutHeaderGroup();
+			var weaponModuleGroups = scriptObject.GetComponentsInChildren<WeaponModuleGroup>(true).ToList();
 
-			if (foldState[obj.name] == false) return foldState[obj.name];
-			if (obj.transform.childCount == 0) return foldState[obj.name];
+			ListView modulePane = myInspector.Q("groupList") as ListView;
 
-			foreach (Transform child in obj.transform)
-			{
-				RecursiveFoldout(child.gameObject, indent + 1);
-			}
+			modulePane.makeItem = () => new Label();
+			modulePane.bindItem = (item, index) => { (item as Label).text = weaponModuleGroups[index].name; };
+			modulePane.itemsSource = weaponModuleGroups;
 
-			return foldState[obj.name];
-		}
+			VisualElement inspectorFoldout = myInspector.Q("Default_Inspector");
+			InspectorElement.FillDefaultInspector(inspectorFoldout, serializedObject, this);
 
-		void OnGUI()
-		{
-
-			EditorGUILayout.BeginHorizontal();
-			{
-				scroll = EditorGUILayout.BeginScrollView(scroll, GUILayout.Width(200), GUILayout.Height(500));
-				{
-					//GameObject[] gameObjects = GameObject.FindObjectsOfType(typeof(GameObject)) as GameObject[];
-					//gameObjects = gameObjects.Where(e => e.GetComponent<Weapon>() != null).ToArray();
-
-					var go = Selection.activeGameObject;
-					if (go != null) foldState[go.name] = RecursiveFoldout(go);
-					//foreach (GameObject go in gameObjects)
-					//{}
-				}
-				EditorGUILayout.EndScrollView();
-			}
-			EditorGUILayout.EndHorizontal();
+			// Return the finished inspector UI
+			return myInspector;
 		}
 	}
 }
