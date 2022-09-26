@@ -4,21 +4,25 @@ using UnityEditorInternal;
 
 namespace WeaponSystem.Events
 {
-	[CustomEditor(typeof(EventContainer))]
+	[CustomEditor(typeof(WeaponEventAsset))]
 	[CanEditMultipleObjects]
-	public class EventContainerEditor : Editor
+	public class WeaponEventAssetEditor : Editor
 	{
 		private ReorderableList eventList;
 
-		private SerializedProperty weaponEvents;
+		private SerializedProperty weaponEventReferences;
+
+		private WeaponEventAsset asset;
 
 		public void OnEnable()
 		{
-			weaponEvents = serializedObject.FindProperty("weaponEvents");
+			asset = target as WeaponEventAsset;
+
+			weaponEventReferences = serializedObject.FindProperty("weaponEventReferences");
 
 			eventList = new ReorderableList(
 					serializedObject,
-					weaponEvents,
+					weaponEventReferences,
 					draggable: true,
 					displayHeader: true,
 					displayAddButton: true,
@@ -32,15 +36,16 @@ namespace WeaponSystem.Events
 			eventList.onRemoveCallback = (ReorderableList l) =>
 			{
 				var element = l.serializedProperty.GetArrayElementAtIndex(l.index);
-				var obj = element.objectReferenceValue;
+				var obj = element.objectReferenceValue as WeaponEventReference;
 
 				AssetDatabase.RemoveObjectFromAsset(obj);
 
 				DestroyImmediate(obj, true);
 
+				asset.RemoveEvent(obj.Event);
+
 				AssetDatabase.SaveAssets();
 				AssetDatabase.Refresh();
-
 
 				ReorderableList.defaultBehaviours.DoRemoveButton(l);
 			};
@@ -49,7 +54,7 @@ namespace WeaponSystem.Events
 			{
 				if (eventList.count <= 0) return;
 
-				SerializedProperty element = weaponEvents.GetArrayElementAtIndex(index);
+				SerializedProperty element = weaponEventReferences.GetArrayElementAtIndex(index);
 
 				rect.y += 2;
 				rect.width -= 10;
@@ -103,7 +108,7 @@ namespace WeaponSystem.Events
 					eventList.serializedProperty.GetArrayElementAtIndex(index), true);
 
 				float additionalProps = 0;
-				SerializedProperty element = weaponEvents.GetArrayElementAtIndex(index);
+				SerializedProperty element = weaponEventReferences.GetArrayElementAtIndex(index);
 				if (element.objectReferenceValue != null)
 				{
 					SerializedObject ability = new SerializedObject(element.objectReferenceValue);
@@ -126,36 +131,39 @@ namespace WeaponSystem.Events
 
 			eventList.onAddDropdownCallback = (Rect buttonRect, ReorderableList l) =>
 			{
-				addClickHandler();
+				CreateNewEvent();
 			};
 		}
 
 		private void ChangeName(SerializedProperty element, string newName)
 		{
-			WeaponEvent obj = element.objectReferenceValue as WeaponEvent;
-			obj.name = newName;
+			WeaponEventReference obj = element.objectReferenceValue as WeaponEventReference;
+			//obj.name = newName;
+
+			Debug.Log("hello?");
+			asset.RenameEvent(obj.Event, newName);
 
 			AssetDatabase.SaveAssets();
 			AssetDatabase.Refresh();
 			EditorUtility.SetDirty(obj);
 		}
 
-		private void addClickHandler()
+		private void CreateNewEvent()
 		{
-			// Make room in list
 			var index = eventList.serializedProperty.arraySize;
 			eventList.serializedProperty.arraySize++;
 			eventList.index = index;
 			var element = eventList.serializedProperty.GetArrayElementAtIndex(index);
 
-			var newAbility = ScriptableObject.CreateInstance<WeaponEvent>();
-			newAbility.name = "test";
+			// TODO: Add a proper event creation
+			var newEvent = asset.NewEvent("New event");
+			Debug.Log(newEvent.Id);
+			var newEventReference = WeaponEventReference.Create(newEvent);
 
-			// Add it to CardData
-			var cardData = (EventContainer)target;
-			AssetDatabase.AddObjectToAsset(newAbility, cardData);
+			var cardData = (WeaponEventAsset)target;
+			AssetDatabase.AddObjectToAsset(newEventReference, cardData);
 			AssetDatabase.SaveAssets();
-			element.objectReferenceValue = newAbility;
+			element.objectReferenceValue = newEventReference;
 			serializedObject.ApplyModifiedProperties();
 		}
 
@@ -173,13 +181,13 @@ namespace WeaponSystem.Events
 				Object[] assets = AssetDatabase.LoadAllAssetRepresentationsAtPath(path);
 				for (int i = 0; i < assets.Length; i++)
 				{
-					if (assets[i] is WeaponEvent)
+					if (assets[i] is WeaponEventReference)
 					{
 						Object.DestroyImmediate(assets[i], true);
 					}
 				}
 
-				weaponEvents.ClearArray();
+				weaponEventReferences.ClearArray();
 
 				AssetDatabase.SaveAssets();
 			}

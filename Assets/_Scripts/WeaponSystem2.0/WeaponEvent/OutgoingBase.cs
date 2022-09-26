@@ -3,7 +3,7 @@ using UnityEngine.Events;
 
 namespace WeaponSystem.Events
 {
-	public class EventBase<T> : UnityAction
+	public class OutgoingBase<T> : UnityEvent
 	{
 	}
 }
