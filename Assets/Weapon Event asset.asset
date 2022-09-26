@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d10197cb3a2941849aae3aba4c3e609f, type: 3}
-  m_Name: Event asset
+  m_Name: Weapon Event asset
   m_EditorClassIdentifier: 
   weaponEvents: []
   weaponEventReferences:

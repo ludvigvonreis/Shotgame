@@ -140,7 +140,6 @@ namespace WeaponSystem.Events
 			WeaponEventReference obj = element.objectReferenceValue as WeaponEventReference;
 			//obj.name = newName;
 
-			Debug.Log("hello?");
 			asset.RenameEvent(obj.Event, newName);
 
 			AssetDatabase.SaveAssets();
@@ -157,7 +156,6 @@ namespace WeaponSystem.Events
 
 			// TODO: Add a proper event creation
 			var newEvent = asset.NewEvent("New event");
-			Debug.Log(newEvent.Id);
 			var newEventReference = WeaponEventReference.Create(newEvent);
 
 			var cardData = (WeaponEventAsset)target;

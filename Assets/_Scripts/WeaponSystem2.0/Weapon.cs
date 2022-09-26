@@ -2,9 +2,11 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
+using WeaponSystem.Events;
 
 namespace WeaponSystem
 {
+
 	public class Weapon : MonoBehaviour
 	{
 		#region Interfaces
@@ -53,6 +55,8 @@ namespace WeaponSystem
 
 		[HideInInspector] public WeaponState weaponState;
 		public WeaponStats weaponStats;
+
+		public WeaponEventAsset weaponEventAsset;
 
 		public bool isRunning;
 		public bool isSetup;
