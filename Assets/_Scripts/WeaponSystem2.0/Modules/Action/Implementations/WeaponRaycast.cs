@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
+using WeaponSystem.Events;
 
 namespace WeaponSystem.Actions
 {
@@ -55,9 +56,11 @@ namespace WeaponSystem.Actions
 			*/
 		}
 
-		protected override void ProcessInput(InputAction.CallbackContext context)
+		protected override void ProcessInput(WeaponEvent.CallbackContext context)
 		{
-			if (groupReference.isRunning == false) return;
+			Debug.Log("[WeaponRaycast] I processed a input");
+
+			/*if (groupReference.isRunning == false) return;
 
 			performed = context.performed;
 
@@ -69,7 +72,7 @@ namespace WeaponSystem.Actions
 			if (context.canceled)
 			{
 				isNotHeld = true;
-			}
+			}*/
 		}
 
 		private void GroupProcess()
