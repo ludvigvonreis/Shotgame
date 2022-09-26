@@ -1,10 +1,9 @@
 fileFormatVersion: 2
-guid: c22b28d4128b41d4da1515afba47fcc3
+guid: 0cb1f220a30a1ff4abc116b1c3cb482c
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences:
-  - m_InspectorXML: {fileID: 9197481963319205126, guid: 902e3c764e195aa468bded65f26b314e, type: 3}
+  defaultReferences: []
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
