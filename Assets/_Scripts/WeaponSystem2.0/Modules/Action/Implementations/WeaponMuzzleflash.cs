@@ -19,12 +19,12 @@ namespace WeaponSystem.Actions
 			groupReference.Action.OnPerfom += Action;
 		}
 
-		protected override void ProcessInput(InputAction.CallbackContext context)
+		/*protected override void ProcessInput(InputAction.CallbackContext context)
 		{
 			if (groupReference.isRunning == false) return;
 
 			performed = context.performed;
-		}
+		}*/
 
 		void Action()
 		{

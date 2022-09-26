@@ -22,8 +22,8 @@ namespace WeaponSystem.Events
 				return new Guid(m_Id);
 			}
 		}
-		public IncomingBase<string> incomingEvent;
-		public OutgoingBase<string> outgoingEvent;
+		public UnityAction<CallbackContext> incomingEvent;
+		//public OutgoingBase<CallbackContext> outgoingEvent;
 
 		public WeaponEvent()
 		{ }
@@ -43,6 +43,11 @@ namespace WeaponSystem.Events
 		internal void GenerateId()
 		{
 			m_Id = Guid.NewGuid().ToString();
+		}
+
+		public struct CallbackContext
+		{
+
 		}
 	}
 }
