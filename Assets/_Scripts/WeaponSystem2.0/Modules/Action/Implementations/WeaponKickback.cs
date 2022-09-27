@@ -1,6 +1,5 @@
-using System.Collections;
 using UnityEngine;
-using UnityEngine.InputSystem;
+using WeaponSystem.Events;
 
 namespace WeaponSystem.Actions
 {
@@ -21,7 +20,7 @@ namespace WeaponSystem.Actions
 			groupReference.Action.OnPerfom += Action;
 		}
 
-		/*protected override void ProcessInput(InputAction.CallbackContext context)
+		protected override void ProcessInput(object sender, WeaponEvent.ActionContext context)
 		{
 			if (groupReference.isRunning == false) return;
 
@@ -34,7 +33,7 @@ namespace WeaponSystem.Actions
 			{
 				isShooting = false;
 			}
-		}*/
+		}
 
 		void OnProcess()
 		{

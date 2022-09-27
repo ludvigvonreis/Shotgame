@@ -1,80 +1,54 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using WeaponSystem.Events;
 using System.Linq;
-using UnityEngine.InputSystem;
-using System;
 
 namespace WeaponSystem
 {
 	public class WeaponEventInterface : MonoBehaviour, Weapon.IOwner, WeaponSystem.IProcessor
 	{
-		[SerializeField] private Weapon m_weapon;
 		[SerializeField] private WeaponEventAsset m_eventAsset;
 
-		[SerializeField] private List<WeaponEventReference> m_eventsNeeded = new List<WeaponEventReference>();
+
+		// Incoming to weapon
+		[SerializeField] private Weapon m_weapon;
 		[SerializeField] private List<WeaponEvent> m_eventsHosted = new List<WeaponEvent>();
-		public bool snd;
+
+		// Weapon to outgoing
 
 		public Weapon Weapon => m_weapon;
-
 		GameObject Weapon.IOwner.ownerObject => this.gameObject;
-
 		public List<Weapon.IProcessor> Processors { get; protected set; } = new List<Weapon.IProcessor>();
 
-		void Start()
+
+		void LoadAllEvents()
 		{
-			m_weapon = transform.GetComponentInChildren<Weapon>();
+			// Take all weaponeventreferences and create event objects without duplicates.
+			m_eventsHosted =
+				m_weapon
+				.GetComponentsInChildren<WeaponAction>()
+				.Select(x => x.actionEvent)
+				.Where(x => x != null)
+				.Distinct()
+				.Select(x => WeaponEvent.Create(x))
+				.ToList();
+		}
+
+		public void SetupWeapon(Weapon weapon)
+		{
+			m_weapon = weapon;
 			m_eventAsset = m_weapon.weaponEventAsset;
 
 			Processors = GetComponentsInChildren<Weapon.IProcessor>(true).ToList();
 
-			m_eventsNeeded =
-			GetComponentsInChildren<WeaponAction>()
-			.Select(x => x.actionEvent)
-			.Where(x => x != null)
-			.ToList();
+			LoadAllEvents();
 
-			m_eventsHosted = m_eventsNeeded
-			.Select(x => WeaponEvent.Create(x)).ToList();
-
-			m_weapon.Setup(this);
-		}
-
-		public class TestString : EventArgs
-		{
-			public string value;
-
-			public TestString(string v)
-			{
-				value = v;
-			}
-		}
-
-		void SendEvent()
-		{
-			var evnt = m_eventsHosted.First();
-
-			// Invoke as function trigger
-			evnt.Invoke();
-
-			// Invoke with data
-			evnt.Invoke<TestString>(new TestString("123"));
-		}
-
-		void OnValidate()
-		{
-			if (snd == true)
-			{
-				SendEvent();
-				snd = false;
-			}
+			weapon.Setup(this);
 		}
 
 		public WeaponEvent FindEvent(string id)
 		{
-			return m_eventsHosted.Where(x => x.m_Id == id)?.First();
+			return m_eventsHosted.Where(x => x.m_Id == id)?.FirstOrDefault();
 		}
 	}
 }
