@@ -8,46 +8,34 @@ namespace WeaponSystem.Events
 	[Serializable]
 	public class WeaponEvent
 	{
-		[SerializeField] internal string m_Id;
-		[SerializeField] internal string m_Name;
-		[SerializeField] internal WeaponEventAsset m_asset;
+		[SerializeField, ReadOnly] internal string m_Id;
+		[SerializeField, ReadOnly] internal string m_Name;
+		//[SerializeField] internal WeaponEventAsset m_asset;
 
 		public string name => m_Name;
 
-		public Guid Id
-		{
-			get
-			{
-				MakeSureIdIsInPlace();
-				return new Guid(m_Id);
-			}
-		}
-		public UnityAction<CallbackContext> incomingEvent;
-		//public OutgoingBase<CallbackContext> outgoingEvent;
+		public event EventHandler action;
 
-		public WeaponEvent()
-		{ }
-
-		public WeaponEvent(string name = null)
+		public static WeaponEvent Create(WeaponEventReference reference)
 		{
-			m_Name = name;
+			var weaponEvent = new WeaponEvent();
+			weaponEvent.m_Id = reference.Id;
+			weaponEvent.m_Name = reference.name;
+
+			return weaponEvent;
 		}
 
-		internal string MakeSureIdIsInPlace()
+		public void Invoke()
 		{
-			if (string.IsNullOrEmpty(m_Id))
-				GenerateId();
-			return m_Id;
+			Debug.LogFormat("[{0}] Invoking as trigger", name);
+			action.Invoke(this, EventArgs.Empty);
 		}
 
-		internal void GenerateId()
+		public void Invoke<T>(T eventData) where T : EventArgs
 		{
-			m_Id = Guid.NewGuid().ToString();
-		}
+			Debug.LogFormat("[{0}] Invoking with data: {1}", name, eventData);
 
-		public struct CallbackContext
-		{
-
+			action.Invoke(this, eventData);
 		}
 	}
 }

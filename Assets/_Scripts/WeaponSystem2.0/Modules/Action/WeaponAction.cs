@@ -13,7 +13,7 @@ namespace WeaponSystem
 
 	public interface IProcessor : Weapon.IProcessor
 	{
-		Dictionary<string, InputAction> inputActions { get; }
+		public WeaponEvent FindEvent(string id);
 	}
 
 	[System.Serializable]
@@ -30,9 +30,6 @@ namespace WeaponSystem
 			Processor = groupReference.GetProcessor<IProcessor>();
 
 			groupReference.OnGroupProcess += Process;
-
-			Debug.Log(actionEvent.Event);
-			if (actionEvent) actionEvent.Event.incomingEvent += ProcessInput;
 
 			//Processor.inputActions[actionButton.action.name].performed += ProcessInput;
 			//Processor.inputActions[actionButton.action.name].canceled += ProcessInput;
@@ -55,14 +52,16 @@ namespace WeaponSystem
 		}
 
 		public WeaponEventReference actionEvent;
-		/*protected virtual void ProcessInput(InputAction.CallbackContext context)
+		/*protected virtual void ProcessInput<T>(T data)
 		{
 			if (groupReference.isRunning == false) return;
 		}*/
 
-		protected virtual void ProcessInput(WeaponEvent.CallbackContext context)
+		/*
+		protected virtual void ProcessInput(InputAction.CallbackContext context)
 		{
 			if (groupReference.isRunning == false) return;
 		}
+		*/
 	}
 }

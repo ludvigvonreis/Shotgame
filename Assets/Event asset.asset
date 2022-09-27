@@ -10,13 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d10197cb3a2941849aae3aba4c3e609f, type: 3}
-  m_Name: Weapon Event asset
+  m_Name: Event asset
   m_EditorClassIdentifier: 
-  weaponEvents: []
   weaponEventReferences:
-  - {fileID: 944346571980739852}
-  - {fileID: 2888664848967499855}
---- !u!114 &944346571980739852
+  - {fileID: 9101902728677151146}
+  - {fileID: 9086111030693378983}
+--- !u!114 &9086111030693378983
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -26,11 +25,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a7c6991776085f64fb1d693e209c4331, type: 3}
-  m_Name: Fire1
+  m_Name: Fire 2
   m_EditorClassIdentifier: 
+  m_name: Fire 2
+  m_id: 3616d1f3-4241-4a3c-92d1-9637fb3d03fb
   m_Asset: {fileID: 11400000}
-  m_EventId: 25575bac-b140-4820-9e5c-c9c520f9843e
---- !u!114 &2888664848967499855
+--- !u!114 &9101902728677151146
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -40,7 +40,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a7c6991776085f64fb1d693e209c4331, type: 3}
-  m_Name: Fire2
+  m_Name: Fire 1
   m_EditorClassIdentifier: 
+  m_name: Fire 1
+  m_id: 3a990434-0b49-4e86-a2fa-fc95a022c26a
   m_Asset: {fileID: 11400000}
-  m_EventId: acb6e35e-e761-43d4-9f8f-26c3993424cd
