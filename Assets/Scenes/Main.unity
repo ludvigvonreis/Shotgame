@@ -1338,8 +1338,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_weapon: {fileID: 7515576047230946831}
-  m_eventAsset: {fileID: 11400000, guid: 6391d3632dd03d34bb511f6cbbe1d443, type: 2}
+  m_eventAsset: {fileID: 11400000, guid: bde9c271f25e5164caa9cb71c72aee48, type: 2}
   m_eventsNeeded: []
+  m_eventsHosted: []
   snd: 0
 --- !u!4 &1054583191
 Transform:
@@ -3966,7 +3967,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponState: {fileID: 0}
   weaponStats: {fileID: 11400000, guid: a5f5b662e85248443aa14e7f633ddc28, type: 2}
-  weaponEventAsset: {fileID: 11400000, guid: 6391d3632dd03d34bb511f6cbbe1d443, type: 2}
+  weaponEventAsset: {fileID: 11400000, guid: bde9c271f25e5164caa9cb71c72aee48, type: 2}
   isRunning: 0
   isSetup: 0
 --- !u!114 &7515576047360798649
@@ -4135,7 +4136,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14955165426e37d43a586ac55b0ca9e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  actionEvent: {fileID: 944346571980739852, guid: 6391d3632dd03d34bb511f6cbbe1d443, type: 2}
+  actionEvent: {fileID: 9101902728677151146, guid: bde9c271f25e5164caa9cb71c72aee48, type: 2}
   point: {fileID: 4173143402946169706}
 --- !u!4 &7515576048126400075
 Transform:
