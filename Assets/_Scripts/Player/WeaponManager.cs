@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Events;
-
 using WeaponSystem;
 using WeaponSystem.Events;
 
@@ -24,16 +23,12 @@ namespace Gnome
 
 	[RequireComponent(typeof(PlayerRecoil))]
 	[RequireComponent(typeof(WeaponHolder))]
-	public class WeaponManager : MonoBehaviour, Weapon.IOwner, WeaponSystem.IProcessor, IStateUpdate
+	public class WeaponManager : MonoBehaviour, IStateUpdate
 	{
 		///// TODO: Add multiple weapons and switching
 
+		[SerializeField] WeaponEventInterface weaponEventInterface;
 
-		// Processor interface
-		GameObject Weapon.IOwner.ownerObject => this.gameObject;
-
-		public List<Weapon.IProcessor> Processors { get; protected set; } = new List<Weapon.IProcessor>();
-		public Dictionary<string, InputAction> inputActions => _inputActions;
 		Dictionary<string, InputAction> _inputActions = new Dictionary<string, InputAction>();
 
 		// Weapon events
@@ -68,16 +63,9 @@ namespace Gnome
 		public void Setup(Player reference)
 		{
 			var playerInput = reference.playerInput;
-			playerInput.actions.ToList().ForEach(action => _inputActions.Add(action.name, action));
+			_inputActions = playerInput.actions.ToDictionary(x => x.name, x => x);
 
-			Processors = GetComponentsInChildren<Weapon.IProcessor>(true).ToList();
-
-			weapons.Values.ToList().ForEach(weapon => SetupWeapon(weapon));
-		}
-
-		void SetupWeapon(Weapon weapon)
-		{
-			weapon.Setup(this);
+			//weapons.Values.ToList().ForEach(weapon => SetupWeapon(weapon));
 		}
 
 		public void EquipWeapon(Weapon weapon)
@@ -88,7 +76,7 @@ namespace Gnome
 			// Signal on equip event, false means equipped. Used by weapon holder
 			m_onEquip.Invoke(new WeaponEquipEvent(uuid, false));
 
-			SetupWeapon(weapon);
+			weaponEventInterface.SetupWeapon(weapon);
 
 			currentWeaponUUID = uuid;
 		}
@@ -121,11 +109,6 @@ namespace Gnome
 			if (!weapons.ContainsKey(currentWeaponUUID)) return null;
 
 			return weapons[currentWeaponUUID];
-		}
-
-		public WeaponEvent FindEvent(string id)
-		{
-			throw new System.NotImplementedException();
 		}
 	}
 }

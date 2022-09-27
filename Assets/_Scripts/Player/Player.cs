@@ -22,7 +22,7 @@ namespace Gnome
 	public class HealthChangeEvent : UnityEvent<HealthChange> { }
 
 
-	[RequireComponent(typeof(WeaponManager))]
+	//[RequireComponent(typeof(WeaponManager))]
 	[RequireComponent(typeof(PlayerInput))]
 	[RequireComponent(typeof(PlayerInteract))]
 	public class Player : MonoBehaviour

@@ -1,6 +1,6 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.InputSystem;
+using WeaponSystem.Events;
 
 namespace WeaponSystem.Actions
 {
@@ -28,12 +28,12 @@ namespace WeaponSystem.Actions
 			weaponStats = groupReference.weaponStats;
 		}
 
-		/*protected override void ProcessInput(InputAction.CallbackContext context)
+		protected override void ProcessInput(object sender, WeaponEvent.ActionContext context)
 		{
 			if (groupReference.isRunning == false) return;
 
 			performed = context.performed;
-		}*/
+		}
 
 		void Action()
 		{
