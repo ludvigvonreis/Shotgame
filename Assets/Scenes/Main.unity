@@ -2510,6 +2510,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 9080917830145163994, guid: 6e172ca2ee0944640a023d224842d839, type: 3}
+      propertyPath: weaponBindings.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9080917830145163994, guid: 6e172ca2ee0944640a023d224842d839, type: 3}
+      propertyPath: weaponBindings.Array.data[0].eventReference
+      value: 
+      objectReference: {fileID: 9101902728677151146, guid: bde9c271f25e5164caa9cb71c72aee48, type: 2}
+    - target: {fileID: 9080917830145163994, guid: 6e172ca2ee0944640a023d224842d839, type: 3}
+      propertyPath: weaponBindings.Array.data[0].actionReference
+      value: 
+      objectReference: {fileID: -5571893971830954431, guid: 82287d69b0529a4479f077285015f276, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6e172ca2ee0944640a023d224842d839, type: 3}
 --- !u!114 &1411570284215462981
@@ -2625,7 +2637,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2012949019703609529, guid: 918ae2a8fc2e6b449aab9e4dfed769b3, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0.9999971
+      value: 0.9999962
       objectReference: {fileID: 0}
     - target: {fileID: 2012949019703609529, guid: 918ae2a8fc2e6b449aab9e4dfed769b3, type: 3}
       propertyPath: m_AnchoredPosition.y
