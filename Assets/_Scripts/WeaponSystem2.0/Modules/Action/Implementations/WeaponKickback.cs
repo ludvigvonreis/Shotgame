@@ -41,11 +41,15 @@ namespace WeaponSystem.Actions
 			if (hasReset) return;
 
 			if (Vector3.Distance(kickbackHolder.localPosition, Vector3.zero) >= 0.1f)
-				kickbackHolder.localPosition = Vector3.Lerp(kickbackHolder.localPosition,
-							Vector3.zero, Time.deltaTime * resetSmoothing);
+			{
+				kickbackHolder.localPosition = Vector3.Lerp(
+					kickbackHolder.localPosition, Vector3.zero, Time.deltaTime * resetSmoothing
+				);
+			}
 			else
-
+			{
 				hasReset = true;
+			}
 		}
 
 		void Action()
