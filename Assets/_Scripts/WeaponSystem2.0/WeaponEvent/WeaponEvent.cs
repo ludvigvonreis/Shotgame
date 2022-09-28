@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using UnityEngine.InputSystem;
 
 namespace WeaponSystem.Events
 {
@@ -29,6 +30,11 @@ namespace WeaponSystem.Events
 			action.Invoke(invoker, context);
 		}
 
+		public void Invoke(object invoker, InputAction.CallbackContext context)
+		{
+			action.Invoke(invoker, ActionContext.FromInputContext(context));
+		}
+
 		public class ActionContext
 		{
 			public double time;
@@ -41,6 +47,21 @@ namespace WeaponSystem.Events
 				time = Time.realtimeSinceStartupAsDouble;
 				performed = _performed;
 				canceled = _canceled;
+			}
+
+			/// <summary>
+			/// Create actionContext from input callbackcontext
+			/// </summary>
+			public static ActionContext FromInputContext(InputAction.CallbackContext inputContext)
+			{
+				var newCtx = new WeaponEvent.ActionContext
+				{
+					canceled = inputContext.canceled,
+					performed = inputContext.performed,
+					time = inputContext.time
+				};
+
+				return newCtx;
 			}
 		}
 	}
