@@ -85,6 +85,11 @@ namespace Gnome
 				{
 					weaponEventInterface.FindEvent(binding.eventReference.Id)?.Invoke(this, a);
 				};
+
+				binding.actionReference.action.canceled += (a) =>
+				{
+					weaponEventInterface.FindEvent(binding.eventReference.Id)?.Invoke(this, a);
+				};
 			}
 		}
 
