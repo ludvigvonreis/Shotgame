@@ -27,6 +27,8 @@ namespace WeaponSystem.UI
 
 		public void OnHover(bool exit)
 		{
+			if (!this.enabled) return;
+
 			showPanel = !exit;
 			uiHolder.SetActive(showPanel);
 		}
