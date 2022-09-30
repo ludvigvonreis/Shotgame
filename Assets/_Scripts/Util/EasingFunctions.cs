@@ -1,8 +1,14 @@
+using System;
 using UnityEngine;
 
 public static class EasingFunctions
 {
 	// Credit to all functions https://easings.net/
+
+	public static float Linear(float x)
+	{
+		return x;
+	}
 
 	public static float EaseInOutCubic(float x)
 	{
@@ -47,5 +53,15 @@ public static class EasingFunctions
 	public static float EaseOutQuint(float x)
 	{
 		return 1 - Mathf.Pow(1 - x, 5);
+	}
+
+	public static float EasedLerp(float a, float b, float t, Func<float, float> easer)
+	{
+		return Mathf.Lerp(a, b, easer(t));
+	}
+
+	public static Vector3 EasedLerp(Vector3 a, Vector3 b, float t, Func<float, float> easer)
+	{
+		return Vector3.Lerp(a, b, easer(t));
 	}
 }
