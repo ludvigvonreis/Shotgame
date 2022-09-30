@@ -48,14 +48,14 @@ namespace WeaponSystem.Actions
 
 			// TODO: Should really not be coupled with Player script, find other way.
 			// Interface maybe
-			var player = groupReference.owner.ownerObject.GetComponent<Gnome.Player>();
-			ownerCamera = player.playerCam;
-			ownerWeaponCamera = player.weaponCam;
+			//var player = groupReference.owner.ownerObject.GetComponent<Gnome.Player>();
+			//ownerCamera = player.playerCam;
+			//ownerWeaponCamera = player.weaponCam;
 
 			// FIXME: If fov is changed after module is initialized it wont update.
 			origin = Vector3.zero; //groupReference.weaponReference.transform.localPosition;
-			mainOriginFov = ownerCamera.fieldOfView;
-			weaponOriginFov = ownerWeaponCamera.fieldOfView;
+								   //mainOriginFov = ownerCamera.fieldOfView;
+								   //weaponOriginFov = ownerWeaponCamera.fieldOfView;
 		}
 
 		protected override void ProcessInput(object sender, WeaponEvent.ActionContext context)
@@ -99,8 +99,15 @@ namespace WeaponSystem.Actions
 			if (!hasAimedOnce) hasAimedOnce = true;
 			StopAllCoroutines();
 
-			StartCoroutine(MoveTransformPosition(weaponTransform, aimPoint.localPosition, moveDuration, EasingFunctions.EaseInOutQuad, true));
-			StartCoroutine(MoveFov(ownerCamera, aimedFov, moveDuration, EasingFunctions.EaseInOutQuad));
+			StartCoroutine(MoveTransformPosition(
+				weaponTransform,
+				aimPoint.localPosition,
+				moveDuration,
+				EasingFunctions.EaseOutQuint,
+				true)
+			);
+
+			//StartCoroutine(MoveFov(ownerCamera, aimedFov, moveDuration, EasingFunctions.EaseInOutQuad));
 			//StartCoroutine(MoveFov(ownerWeaponCamera, aimedFov, moveDuration, EasingFunctions.EaseInOutQuad));
 
 			isAtOrigin = false;
@@ -112,7 +119,7 @@ namespace WeaponSystem.Actions
 			StopAllCoroutines();
 
 			StartCoroutine(MoveTransformPosition(weaponTransform, origin, moveDuration, EasingFunctions.EaseOutQuad, true));
-			StartCoroutine(MoveFov(ownerCamera, mainOriginFov, moveDuration, EasingFunctions.EaseInOutQuad));
+			//StartCoroutine(MoveFov(ownerCamera, mainOriginFov, moveDuration, EasingFunctions.EaseInOutQuad));
 			//StartCoroutine(MoveFov(ownerWeaponCamera, weaponOriginFov, moveDuration, EasingFunctions.EaseInOutQuad));
 
 			isAtOrigin = true;
