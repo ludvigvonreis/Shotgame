@@ -1,8 +1,5 @@
-using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.VFX;
 using static TimedMoving;
 using WeaponSystem.Events;
 
@@ -12,26 +9,27 @@ namespace WeaponSystem.Actions
 	public class WeaponAim : WeaponAction
 	{
 		[SerializeField] private Transform aimPoint;
-		private float aimedFov;
+		[SerializeField] private Transform weaponTransform;
+		[SerializeField] private float distanceFromCamera;
+		private WeaponModelTransform weaponMover;
 
+		private float aimedFov;
 		private float mainOriginFov;
 		private float weaponOriginFov;
 
 		private float moveDuration;
 
-		[SerializeField]
-		private bool isAiming;
-		private bool isAtOrigin;
-		private bool isMoving;
+		// Is currently holding aim action
+		[SerializeField] private bool isAimingAction;
+		private bool canAimIn;
 
+		// True if weapon has been aimed once.
 		// To stop MoveBack from running on start
 		private bool hasAimedOnce;
 
-		private Vector3 origin;
-		private Transform weaponTransform;
-
 		private Camera ownerCamera;
 		private Camera ownerWeaponCamera;
+
 
 		public override void Init()
 		{
@@ -39,23 +37,22 @@ namespace WeaponSystem.Actions
 
 			groupReference.Action.OnPerfom += Action;
 
-			weaponTransform = groupReference.weaponReference.transform;
-			isAtOrigin = true;
-			origin = weaponTransform.position;
+			weaponMover = weaponTransform.GetComponent<WeaponModelTransform>();
+
+			canAimIn = true;
 
 			moveDuration = groupReference.weaponStats.aimDownSightTime;
 			aimedFov = groupReference.weaponStats.aimDownSightFov;
 
-			// TODO: Should really not be coupled with Player script, find other way.
+			// FIXME: Should really not be coupled with Player script, find other way.
 			// Interface maybe
-			//var player = groupReference.owner.ownerObject.GetComponent<Gnome.Player>();
-			//ownerCamera = player.playerCam;
-			//ownerWeaponCamera = player.weaponCam;
+			var player = transform.root.GetComponent<Gnome.Player>();
+			ownerCamera = player.playerCam;
+			ownerWeaponCamera = player.weaponCam;
 
 			// FIXME: If fov is changed after module is initialized it wont update.
-			origin = Vector3.zero; //groupReference.weaponReference.transform.localPosition;
-								   //mainOriginFov = ownerCamera.fieldOfView;
-								   //weaponOriginFov = ownerWeaponCamera.fieldOfView;
+			mainOriginFov = ownerCamera.fieldOfView;
+			weaponOriginFov = ownerWeaponCamera.fieldOfView;
 		}
 
 		protected override void ProcessInput(object sender, WeaponEvent.ActionContext context)
@@ -64,65 +61,91 @@ namespace WeaponSystem.Actions
 
 			if (context.performed)
 			{
-				if (isAiming == false)
+				if (isAimingAction == false)
 				{
-					isAiming = true;
+					isAimingAction = true;
 				}
 			}
 
 			if (context.canceled)
 			{
-				if (isAiming == true)
+				if (isAimingAction == true)
 				{
-					isAiming = false;
+					isAimingAction = false;
 				}
 			}
 
-			groupReference.weaponState.isAiming = isAiming;
+			groupReference.weaponState.isAiming = isAimingAction;
 		}
 
 		void Action()
 		{
-			if (isAiming == true && isAtOrigin == true)
+			if (isAimingAction == true && canAimIn == true)
 			{
-				MoveToAim();
+				AimIn();
 			}
 
-			if (isAiming == false && isAtOrigin == false)
+			if (isAimingAction == false && canAimIn == false)
 			{
-				MoveBack();
+				AimOut();
 			}
 		}
 
-		void MoveToAim()
+		void AimIn()
 		{
 			if (!hasAimedOnce) hasAimedOnce = true;
 			StopAllCoroutines();
 
-			StartCoroutine(MoveTransformPosition(
-				weaponTransform,
-				aimPoint.localPosition,
-				moveDuration,
-				EasingFunctions.EaseOutQuint,
-				true)
-			);
+			StartCoroutine(WeaponMoverIn());
+			StartCoroutine(MoveFov(ownerCamera, aimedFov, moveDuration, EasingFunctions.EaseInOutQuad));
+			StartCoroutine(MoveFov(ownerWeaponCamera, aimedFov, moveDuration, EasingFunctions.EaseInOutQuad));
 
-			//StartCoroutine(MoveFov(ownerCamera, aimedFov, moveDuration, EasingFunctions.EaseInOutQuad));
-			//StartCoroutine(MoveFov(ownerWeaponCamera, aimedFov, moveDuration, EasingFunctions.EaseInOutQuad));
-
-			isAtOrigin = false;
+			canAimIn = false;
 		}
 
-		void MoveBack()
+		void AimOut()
 		{
 			if (!hasAimedOnce) return;
 			StopAllCoroutines();
 
-			StartCoroutine(MoveTransformPosition(weaponTransform, origin, moveDuration, EasingFunctions.EaseOutQuad, true));
-			//StartCoroutine(MoveFov(ownerCamera, mainOriginFov, moveDuration, EasingFunctions.EaseInOutQuad));
-			//StartCoroutine(MoveFov(ownerWeaponCamera, weaponOriginFov, moveDuration, EasingFunctions.EaseInOutQuad));
+			StartCoroutine(WeaponMoverOut());
+			StartCoroutine(MoveFov(ownerCamera, mainOriginFov, moveDuration, EasingFunctions.EaseInOutQuad));
+			StartCoroutine(MoveFov(ownerWeaponCamera, weaponOriginFov, moveDuration, EasingFunctions.EaseInOutQuad));
 
-			isAtOrigin = true;
+			canAimIn = true;
+		}
+
+		IEnumerator WeaponMoverIn()
+		{
+			var startPos = weaponTransform.localPosition;
+
+			var cameraCenter = ownerCamera.ScreenToWorldPoint(new Vector3(Screen.width / 2, Screen.height / 2, distanceFromCamera));
+			Vector3 result = weaponTransform.parent.InverseTransformPoint(
+				cameraCenter + (weaponTransform.position - aimPoint.position)
+			);
+
+			for (float progress = 0; progress < moveDuration; progress += Time.deltaTime)
+			{
+				var aimedPos = Vector3.Lerp(
+					startPos,
+					result,
+					EasingFunctions.EaseOutQuint(progress / moveDuration)
+				);
+				weaponMover.SetPosition(aimedPos - weaponMover.Offset);
+				yield return null;
+			}
+		}
+
+		IEnumerator WeaponMoverOut()
+		{
+			var startPos = weaponTransform.localPosition;
+			for (float progress = 0; progress < moveDuration; progress += Time.deltaTime)
+			{
+				weaponMover.SetPosition(
+						Vector3.zero
+					);
+				yield return null;
+			}
 		}
 	}
 }
