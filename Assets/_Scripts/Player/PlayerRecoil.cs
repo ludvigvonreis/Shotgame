@@ -19,7 +19,7 @@ namespace Gnome
 		public RecoilData(WeaponSystem.WeaponState state, WeaponSystem.WeaponStats stats)
 		{
 			heat = state.heat;
-			maxAmmo = stats.maxAmmo;
+			maxAmmo = stats.magazineSize;
 			recoilHoriz = stats.recoilHoriz;
 			recoilVerti = stats.recoilVerti;
 			recoilHorizMult = stats.recoilHorizMult;
