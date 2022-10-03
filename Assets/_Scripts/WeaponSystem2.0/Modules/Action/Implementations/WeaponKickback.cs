@@ -8,8 +8,7 @@ namespace WeaponSystem.Actions
 	{
 		[SerializeField] private Transform kickbackHolder;
 		[SerializeField] private float kickbackForce;
-
-		[SerializeField] private float resetSmoothing;
+		[SerializeField, Range(0f, 10f)] private float maxForce;
 
 		private bool isShooting;
 		private bool hasReset;
@@ -19,7 +18,6 @@ namespace WeaponSystem.Actions
 			base.Init();
 
 			groupReference.Action.OnPerfom += Action;
-			groupReference.OnGroupProcess += ResetKickback;
 		}
 
 		protected override void ProcessInput(object sender, WeaponEvent.ActionContext context)
@@ -37,18 +35,13 @@ namespace WeaponSystem.Actions
 			}
 		}
 
-		void ResetKickback()
-		{
-			/*kickbackHolder.localPosition = Vector3.Lerp(
-					kickbackHolder.localPosition, Vector3.zero, Time.deltaTime * resetSmoothing
-				);*/
-		}
-
 		void Action()
 		{
 			if (isShooting)
 			{
-				kickbackHolder.localPosition -= new Vector3(0, 0, kickbackForce * Random.value);
+				var kickbackPos = -new Vector3(0, 0, kickbackForce * Random.value);
+				if (kickbackHolder.localPosition.z < maxForce)
+					kickbackHolder.localPosition += kickbackPos;
 			}
 		}
 	}
