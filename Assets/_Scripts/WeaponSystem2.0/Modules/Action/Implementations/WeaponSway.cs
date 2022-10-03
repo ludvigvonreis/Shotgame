@@ -6,6 +6,8 @@ namespace WeaponSystem.Actions
 	public class WeaponSway : WeaponAction
 	{
 		[SerializeField] private Transform swayHolder;
+		[SerializeField] private WeaponModelTransform weaponMover;
+
 		[SerializeField] private Vector2 mouseSensitivity;
 		[SerializeField] private float swaySize;
 		[SerializeField] private float swaySmooth;
@@ -21,6 +23,8 @@ namespace WeaponSystem.Actions
 			initialRotation = swayHolder.localRotation;
 
 			groupReference.Action.OnPerfom += Action;
+
+			weaponMover = swayHolder.GetComponent<WeaponModelTransform>();
 		}
 
 		void Action()
@@ -31,17 +35,9 @@ namespace WeaponSystem.Actions
 			lastCenterPosition = transform.root.forward;
 			var mouseDelta = positionDelta * extra * swaySize;
 
-			/*swayHolder.localPosition = EasingFunctions.EasedLerp(
-				swayHolder.localPosition,
-				Vector3.zero,
-				swaySmooth * Time.deltaTime,
-				EasingFunctions.EaseInOutCubic
-				);*/
+			var newPos = (mouseDelta * swaySize);
 
-			//swayHolder.localPosition += (Vector3)mouseDelta * swaySize;
-
-			Quaternion final = Quaternion.Euler(initialRotation.x + mouseDelta.y, initialRotation.x + mouseDelta.x, initialRotation.z + mouseDelta.z);
-			swayHolder.localRotation = Quaternion.Slerp(swayHolder.localRotation, final, Time.time * swaySmooth);
+			weaponMover.AddPosition(newPos);
 		}
 	}
 }
