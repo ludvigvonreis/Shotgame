@@ -56,9 +56,23 @@ namespace WeaponSystem
 
 		public WeaponModelTransform SetPosition(Vector3 pos)
 		{
-			if (isLerping == false) return this;
+			//if (isLerping == false) return this;
 
 			transform.localPosition = pos;
+
+			return this;
+		}
+
+		public WeaponModelTransform AddNewPosition(Vector3 delta)
+		{
+			m_newPosition += delta;
+
+			return this;
+		}
+
+		public WeaponModelTransform AddPosition(Vector3 delta)
+		{
+			transform.localPosition += delta;
 
 			return this;
 		}
@@ -66,13 +80,6 @@ namespace WeaponSystem
 		public WeaponModelTransform ResetPosition()
 		{
 			m_newPosition = m_offset;
-
-			return this;
-		}
-
-		public WeaponModelTransform AddPosition(Vector3 delta)
-		{
-			m_newPosition += delta;
 
 			return this;
 		}

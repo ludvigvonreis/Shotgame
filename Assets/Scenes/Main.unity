@@ -2286,7 +2286,7 @@ PrefabInstance:
       objectReference: {fileID: 7866945982896999795, guid: 0000000000000000d000000000000000, type: 0}
     - target: {fileID: 5353132062696756827, guid: 918ae2a8fc2e6b449aab9e4dfed769b3, type: 3}
       propertyPath: maxForce
-      value: 0.3
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 5353132062706538670, guid: 918ae2a8fc2e6b449aab9e4dfed769b3, type: 3}
       propertyPath: swaySize

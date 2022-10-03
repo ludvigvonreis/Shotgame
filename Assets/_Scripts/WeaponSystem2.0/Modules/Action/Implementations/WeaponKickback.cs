@@ -7,6 +7,7 @@ namespace WeaponSystem.Actions
 	public class WeaponKickback : WeaponAction
 	{
 		[SerializeField] private Transform kickbackHolder;
+		private WeaponModelTransform weaponMover;
 		[SerializeField] private float kickbackForce;
 		[SerializeField, Range(0f, 10f)] private float maxForce;
 
@@ -18,6 +19,7 @@ namespace WeaponSystem.Actions
 			base.Init();
 
 			groupReference.Action.OnPerfom += Action;
+			weaponMover = kickbackHolder.GetComponent<WeaponModelTransform>();
 		}
 
 		protected override void ProcessInput(object sender, WeaponEvent.ActionContext context)
@@ -40,8 +42,7 @@ namespace WeaponSystem.Actions
 			if (isShooting)
 			{
 				var kickbackPos = -new Vector3(0, 0, kickbackForce * Random.value);
-				if (kickbackHolder.localPosition.z < maxForce)
-					kickbackHolder.localPosition += kickbackPos;
+				weaponMover.AddPosition(kickbackPos);
 			}
 		}
 	}
