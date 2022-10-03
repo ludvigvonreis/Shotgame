@@ -8,9 +8,6 @@ namespace WeaponSystem
 		public string ID;
 		public new string name;
 
-		[Header("Visual")]
-		public GameObject model;
-
 		void OnValidate()
 		{
 			if (!System.Guid.TryParse(ID, out _))
@@ -22,16 +19,21 @@ namespace WeaponSystem
 	public class WeaponStats : BaseStats
 	{
 		[Header("Basic stats")]
+
 		public float damage;
+		[Tooltip("Range a weapon can hit to.")]
 		public float range;
+		[Tooltip("Weapon firerate expressed in rounds per minute.")]
 		public float fireRate;
 
-		[Header("Aim down sight")]
-		public float aimDownSightTime;
-		public float aimDownSightFov;
+		[Header("ADS")]
+		[Tooltip("Time it takes to aim down sights.")]
+		public float ADSTime;
+		[Tooltip("Zoom multiplier when aiming down sights")]
+		public float ADSZoomMultiplier;
 
 		[Header("Reloading and ammo")]
-		public int maxAmmo;
+		public int magazineSize;
 
 		[Range(0.1f, 10f)]
 		public float reloadTime;

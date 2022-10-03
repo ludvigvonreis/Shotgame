@@ -13,9 +13,10 @@ namespace WeaponSystem.Actions
 		[SerializeField] private float distanceFromCamera;
 		private WeaponModelTransform weaponMover;
 
-		private float aimedFov;
-		private float mainOriginFov;
-		private float weaponOriginFov;
+		private float defaultZoomMultiplier = 1.0f;
+		private float aimedZoomMultiplier;
+		private float playerOriginalFov;
+		private float weaponOriginalFov;
 
 		private float moveDuration;
 
@@ -41,8 +42,8 @@ namespace WeaponSystem.Actions
 
 			canAimIn = true;
 
-			moveDuration = groupReference.weaponStats.aimDownSightTime;
-			aimedFov = groupReference.weaponStats.aimDownSightFov;
+			moveDuration = groupReference.weaponStats.ADSTime;
+			aimedZoomMultiplier = groupReference.weaponStats.ADSZoomMultiplier;
 
 			// FIXME: Should really not be coupled with Player script, find other way.
 			// Interface maybe
@@ -51,8 +52,8 @@ namespace WeaponSystem.Actions
 			ownerWeaponCamera = player.weaponCam;
 
 			// FIXME: If fov is changed after module is initialized it wont update.
-			mainOriginFov = ownerCamera.fieldOfView;
-			weaponOriginFov = ownerWeaponCamera.fieldOfView;
+			playerOriginalFov = ownerCamera.fieldOfView;
+			weaponOriginalFov = ownerWeaponCamera.fieldOfView;
 		}
 
 		protected override void ProcessInput(object sender, WeaponEvent.ActionContext context)
@@ -97,8 +98,18 @@ namespace WeaponSystem.Actions
 			StopAllCoroutines();
 
 			StartCoroutine(WeaponMoverIn());
-			StartCoroutine(MoveFov(ownerCamera, aimedFov, moveDuration, EasingFunctions.EaseInOutQuad));
-			StartCoroutine(MoveFov(ownerWeaponCamera, aimedFov, moveDuration, EasingFunctions.EaseInOutQuad));
+			StartCoroutine(MoveFov(
+				ownerCamera,
+				Mathf.Round(playerOriginalFov / aimedZoomMultiplier),
+				moveDuration,
+				EasingFunctions.EaseInOutQuad
+			));
+			StartCoroutine(MoveFov(
+				ownerWeaponCamera,
+				Mathf.Round(playerOriginalFov / aimedZoomMultiplier),
+				moveDuration,
+				EasingFunctions.EaseInOutQuad
+			));
 
 			canAimIn = false;
 		}
@@ -109,45 +120,57 @@ namespace WeaponSystem.Actions
 			StopAllCoroutines();
 
 			StartCoroutine(WeaponMoverOut());
-			StartCoroutine(MoveFov(ownerCamera, mainOriginFov, moveDuration, EasingFunctions.EaseInOutQuad));
-			StartCoroutine(MoveFov(ownerWeaponCamera, weaponOriginFov, moveDuration, EasingFunctions.EaseInOutQuad));
+			StartCoroutine(MoveFov(ownerCamera, playerOriginalFov, moveDuration, EasingFunctions.EaseOutQuint));
+			StartCoroutine(MoveFov(ownerWeaponCamera, weaponOriginalFov, moveDuration, EasingFunctions.EaseOutQuint));
 
 			canAimIn = true;
 		}
 
 		IEnumerator WeaponMoverIn()
 		{
-			var startPos = weaponTransform.localPosition;
-
 			var cameraCenter = ownerCamera.ScreenToWorldPoint(new Vector3(Screen.width / 2, Screen.height / 2, distanceFromCamera));
-			Vector3 result = weaponTransform.parent.InverseTransformPoint(
+			Vector3 target = weaponTransform.parent.InverseTransformPoint(
 				cameraCenter + (weaponTransform.position - aimPoint.position)
 			);
 
-			for (float progress = 0; progress < moveDuration; progress += Time.deltaTime)
+			weaponMover.SetIsLerping(true);
+
+			var start = weaponTransform.localPosition;
+			var time = 0f;
+			while (time < moveDuration)
 			{
-				var aimedPos = Vector3.Lerp(
-					startPos,
-					result,
-					progress / moveDuration
+				var newPos = Vector3.Lerp(
+					start,
+					target,
+					EasingFunctions.Linear(time / moveDuration)
 				);
-				weaponMover.SetPosition(aimedPos - weaponMover.Offset);
+				time += Time.deltaTime;
+
+				weaponMover.SetPosition(newPos);
 				yield return null;
 			}
-
-			weaponMover.SetPosition(result - weaponMover.Offset);
+			weaponMover.SetIsLerping(false).SetNewPosition(target - weaponMover.Offset);
 		}
 
 		IEnumerator WeaponMoverOut()
 		{
-			var startPos = weaponTransform.localPosition;
-			for (float progress = 0; progress < moveDuration; progress += Time.deltaTime)
+			weaponMover.SetIsLerping(true);
+			var start = weaponTransform.localPosition;
+			var time = 0f;
+			while (time < moveDuration)
 			{
-				weaponMover.SetPosition(
-						Vector3.zero
-					);
+				var newPos = Vector3.Lerp(
+					start,
+					weaponMover.Offset,
+					EasingFunctions.EaseOutQuint(time / moveDuration)
+				);
+				time += Time.deltaTime;
+
+				weaponMover.SetPosition(newPos);
 				yield return null;
 			}
+
+			weaponMover.SetIsLerping(false).SetNewPosition(Vector3.zero);
 		}
 	}
 }

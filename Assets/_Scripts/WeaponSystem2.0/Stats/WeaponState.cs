@@ -62,8 +62,8 @@ namespace WeaponSystem
 			//weaponReference.owner.ownerObject.TryGetComponent<IStateUpdate>(out stateUpdate);
 
 			// FIXME: Derive ammo reserve from somewhere else
-			_ammoReserve = stats.maxAmmo * 5;
-			_currentAmmo = stats.maxAmmo;
+			_ammoReserve = stats.magazineSize * 5;
+			_currentAmmo = stats.magazineSize;
 
 			//stateUpdate?.m_stateChange.Invoke();
 		}
