@@ -26,6 +26,9 @@ namespace ECM.Controllers
 		private InputActionReference jumpButton;
 
 		[SerializeField]
+		private InputActionReference runButton;
+
+		[SerializeField]
 		private InputActionReference crouchButton;
 
 		[SerializeField]
@@ -54,6 +57,7 @@ namespace ECM.Controllers
 
 		private InputAction moveAction;
 		private InputAction jumpAction;
+		private InputAction runAction;
 		private InputAction crouchAction;
 
 		/// <summary>
@@ -226,6 +230,7 @@ namespace ECM.Controllers
 			};
 
 			jump = jumpAction.ReadValue<float>() == 1;
+			run = runAction.ReadValue<float>() == 1;
 
 			crouch = crouchAction.ReadValue<float>() == 1;
 
@@ -277,6 +282,7 @@ namespace ECM.Controllers
 
 			moveAction = player.playerInput.actions[moveButton.action.name];
 			jumpAction = player.playerInput.actions[jumpButton.action.name];
+			runAction = player.playerInput.actions[runButton.action.name];
 			crouchAction = player.playerInput.actions[crouchButton.action.name];
 
 			// Cache and initialize this components
