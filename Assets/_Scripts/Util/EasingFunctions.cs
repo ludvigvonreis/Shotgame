@@ -5,7 +5,7 @@ public static class EasingFunctions
 {
 	// Credit to all functions https://easings.net/
 
-	public enum Easing
+	public enum Ease
 	{
 		Linear,
 
@@ -22,71 +22,76 @@ public static class EasingFunctions
 		InOutQuint
 	}
 
-	public static float Ease(Easing easing, float x)
+	public static Func<float, float> GetEase(Ease easing)
 	{
 		switch (easing)
 		{
-			case Easing.Linear: return Linear(x);
-			case Easing.InQuad: return InQuad(x);
-			case Easing.OutQuad: return OutQuad(x);
-			case Easing.InOutQuad: return InOutQuad(x);
-			case Easing.InCubic: return InCubic(x);
-			case Easing.OutCubic: return OutCubic(x);
-			case Easing.InOutCubic: return OutCubic(x);
-			case Easing.InQuint: return InQuint(x);
-			case Easing.OutQuint: return OutQuint(x);
-			case Easing.InOutQuint: return InOutQuint(x);
+			case Ease.Linear: return Linear;
+			case Ease.InQuad: return InQuad;
+			case Ease.OutQuad: return OutQuad;
+			case Ease.InOutQuad: return InOutQuad;
+			case Ease.InCubic: return InCubic;
+			case Ease.OutCubic: return OutCubic;
+			case Ease.InOutCubic: return OutCubic;
+			case Ease.InQuint: return InQuint;
+			case Ease.OutQuint: return OutQuint;
+			case Ease.InOutQuint: return InOutQuint;
 		}
 
-		return 0f;
+		return null;
 	}
 
-	public static float Linear(float x)
+	public static float PerformEase(Ease easing, float x)
+	{
+		return GetEase(easing)(x);
+	}
+
+	private static float Linear(float x)
 	{
 		return x;
 	}
 
-	public static float InOutCubic(float x)
+	private static float InOutCubic(float x)
 	{
 		return x < 0.5 ? 4 * x * x * x : 1 - Mathf.Pow(-2 * x + 2, 3) / 2;
 	}
 
-	public static float InCubic(float x)
+	private static float InCubic(float x)
 	{
 		return x * x * x;
 	}
 
-	public static float OutCubic(float x)
+	private static float OutCubic(float x)
 	{
 		return 1 - Mathf.Pow(1 - x, 3);
 	}
 
-	public static float InOutQuad(float x)
+	private static float InOutQuad(float x)
 	{
 		return x < 0.5 ? 2 * x * x : 1 - Mathf.Pow(-2 * x + 2, 2) / 2;
 	}
 
-	public static float InQuad(float x)
+	private static float InQuad(float x)
 	{
 		return x * x;
 	}
 
-	public static float OutQuad(float x)
+	private static float OutQuad(float x)
 	{
 		return 1 - (1 - x) * (1 - x);
 	}
 
-	public static float InOutQuint(float x)
+	private static float InOutQuint(float x)
 	{
 		return x < 0.5 ? 16 * x * x * x * x * x : 1 - Mathf.Pow(-2 * x + 2, 5) / 2;
 	}
 
-	public static float InQuint(float x)
+	private static float InQuint(float x)
 	{
 		return x * x * x * x * x;
 	}
 
-	public static float OutQuint(float x)
+	private static float OutQuint(float x)
 	{
 		return 1 - Mathf.Pow(1 - x, 5);
 	}
