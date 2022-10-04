@@ -68,7 +68,7 @@ namespace Gnome
 			{
 				time += Time.deltaTime;
 				//var delta = -(Mathf.Cos(Mathf.PI * (time / animTime)) - 1f) / 2f;
-				var delta = EasingFunctions.InOutQuad(time / animTime);
+				var delta = EasingFunctions.PerformEase(EasingFunctions.Ease.InOutQuad, time / animTime);
 				objectTransform.localPosition = Vector3.Lerp(startPosition, Vector3.zero, delta);
 				objectTransform.localRotation = Quaternion.Lerp(startRotation, Quaternion.identity, delta);
 				yield return null;
