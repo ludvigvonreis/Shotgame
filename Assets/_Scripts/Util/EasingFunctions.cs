@@ -5,63 +5,89 @@ public static class EasingFunctions
 {
 	// Credit to all functions https://easings.net/
 
+	public enum Easing
+	{
+		Linear,
+
+		InQuad,
+		OutQuad,
+		InOutQuad,
+
+		InCubic,
+		OutCubic,
+		InOutCubic,
+
+		InQuint,
+		OutQuint,
+		InOutQuint
+	}
+
+	public static float Ease(Easing easing, float x)
+	{
+		switch (easing)
+		{
+			case Easing.Linear: return Linear(x);
+			case Easing.InQuad: return InQuad(x);
+			case Easing.OutQuad: return OutQuad(x);
+			case Easing.InOutQuad: return InOutQuad(x);
+			case Easing.InCubic: return InCubic(x);
+			case Easing.OutCubic: return OutCubic(x);
+			case Easing.InOutCubic: return OutCubic(x);
+			case Easing.InQuint: return InQuint(x);
+			case Easing.OutQuint: return OutQuint(x);
+			case Easing.InOutQuint: return InOutQuint(x);
+		}
+
+		return 0f;
+	}
+
 	public static float Linear(float x)
 	{
 		return x;
 	}
 
-	public static float EaseInOutCubic(float x)
+	public static float InOutCubic(float x)
 	{
 		return x < 0.5 ? 4 * x * x * x : 1 - Mathf.Pow(-2 * x + 2, 3) / 2;
 	}
 
-	public static float EaseInCubic(float x)
+	public static float InCubic(float x)
 	{
 		return x * x * x;
 	}
 
-	public static float EaseOutCubic(float x)
+	public static float OutCubic(float x)
 	{
 		return 1 - Mathf.Pow(1 - x, 3);
 	}
 
-	public static float EaseInOutQuad(float x)
+	public static float InOutQuad(float x)
 	{
 		return x < 0.5 ? 2 * x * x : 1 - Mathf.Pow(-2 * x + 2, 2) / 2;
 	}
 
-	public static float EaseInQuad(float x)
+	public static float InQuad(float x)
 	{
 		return x * x;
 	}
 
-	public static float EaseOutQuad(float x)
+	public static float OutQuad(float x)
 	{
 		return 1 - (1 - x) * (1 - x);
 	}
 
-	public static float EaseInOutQuint(float x)
+	public static float InOutQuint(float x)
 	{
 		return x < 0.5 ? 16 * x * x * x * x * x : 1 - Mathf.Pow(-2 * x + 2, 5) / 2;
 	}
 
-	public static float EaseInQuint(float x)
+	public static float InQuint(float x)
 	{
 		return x * x * x * x * x;
 	}
 
-	public static float EaseOutQuint(float x)
+	public static float OutQuint(float x)
 	{
 		return 1 - Mathf.Pow(1 - x, 5);
-	}
-
-	public static float EasedLerp(float a, float b, float t, Func<float, float> easer)
-	{
-		return Mathf.Lerp(a, b, easer(t));
-	}
-
-	public static Vector3 EasedLerp(Vector3 a, Vector3 b, float t, Func<float, float> easer)
-	{
-		return Vector3.Lerp(a, b, easer(t));
 	}
 }

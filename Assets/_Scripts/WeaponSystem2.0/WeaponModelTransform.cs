@@ -27,7 +27,7 @@ namespace WeaponSystem
 		{
 			weaponReference = transform.root.GetComponent<Weapon>();
 
-			defaultEasingFunction = EasingFunctions.EaseOutQuint;
+			defaultEasingFunction = EasingFunctions.OutQuint;
 			easingFunction = defaultEasingFunction;
 
 			StartCoroutine(UpdatePosition());
