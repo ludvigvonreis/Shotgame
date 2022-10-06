@@ -27,7 +27,7 @@ namespace Gnome
 		}
 	}
 
-	public class PlayerRecoil : MonoBehaviour, WeaponSystem.Actions.IRaycastMessages
+	public class PlayerRecoil : MonoBehaviour, WeaponSystem.IWeaponShootEvents
 	{
 		private Player player;
 		public Vector2 recoil;
