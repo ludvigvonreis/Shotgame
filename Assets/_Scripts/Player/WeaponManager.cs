@@ -65,7 +65,7 @@ namespace Gnome
 			if (weaponState == null) return;
 
 
-			m_ammoChange?.Invoke(new Gnome.UI.AmmoChangeEvent(weaponState.currentAmmo, weaponState.ammoReserve));
+			m_ammoChange?.Invoke(new Gnome.UI.AmmoChangeEvent(weaponState.CurrentAmmo, weaponState.CurrentAmmoReserve));
 		}
 
 		// Setup by player

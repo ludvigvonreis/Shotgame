@@ -45,8 +45,8 @@ namespace WeaponSystem.Actions
 
 		IEnumerator Reload()
 		{
-			var currentAmmo = weaponState.currentAmmo;
-			var reserve = weaponState.ammoReserve;
+			var currentAmmo = weaponState.CurrentAmmo;
+			var reserve = weaponState.CurrentAmmoReserve;
 			var maxAmmo = weaponStats.magazineSize;
 
 			if (reserve <= 0) yield break;
@@ -68,12 +68,12 @@ namespace WeaponSystem.Actions
 			}
 
 			// Set ammo to zero to simulate removing magazine from weapon
-			weaponState.currentAmmo = 0;
+			weaponState.CurrentAmmo = 0;
 
 			yield return StartCoroutine(ReloadAnimation());
 
-			weaponState.currentAmmo += difference;
-			weaponState.ammoReserve -= difference;
+			weaponState.CurrentAmmo += difference;
+			weaponState.CurrentAmmoReserve -= difference;
 
 			weaponState.isReloading = false;
 			isReloading = false;
