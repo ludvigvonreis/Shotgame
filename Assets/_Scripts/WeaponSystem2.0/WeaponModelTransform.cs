@@ -45,11 +45,6 @@ namespace WeaponSystem
 			m_newPosition = pos + m_offset;
 		}
 
-		public void AddPosition(Vector3 delta)
-		{
-			m_newPosition += delta;
-		}
-
 		IEnumerator UpdatePosition()
 		{
 			while (true)

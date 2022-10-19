@@ -1642,7 +1642,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   decalPrefab: {fileID: 1381419578582981071, guid: f6c1c2675b824be4282d63e4937fc901, type: 3}
-  poolSize: 100
+  poolSize: 30
 --- !u!4 &1523024996
 Transform:
   m_ObjectHideFlags: 0
@@ -2214,7 +2214,7 @@ PrefabInstance:
     - target: {fileID: 9080917830145163994, guid: 6e172ca2ee0944640a023d224842d839, type: 3}
       propertyPath: weaponBindings.Array.data[1].actionReference
       value: 
-      objectReference: {fileID: 8214480331480168944, guid: 82287d69b0529a4479f077285015f276, type: 3}
+      objectReference: {fileID: -5675818417072232823, guid: 82287d69b0529a4479f077285015f276, type: 3}
     - target: {fileID: 9080917830145163994, guid: 6e172ca2ee0944640a023d224842d839, type: 3}
       propertyPath: weaponBindings.Array.data[2].actionReference
       value: 
@@ -2228,10 +2228,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 612183796, guid: 918ae2a8fc2e6b449aab9e4dfed769b3, type: 3}
-      propertyPath: m_updateTime
-      value: 20
-      objectReference: {fileID: 0}
     - target: {fileID: 1530468947, guid: 918ae2a8fc2e6b449aab9e4dfed769b3, type: 3}
       propertyPath: camTransform
       value: 
@@ -2240,10 +2236,6 @@ PrefabInstance:
       propertyPath: m_Icon
       value: 
       objectReference: {fileID: 7866945982896999795, guid: 0000000000000000d000000000000000, type: 0}
-    - target: {fileID: 5353132062696756827, guid: 918ae2a8fc2e6b449aab9e4dfed769b3, type: 3}
-      propertyPath: maxForce
-      value: 1.1
-      objectReference: {fileID: 0}
     - target: {fileID: 5353132062831629318, guid: 918ae2a8fc2e6b449aab9e4dfed769b3, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -2291,10 +2283,6 @@ PrefabInstance:
     - target: {fileID: 5353132062831629321, guid: 918ae2a8fc2e6b449aab9e4dfed769b3, type: 3}
       propertyPath: m_Name
       value: AK47
-      objectReference: {fileID: 0}
-    - target: {fileID: 5353132063532990530, guid: 918ae2a8fc2e6b449aab9e4dfed769b3, type: 3}
-      propertyPath: distanceFromCamera
-      value: 0.07
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 918ae2a8fc2e6b449aab9e4dfed769b3, type: 3}
