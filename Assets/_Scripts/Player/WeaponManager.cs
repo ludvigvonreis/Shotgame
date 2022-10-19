@@ -30,7 +30,7 @@ namespace Gnome
 
 	[RequireComponent(typeof(PlayerRecoil))]
 	[RequireComponent(typeof(WeaponHolder))]
-	public class WeaponManager : MonoBehaviour
+	public class WeaponManager : MonoBehaviour, IStateUpdate
 	{
 		///// TODO: Add multiple weapons and switching
 
@@ -40,10 +40,33 @@ namespace Gnome
 
 		[SerializeField] List<InputActionToWeaponEvent> weaponBindings = new List<InputActionToWeaponEvent>();
 
+		// Weapon events
+		public UnityEvent m_stateChange => m_stateChangeEvent;
+		private UnityEvent m_stateChangeEvent;
+
+		// UI events
+		[SerializeField]
+		private UnityEvent<Gnome.UI.AmmoChangeEvent> m_ammoChange;
+
 		// Manager stuff
 		private Dictionary<string, Weapon> weapons = new Dictionary<string, Weapon>();
 		private string currentWeaponUUID;
 		public UnityEvent<WeaponEquipEvent> m_onEquip;
+
+		void Awake()
+		{
+			m_stateChangeEvent = new UnityEvent();
+			m_stateChangeEvent.AddListener(StateChangeHandler);
+		}
+
+		void StateChangeHandler()
+		{
+			var weaponState = GetCurrentWeapon()?.weaponState;
+			if (weaponState == null) return;
+
+
+			m_ammoChange?.Invoke(new Gnome.UI.AmmoChangeEvent(weaponState.CurrentAmmo, weaponState.CurrentAmmoReserve));
+		}
 
 		// Setup by player
 		public void Setup(Player reference)
