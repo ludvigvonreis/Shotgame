@@ -36,6 +36,9 @@ namespace WeaponSystem
 				var evnt = Processor.FindEvent(actionEvent.Id);
 				if (evnt != null) evnt.action += ProcessInput;
 			}
+
+			//Processor.inputActions[actionButton.action.name].performed += ProcessInput;
+			//Processor.inputActions[actionButton.action.name].canceled += ProcessInput;
 		}
 
 		void Process()
@@ -56,5 +59,12 @@ namespace WeaponSystem
 		{
 			if (groupReference.isRunning == false) return;
 		}
+
+		/*
+		protected virtual void ProcessInput(InputAction.CallbackContext context)
+		{
+			if (groupReference.isRunning == false) return;
+		}
+		*/
 	}
 }
