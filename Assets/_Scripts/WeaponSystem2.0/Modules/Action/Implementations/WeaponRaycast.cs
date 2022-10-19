@@ -7,6 +7,12 @@ using WeaponSystem.Events;
 
 namespace WeaponSystem.Actions
 {
+	public interface IRaycastMessages : IEventSystemHandler
+	{
+		public void OnShoot();
+		public void OnTimeout();
+	}
+
 	[System.Serializable]
 	public class WeaponRaycast : WeaponAction
 	{
@@ -18,6 +24,12 @@ namespace WeaponSystem.Actions
 		WeaponState weaponState;
 
 		GameObject ownerObject;
+
+		/*
+		[SerializeField] GameObject trail;
+		TrailRenderer trailRenderer;
+		Rigidbody trailBody;
+		*/
 
 		bool performed;
 		bool isNotHeld;
@@ -37,6 +49,11 @@ namespace WeaponSystem.Actions
 			ownerObject = groupReference.owner.ownerObject;
 
 			StartCoroutine(ShootTimeoutLoop());
+
+			/*
+			trailRenderer = trail.GetComponent<TrailRenderer>();
+			trailBody = trail.GetComponent<Rigidbody>();
+			*/
 		}
 
 		protected override void ProcessInput(object sender, WeaponEvent.ActionContext context)
@@ -64,7 +81,7 @@ namespace WeaponSystem.Actions
 
 				if (!sentTimoutEvent)
 				{
-					MessagingUtil.ExecuteRecursive<IWeaponShootEvents>(transform.root.gameObject, (x, y) => x.OnTimeout());
+					MessagingUtil.ExecuteRecursive<IRaycastMessages>(transform.root.gameObject, (x, y) => x.OnTimeout());
 					sentTimoutEvent = true;
 				}
 			}
@@ -82,6 +99,10 @@ namespace WeaponSystem.Actions
 
 				weaponState.IncreaseHeat();
 
+				/*
+				trail.transform.position = point.transform.position;
+				trailBody.AddForce(point.transform.forward * 10, ForceMode.Impulse);
+				*/
 
 				// Shoot from position
 				RaycastHit hit;
@@ -89,11 +110,12 @@ namespace WeaponSystem.Actions
 					point.transform.position, point.transform.forward, out hit, weaponStats.range
 				))
 				{
+					//EventManager.Instance.m_HitEvent.Invoke(new Hit(temp, hit, weaponStats));
 					DecalManager.Instance.PlaceDecal(hit.point, Quaternion.identity);
 				}
 
 				// Signal event for shooting.
-				ExecuteEvents.ExecuteHierarchy<IWeaponShootEvents>(gameObject, null, (x, y) => x.OnShoot());
+				MessagingUtil.ExecuteRecursive<IRaycastMessages>(transform.root.gameObject, (x, y) => x.OnShoot());
 			}
 		}
 
@@ -101,9 +123,7 @@ namespace WeaponSystem.Actions
 		{
 			while (true)
 			{
-				yield return new WaitUntilForSeconds(
-					() => isNotHeld, weaponStats.shootTimeoutTime, (_) => { hasTimedOut = false; }
-				);
+				yield return new WaitUntilForSeconds(() => isNotHeld, weaponStats.shootTimeoutTime, (_) => { hasTimedOut = false; });
 				hasTimedOut = true;
 
 				// needed??
