@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
+using static TimedMoving;
 using WeaponSystem.Events;
-using static WeaponSystem.TimedMoving;
 
 namespace WeaponSystem.Actions
 {
