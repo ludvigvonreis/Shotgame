@@ -9,13 +9,6 @@ using WeaponSystem.Events;
 namespace Gnome
 {
 	[System.Serializable]
-	public class InputActionToWeaponEvent
-	{
-		public InputActionReference actionReference;
-		public WeaponEventReference eventReference;
-	}
-
-	[System.Serializable]
 	public class WeaponEquipEvent
 	{
 		public string uuid;
@@ -37,8 +30,6 @@ namespace Gnome
 		[SerializeField] WeaponEventInterface weaponEventInterface;
 
 		Dictionary<string, InputAction> _inputActions = new Dictionary<string, InputAction>();
-
-		[SerializeField] List<InputActionToWeaponEvent> weaponBindings = new List<InputActionToWeaponEvent>();
 
 		// Weapon events
 		public UnityEvent m_stateChange => m_stateChangeEvent;
@@ -72,20 +63,9 @@ namespace Gnome
 		public void Setup(Player reference)
 		{
 			var playerInput = reference.playerInput;
-			//_inputActions = playerInput.actions.ToDictionary(x => x.name, x => x);
+			_inputActions = playerInput.actions.ToDictionary(x => x.name, x => x);
 
 			//weapons.Values.ToList().ForEach(weapon => SetupWeapon(weapon));
-		}
-
-		void BindWeapon()
-		{
-			foreach (var binding in weaponBindings)
-			{
-				binding.actionReference.action.performed += (a) =>
-				{
-					weaponEventInterface.FindEvent(binding.eventReference.Id)?.Invoke(this, a);
-				};
-			}
 		}
 
 		public void EquipWeapon(Weapon weapon)
@@ -99,8 +79,6 @@ namespace Gnome
 			weaponEventInterface.SetupWeapon(weapon);
 
 			currentWeaponUUID = uuid;
-
-			BindWeapon();
 		}
 
 		void DropWeapon(string uuid)

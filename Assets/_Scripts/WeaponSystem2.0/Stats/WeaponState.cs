@@ -27,7 +27,7 @@ namespace WeaponSystem
 			set
 			{
 				_currentAmmo = value;
-				//stateUpdate.m_stateChange.Invoke();
+				stateUpdate.m_stateChange.Invoke();
 			}
 		}
 		private int _currentAmmo;
@@ -41,7 +41,7 @@ namespace WeaponSystem
 			set
 			{
 				_ammoReserve = value;
-				//stateUpdate?.m_stateChange.Invoke();
+				stateUpdate?.m_stateChange.Invoke();
 			}
 		}
 		private int _ammoReserve;
@@ -58,14 +58,13 @@ namespace WeaponSystem
 		public void Init(WeaponStats stats, Weapon reference)
 		{
 			weaponReference = reference;
-			// FIXME: Change state update to use EventSystem or alternative.
-			//weaponReference.owner.ownerObject.TryGetComponent<IStateUpdate>(out stateUpdate);
+			weaponReference.owner.ownerObject.TryGetComponent<IStateUpdate>(out stateUpdate);
 
 			// FIXME: Derive ammo reserve from somewhere else
 			_ammoReserve = stats.maxAmmo * 5;
 			_currentAmmo = stats.maxAmmo;
 
-			//stateUpdate?.m_stateChange.Invoke();
+			stateUpdate?.m_stateChange.Invoke();
 		}
 
 		public void IncreaseHeat()
