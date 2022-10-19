@@ -102,13 +102,13 @@ namespace WeaponSystem.Actions
 				ownerCamera,
 				Mathf.Round(playerOriginalFov / aimedZoomMultiplier),
 				moveDuration,
-				EasingFunctions.InOutQuad
+				EasingFunctions.EaseInOutQuad
 			));
 			StartCoroutine(MoveFov(
 				ownerWeaponCamera,
 				Mathf.Round(playerOriginalFov / aimedZoomMultiplier),
 				moveDuration,
-				EasingFunctions.InOutQuad
+				EasingFunctions.EaseInOutQuad
 			));
 
 			canAimIn = false;
@@ -120,8 +120,8 @@ namespace WeaponSystem.Actions
 			StopAllCoroutines();
 
 			StartCoroutine(WeaponMoverOut());
-			StartCoroutine(MoveFov(ownerCamera, playerOriginalFov, moveDuration, EasingFunctions.OutQuint));
-			StartCoroutine(MoveFov(ownerWeaponCamera, weaponOriginalFov, moveDuration, EasingFunctions.OutQuint));
+			StartCoroutine(MoveFov(ownerCamera, playerOriginalFov, moveDuration, EasingFunctions.EaseOutQuint));
+			StartCoroutine(MoveFov(ownerWeaponCamera, weaponOriginalFov, moveDuration, EasingFunctions.EaseOutQuint));
 
 			canAimIn = true;
 		}
@@ -162,7 +162,7 @@ namespace WeaponSystem.Actions
 				var newPos = Vector3.Lerp(
 					start,
 					weaponMover.Offset,
-					EasingFunctions.OutQuint(time / moveDuration)
+					EasingFunctions.EaseOutQuint(time / moveDuration)
 				);
 				time += Time.deltaTime;
 
