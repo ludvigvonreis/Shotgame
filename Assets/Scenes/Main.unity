@@ -2188,10 +2188,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 188170303089332485, guid: 6e172ca2ee0944640a023d224842d839, type: 3}
-      propertyPath: runButton
-      value: 
-      objectReference: {fileID: 4359401988095188783, guid: 82287d69b0529a4479f077285015f276, type: 3}
-    - target: {fileID: 188170303089332485, guid: 6e172ca2ee0944640a023d224842d839, type: 3}
       propertyPath: _canCrouch
       value: 0
       objectReference: {fileID: 0}
@@ -2199,10 +2195,6 @@ PrefabInstance:
       propertyPath: crouchButton
       value: 
       objectReference: {fileID: 6606089989773518344, guid: 82287d69b0529a4479f077285015f276, type: 3}
-    - target: {fileID: 188170303089332485, guid: 6e172ca2ee0944640a023d224842d839, type: 3}
-      propertyPath: _forwardSpeed
-      value: 6
-      objectReference: {fileID: 0}
     - target: {fileID: 188170303089332490, guid: 6e172ca2ee0944640a023d224842d839, type: 3}
       propertyPath: m_Name
       value: Player
