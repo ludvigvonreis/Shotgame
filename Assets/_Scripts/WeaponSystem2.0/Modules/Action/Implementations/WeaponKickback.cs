@@ -39,9 +39,9 @@ namespace WeaponSystem.Actions
 
 		void ResetKickback()
 		{
-			/*kickbackHolder.localPosition = Vector3.Lerp(
+			kickbackHolder.localPosition = Vector3.Lerp(
 					kickbackHolder.localPosition, Vector3.zero, Time.deltaTime * resetSmoothing
-				);*/
+				);
 		}
 
 		void Action()
