@@ -20,8 +20,8 @@ namespace WeaponSystem
 	public class WeaponAction : Weapon.Module
 	{
 		public IProcessor Processor { get; protected set; }
+
 		public WeaponConstraint Constraint => groupReference.Constraint;
-		public WeaponEventReference actionEvent;
 
 		public override void Init()
 		{
@@ -31,18 +31,14 @@ namespace WeaponSystem
 
 			groupReference.OnGroupProcess += Process;
 
-			if (actionEvent != null)
-			{
-				var evnt = Processor.FindEvent(actionEvent.Id);
-				if (evnt != null) evnt.action += ProcessInput;
-			}
-
 			//Processor.inputActions[actionButton.action.name].performed += ProcessInput;
 			//Processor.inputActions[actionButton.action.name].canceled += ProcessInput;
 		}
 
 		void Process()
 		{
+			//Debug.LogFormat("Contstraints active?: {0}, {1}", this.gameObject.name, Constraint.Active);
+
 			if (Constraint.Active) return;
 
 			Perform();
@@ -55,10 +51,11 @@ namespace WeaponSystem
 			OnPerfom?.Invoke();
 		}
 
-		protected virtual void ProcessInput(object sender, WeaponEvent.ActionContext context)
+		public WeaponEventReference actionEvent;
+		/*protected virtual void ProcessInput<T>(T data)
 		{
 			if (groupReference.isRunning == false) return;
-		}
+		}*/
 
 		/*
 		protected virtual void ProcessInput(InputAction.CallbackContext context)

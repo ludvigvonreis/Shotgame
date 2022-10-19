@@ -311,7 +311,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 188170302076145604}
-  - component: {fileID: 6344617117984640892}
   m_Layer: 0
   m_Name: Weapon Holder
   m_TagString: Untagged
@@ -334,21 +333,6 @@ Transform:
   m_Father: {fileID: 575995087131956238}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6344617117984640892
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 188170302076145610}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4c9618cc8b9935d4a90a34ad67626a0a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_eventAsset: {fileID: 0}
-  m_weapon: {fileID: 0}
-  m_eventsHosted: []
 --- !u!1 &188170302584700396
 GameObject:
   m_ObjectHideFlags: 0
@@ -392,8 +376,8 @@ GameObject:
   - component: {fileID: 188170303089332483}
   - component: {fileID: 7401736189960325712}
   - component: {fileID: 6825554786132485206}
-  - component: {fileID: 9080917830145163994}
   - component: {fileID: 7129325563805080687}
+  - component: {fileID: 188170303089332484}
   - component: {fileID: 1144068473899769527}
   - component: {fileID: 7962639733022714900}
   - component: {fileID: 188170303089332485}
@@ -487,14 +471,6 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 2da000d1-847b-4c85-8fb1-0d76011d7012
     m_ActionName: Main/Escape[/Keyboard/escape]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 7c22a340-5139-4ac5-98e1-da8438183abb
-    m_ActionName: Main/Drop[/Keyboard/g]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 405195ac-a2cd-4e1e-90f1-b9e71b5ed05b
-    m_ActionName: Main/Test Aim[/Keyboard/e]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Main
@@ -515,28 +491,9 @@ MonoBehaviour:
   playerCam: {fileID: 7049032219529045685}
   weaponCam: {fileID: 738080073}
   playerInput: {fileID: 7401736189960325712}
-  weaponManager: {fileID: 9080917830145163994}
+  weaponManager: {fileID: 188170303089332484}
   health: 0
   maxHealth: 100
---- !u!114 &9080917830145163994
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 188170303089332490}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 21ea5bfa1b4c8b44fbfbb0c88417b87a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  weaponEventInterface: {fileID: 6344617117984640892}
-  m_ammoChange:
-    m_PersistentCalls:
-      m_Calls: []
-  m_onEquip:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &7129325563805080687
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -552,8 +509,38 @@ MonoBehaviour:
   interactButton: {fileID: -6193319190420350827, guid: 82287d69b0529a4479f077285015f276, type: 3}
   dropButton: {fileID: 8117075734272699128, guid: 82287d69b0529a4479f077285015f276, type: 3}
   interactTransform: {fileID: 359210582183319631}
-  range: 3
-  radius: 0.2
+  range: 2
+  radius: 1
+--- !u!114 &188170303089332484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 188170303089332490}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21ea5bfa1b4c8b44fbfbb0c88417b87a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ammoChange:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: AmmoCounterDisplay, Assembly-CSharp
+        m_MethodName: HandleAmmoChange
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  m_onEquip:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &1144068473899769527
 MonoBehaviour:
   m_ObjectHideFlags: 0

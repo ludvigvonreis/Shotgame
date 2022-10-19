@@ -1,5 +1,7 @@
 using UnityEngine;
+using UnityEditor;
 using System;
+using UnityEngine.Events;
 
 namespace WeaponSystem.Events
 {
@@ -12,7 +14,7 @@ namespace WeaponSystem.Events
 
 		public string name => m_Name;
 
-		public event Action<object, ActionContext> action;
+		public event EventHandler action;
 
 		public static WeaponEvent Create(WeaponEventReference reference)
 		{
@@ -23,25 +25,17 @@ namespace WeaponSystem.Events
 			return weaponEvent;
 		}
 
-		public void Invoke(object invoker, ActionContext context)
+		public void Invoke()
 		{
-			Debug.LogFormat("[{0}] {1} invoked event.", name, invoker.ToString());
-			action.Invoke(invoker, context);
+			Debug.LogFormat("[{0}] Invoking as trigger", name);
+			action.Invoke(this, EventArgs.Empty);
 		}
 
-		public class ActionContext
+		public void Invoke<T>(T eventData) where T : EventArgs
 		{
-			public double time;
+			Debug.LogFormat("[{0}] Invoking with data: {1}", name, eventData);
 
-			public bool performed;
-			public bool canceled;
-
-			public ActionContext(bool _performed = false, bool _canceled = false)
-			{
-				time = Time.realtimeSinceStartupAsDouble;
-				performed = _performed;
-				canceled = _canceled;
-			}
+			action.Invoke(this, eventData);
 		}
 	}
 }

@@ -58,7 +58,7 @@ namespace WeaponSystem.Actions
 			weaponOriginFov = ownerWeaponCamera.fieldOfView;
 		}
 
-		protected override void ProcessInput(object sender, WeaponEvent.ActionContext context)
+		/*protected override void ProcessInput(WeaponEvent.CallbackContext context)
 		{
 			if (groupReference.isRunning == false) return;
 
@@ -80,6 +80,7 @@ namespace WeaponSystem.Actions
 
 			groupReference.weaponState.isAiming = isAiming;
 		}
+		*/
 
 		void Action()
 		{
