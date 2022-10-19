@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace WeaponSystem.Actions
 {
@@ -6,38 +7,26 @@ namespace WeaponSystem.Actions
 	public class WeaponSway : WeaponAction
 	{
 		[SerializeField] private Transform swayHolder;
-		[SerializeField] private WeaponModelTransform weaponMover;
-
 		[SerializeField] private Vector2 mouseSensitivity;
 		[SerializeField] private float swaySize;
 		[SerializeField] private float swaySmooth;
 
-		private Vector3 lastCenterPosition;
-		private Quaternion initialRotation;
+		private InputAction mouseAction;
 
 		public override void Init()
 		{
 			base.Init();
 
-			lastCenterPosition = transform.root.forward;
-			initialRotation = swayHolder.localRotation;
-
 			groupReference.Action.OnPerfom += Action;
-
-			weaponMover = swayHolder.GetComponent<WeaponModelTransform>();
+			mouseAction = Processor.inputActions[actionButton.action.name];
 		}
 
 		void Action()
 		{
 			var extra = groupReference.weaponState.isAiming ? 0.1f : 1f;
-
-			var positionDelta = transform.root.forward - lastCenterPosition;
-			lastCenterPosition = transform.root.forward;
-			var mouseDelta = positionDelta * extra * swaySize;
-
-			var newPos = (mouseDelta * swaySize);
-
-			weaponMover.AddNewPosition(newPos);
+			var mouseDelta = (-mouseAction.ReadValue<Vector2>() * mouseSensitivity) * extra;
+			swayHolder.localPosition = Vector3.Lerp(swayHolder.localPosition, Vector3.zero, swaySmooth * Time.deltaTime);
+			swayHolder.localPosition += (Vector3)mouseDelta * swaySize;
 		}
 	}
 }

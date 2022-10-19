@@ -1,42 +1,53 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.EventSystems;
 
 namespace WeaponSystem
 {
+	public interface IStateUpdate
+	{
+		public UnityEvent m_stateChange { get; }
+	}
+
 	public class WeaponState : MonoBehaviour
 	{
 		private Weapon weaponReference;
 
-		[Header("Ammo")]
-		private int currentAmmo;
-		private int currentAmmoReserve;
+		private IStateUpdate stateUpdate;
 
-		public int CurrentAmmo
+		[Header("Ammo")]
+		private bool noting;
+
+		public int currentAmmo
 		{
-			get { return currentAmmo; }
+			get
+			{
+				return _currentAmmo;
+			}
 			set
 			{
-				currentAmmo = value;
-				ExecuteEvents.
-				ExecuteHierarchy<IWeaponStateEvents>(gameObject, null, (x, y) => x.OnAmmoChange(value));
+				_currentAmmo = value;
+				stateUpdate.m_stateChange.Invoke();
 			}
 		}
-		public int CurrentAmmoReserve
+		private int _currentAmmo;
+
+		public int ammoReserve
 		{
-			get { return currentAmmoReserve; }
+			get
+			{
+				return _ammoReserve;
+			}
 			set
 			{
-				currentAmmoReserve = value;
-				ExecuteEvents.
-				ExecuteHierarchy<IWeaponStateEvents>(gameObject, null, (x, y) => x.OnAmmoReserveChange(value));
+				_ammoReserve = value;
+				stateUpdate?.m_stateChange.Invoke();
 			}
 		}
+		private int _ammoReserve;
 
 		[Header("Heat")]
 		public int heat;
-
 		[SerializeField] private float decreaseTime;
 		[SerializeField] private bool isDecreasing = false;
 
@@ -47,27 +58,23 @@ namespace WeaponSystem
 		public void Init(WeaponStats stats, Weapon reference)
 		{
 			weaponReference = reference;
+			weaponReference.owner.ownerObject.TryGetComponent<IStateUpdate>(out stateUpdate);
 
 			// FIXME: Derive ammo reserve from somewhere else
-			currentAmmoReserve = stats.magazineSize * 5;
-			currentAmmo = stats.magazineSize;
+			_ammoReserve = stats.maxAmmo * 5;
+			_currentAmmo = stats.maxAmmo;
+
+			stateUpdate?.m_stateChange.Invoke();
 		}
 
 		public void IncreaseHeat()
 		{
 			heat += 1;
-
-			ExecuteEvents.
-			ExecuteHierarchy<IWeaponStateEvents>(gameObject, null, (x, y) => x.OnHeatIncrease());
 		}
 
 		public void DecreaseHeat()
 		{
 			isDecreasing = true;
-
-			ExecuteEvents.
-			ExecuteHierarchy<IWeaponStateEvents>(gameObject, null, (x, y) => x.OnHeatDecrease());
-
 			StartCoroutine(HeatDecreaser());
 		}
 

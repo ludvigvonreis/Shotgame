@@ -1,7 +1,6 @@
 using System.Collections;
 using UnityEngine;
-using WeaponSystem.Events;
-using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 namespace WeaponSystem.Actions
 {
@@ -29,7 +28,7 @@ namespace WeaponSystem.Actions
 			weaponStats = groupReference.weaponStats;
 		}
 
-		protected override void ProcessInput(object sender, WeaponEvent.ActionContext context)
+		protected override void ProcessInput(InputAction.CallbackContext context)
 		{
 			if (groupReference.isRunning == false) return;
 
@@ -46,12 +45,9 @@ namespace WeaponSystem.Actions
 
 		IEnumerator Reload()
 		{
-			ExecuteEvents.
-				ExecuteHierarchy<IWeaponReloadEvents>(gameObject, null, (x, y) => x.OnReloadStart());
-
-			var currentAmmo = weaponState.CurrentAmmo;
-			var reserve = weaponState.CurrentAmmoReserve;
-			var maxAmmo = weaponStats.magazineSize;
+			var currentAmmo = weaponState.currentAmmo;
+			var reserve = weaponState.ammoReserve;
+			var maxAmmo = weaponStats.maxAmmo;
 
 			if (reserve <= 0) yield break;
 
@@ -72,18 +68,17 @@ namespace WeaponSystem.Actions
 			}
 
 			// Set ammo to zero to simulate removing magazine from weapon
-			weaponState.CurrentAmmo = 0;
+			weaponState.currentAmmo = 0;
 
 			yield return StartCoroutine(ReloadAnimation());
 
-			weaponState.CurrentAmmo += difference;
-			weaponState.CurrentAmmoReserve -= difference;
+			weaponState.currentAmmo += difference;
+			weaponState.ammoReserve -= difference;
 
 			weaponState.isReloading = false;
 			isReloading = false;
 
-			ExecuteEvents.
-				ExecuteHierarchy<IWeaponReloadEvents>(gameObject, null, (x, y) => x.OnReloadFinish());
+			// TODO: Invoke reload event or something for ui.
 		}
 
 		IEnumerator ReloadAnimation()

@@ -1,5 +1,6 @@
+using System.Collections;
 using UnityEngine;
-using WeaponSystem.Events;
+using UnityEngine.InputSystem;
 
 namespace WeaponSystem.Actions
 {
@@ -7,9 +8,8 @@ namespace WeaponSystem.Actions
 	public class WeaponKickback : WeaponAction
 	{
 		[SerializeField] private Transform kickbackHolder;
-		private WeaponModelTransform weaponMover;
-		[SerializeField] private float kickbackForce;
-		[SerializeField, Range(0f, 10f)] private float maxForce;
+		[SerializeField] public float kickbackForce;
+		[SerializeField] public float resetSmoothing;
 
 		private bool isShooting;
 		private bool hasReset;
@@ -19,10 +19,9 @@ namespace WeaponSystem.Actions
 			base.Init();
 
 			groupReference.Action.OnPerfom += Action;
-			weaponMover = kickbackHolder.GetComponent<WeaponModelTransform>();
 		}
 
-		protected override void ProcessInput(object sender, WeaponEvent.ActionContext context)
+		protected override void ProcessInput(InputAction.CallbackContext context)
 		{
 			if (groupReference.isRunning == false) return;
 
@@ -37,12 +36,25 @@ namespace WeaponSystem.Actions
 			}
 		}
 
+		void OnProcess()
+		{
+			if (isShooting) return;
+			if (hasReset) return;
+
+			if (Vector3.Distance(kickbackHolder.localPosition, Vector3.zero) >= 0.1f)
+				kickbackHolder.localPosition = Vector3.Lerp(kickbackHolder.localPosition,
+							Vector3.zero, Time.deltaTime * resetSmoothing);
+			else
+
+				hasReset = true;
+		}
+
 		void Action()
 		{
 			if (isShooting)
 			{
-				var kickbackPos = -new Vector3(0, 0, kickbackForce * Random.value);
-				weaponMover.AddPosition(kickbackPos);
+				hasReset = false;
+				kickbackHolder.localPosition -= new Vector3(0, 0, kickbackForce);
 			}
 		}
 	}

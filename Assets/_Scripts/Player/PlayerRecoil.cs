@@ -19,7 +19,7 @@ namespace Gnome
 		public RecoilData(WeaponSystem.WeaponState state, WeaponSystem.WeaponStats stats)
 		{
 			heat = state.heat;
-			maxAmmo = stats.magazineSize;
+			maxAmmo = stats.maxAmmo;
 			recoilHoriz = stats.recoilHoriz;
 			recoilVerti = stats.recoilVerti;
 			recoilHorizMult = stats.recoilHorizMult;
@@ -27,7 +27,7 @@ namespace Gnome
 		}
 	}
 
-	public class PlayerRecoil : MonoBehaviour, WeaponSystem.IWeaponShootEvents
+	public class PlayerRecoil : MonoBehaviour, WeaponSystem.Actions.IRaycastMessages
 	{
 		private Player player;
 		public Vector2 recoil;

@@ -10,22 +10,38 @@ namespace WeaponSystem.Events
 	public class WeaponEventAsset : ScriptableObject
 	{
 		[HideInInspector]
+		public List<WeaponEvent> weaponEvents = new List<WeaponEvent>();
+
+		[HideInInspector]
 		public List<WeaponEventReference> weaponEventReferences = new List<WeaponEventReference>();
 
 
-		public WeaponEventReference FindEvent(string eventId)
+		public WeaponEvent FindEvent(Guid eventId)
 		{
-			if (weaponEventReferences.Count <= 0) return null;
+			if (weaponEvents.Count <= 0) return null;
 
-			return weaponEventReferences.Where(x => x.Id == eventId).First();
+			return weaponEvents.Where(x => x.Id == eventId).First();
 		}
 
-		public void RenameEvent(WeaponEventReference eventReference, string newName)
+		public void RemoveEvent(WeaponEvent @event)
 		{
+			if (weaponEvents.Count <= 0) return;
+			if (weaponEventReferences.Count <= 0) return;
+
+			var referenceIdx = weaponEventReferences.FindIndex(x => x.m_EventId == @event.Id.ToString());
+			weaponEventReferences.RemoveAt(referenceIdx);
+			weaponEvents.Remove(@event);
+		}
+
+		public void RenameEvent(WeaponEvent @event, string name)
+		{
+			if (weaponEvents.Count < 0) return;
 			if (weaponEventReferences.Count < 0) return;
 
-			eventReference.m_name = newName;
-			eventReference.name = newName;
+			var referenceIdx = weaponEventReferences.FindIndex(x => x.m_EventId == @event.Id.ToString());
+
+			weaponEventReferences[referenceIdx].name = name;
+			@event.m_Name = name;
 		}
 	}
 }

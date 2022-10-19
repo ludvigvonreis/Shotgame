@@ -7,48 +7,54 @@ namespace WeaponSystem.Events
 {
 	public class WeaponEventReference : ScriptableObject
 	{
-		[SerializeField, ReadOnly] internal string m_name;
-		[SerializeField, ReadOnly] internal string m_id;
 		[SerializeField, ReadOnly] internal WeaponEventAsset m_Asset;
-
+		[SerializeField, ReadOnly] internal string m_EventId;
+		[NonSerialized] private WeaponEvent m_Event;
 
 		public WeaponEventAsset Asset => m_Asset;
-		public string Id
+		public WeaponEvent Event
 		{
 			get
 			{
-				MakeSureIdIsInPlace();
-				return m_id;
+				if (m_Event == null)
+				{
+					if (m_Asset == null)
+						return null;
+
+					m_Event = m_Asset.FindEvent(new Guid(m_EventId));
+				}
+
+				return m_Event;
 			}
 		}
 
-		public void Set(WeaponEventAsset asset, string _name = null)
+		public void Set(WeaponEvent wepEvent)
+		{
+
+			var asset = wepEvent.m_asset;
+			SetInternal(wepEvent, asset);
+		}
+
+		private void SetInternal(WeaponEvent wepEvent, WeaponEventAsset asset)
 		{
 			m_Asset = asset;
-			m_name = _name;
-
-			name = _name;
-
-			MakeSureIdIsInPlace();
+			m_EventId = wepEvent.Id.ToString();
+			name = GetDisplayName(Event);
 		}
 
-		public static WeaponEventReference Create(WeaponEventAsset asset, string name = null)
+		private static string GetDisplayName(WeaponEvent wepEvent)
 		{
+			return wepEvent?.name;
+		}
+
+		public static WeaponEventReference Create(WeaponEvent wepEvent)
+		{
+			if (wepEvent == null)
+				return null;
+
 			var reference = CreateInstance<WeaponEventReference>();
-			reference.Set(asset, name);
+			reference.Set(wepEvent);
 			return reference;
-		}
-
-		internal string MakeSureIdIsInPlace()
-		{
-			if (string.IsNullOrEmpty(m_id))
-				GenerateId();
-			return m_id;
-		}
-
-		internal void GenerateId()
-		{
-			m_id = Guid.NewGuid().ToString();
 		}
 	}
 }

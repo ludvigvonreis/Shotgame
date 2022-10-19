@@ -1,68 +1,48 @@
 using UnityEngine;
+using UnityEditor;
 using System;
-using UnityEngine.InputSystem;
+using UnityEngine.Events;
 
 namespace WeaponSystem.Events
 {
 	[Serializable]
 	public class WeaponEvent
 	{
-		[SerializeField, ReadOnly] internal string m_Id;
-		[SerializeField, ReadOnly] internal string m_Name;
-		//[SerializeField] internal WeaponEventAsset m_asset;
+		[SerializeField] internal string m_Id;
+		[SerializeField] internal string m_Name;
+		[SerializeField] internal WeaponEventAsset m_asset;
 
 		public string name => m_Name;
 
-		public event Action<object, ActionContext> action;
-
-		public static WeaponEvent Create(WeaponEventReference reference)
+		public Guid Id
 		{
-			var weaponEvent = new WeaponEvent();
-			weaponEvent.m_Id = reference.Id;
-			weaponEvent.m_Name = reference.name;
-
-			return weaponEvent;
-		}
-
-		public void Invoke(object invoker, ActionContext context)
-		{
-			Debug.LogFormat("[{0}] {1} invoked event.", name, invoker.ToString());
-			action.Invoke(invoker, context);
-		}
-
-		public void Invoke(object invoker, InputAction.CallbackContext context)
-		{
-			action.Invoke(invoker, ActionContext.FromInputContext(context));
-		}
-
-		public class ActionContext
-		{
-			public double time;
-
-			public bool performed;
-			public bool canceled;
-
-			public ActionContext(bool _performed = false, bool _canceled = false)
+			get
 			{
-				time = Time.realtimeSinceStartupAsDouble;
-				performed = _performed;
-				canceled = _canceled;
+				MakeSureIdIsInPlace();
+				return new Guid(m_Id);
 			}
+		}
+		public IncomingBase<string> incomingEvent;
+		public OutgoingBase<string> outgoingEvent;
 
-			/// <summary>
-			/// Create actionContext from input callbackcontext
-			/// </summary>
-			public static ActionContext FromInputContext(InputAction.CallbackContext inputContext)
-			{
-				var newCtx = new WeaponEvent.ActionContext
-				{
-					canceled = inputContext.canceled,
-					performed = inputContext.performed,
-					time = inputContext.time
-				};
+		public WeaponEvent()
+		{ }
 
-				return newCtx;
-			}
+		public WeaponEvent(string name = null)
+		{
+			m_Name = name;
+		}
+
+		internal string MakeSureIdIsInPlace()
+		{
+			if (string.IsNullOrEmpty(m_Id))
+				GenerateId();
+			return m_Id;
+		}
+
+		internal void GenerateId()
+		{
+			m_Id = Guid.NewGuid().ToString();
 		}
 	}
 }
