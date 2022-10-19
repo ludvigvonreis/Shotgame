@@ -18,7 +18,7 @@ namespace WeaponSystem.Actions
 			base.Init();
 
 			groupReference.Action.OnPerfom += Action;
-			//mouseAction = Processor.inputActions[actionButton.action.name];
+			mouseAction = Processor.inputActions[actionButton.action.name];
 		}
 
 		void Action()

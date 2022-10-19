@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.VFX;
 using static TimedMoving;
-using WeaponSystem.Events;
 
 namespace WeaponSystem.Actions
 {
@@ -58,7 +57,7 @@ namespace WeaponSystem.Actions
 			weaponOriginFov = ownerWeaponCamera.fieldOfView;
 		}
 
-		/*protected override void ProcessInput(WeaponEvent.CallbackContext context)
+		protected override void ProcessInput(InputAction.CallbackContext context)
 		{
 			if (groupReference.isRunning == false) return;
 
@@ -80,7 +79,6 @@ namespace WeaponSystem.Actions
 
 			groupReference.weaponState.isAiming = isAiming;
 		}
-		*/
 
 		void Action()
 		{

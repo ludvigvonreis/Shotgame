@@ -20,13 +20,13 @@ namespace WeaponSystem
 			groupReference.OnGroupProcess += Process;
 			groupReference.Action.OnPerfom += Action;
 
-			//var actionButton = groupReference.Action.actionButton;
+			var actionButton = groupReference.Action.actionButton;
 
-			//groupReference.Action.Processor.inputActions[actionButton.action.name].performed += ProcessInput;
-			//groupReference.Action.Processor.inputActions[actionButton.action.name].canceled += ProcessInput;
+			groupReference.Action.Processor.inputActions[actionButton.action.name].performed += ProcessInput;
+			groupReference.Action.Processor.inputActions[actionButton.action.name].canceled += ProcessInput;
 		}
 
-		/*protected void ProcessInput(InputAction.CallbackContext context)
+		protected void ProcessInput(InputAction.CallbackContext context)
 		{
 			if (context.performed)
 			{
@@ -38,7 +38,7 @@ namespace WeaponSystem
 				isHolding = false;
 				hasReleased = true;
 			}
-		}*/
+		}
 
 		void Process()
 		{

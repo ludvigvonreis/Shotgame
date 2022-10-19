@@ -2,15 +2,9 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using WeaponSystem.Events;
 
 namespace WeaponSystem
 {
-	// public interface IProcessor : Weapon.IProcessor
-	// {
-	// 	Dictionary<string, InputAction> inputActions { get; }
-	// }
-
 	public interface IProcessor : Weapon.IProcessor
 	{
 		Dictionary<string, InputAction> inputActions { get; }
@@ -31,11 +25,8 @@ namespace WeaponSystem
 
 			groupReference.OnGroupProcess += Process;
 
-			Debug.Log(actionEvent.Event);
-			if (actionEvent) actionEvent.Event.incomingEvent += ProcessInput;
-
-			//Processor.inputActions[actionButton.action.name].performed += ProcessInput;
-			//Processor.inputActions[actionButton.action.name].canceled += ProcessInput;
+			Processor.inputActions[actionButton.action.name].performed += ProcessInput;
+			Processor.inputActions[actionButton.action.name].canceled += ProcessInput;
 		}
 
 		void Process()
@@ -54,13 +45,8 @@ namespace WeaponSystem
 			OnPerfom?.Invoke();
 		}
 
-		public WeaponEventReference actionEvent;
-		/*protected virtual void ProcessInput(InputAction.CallbackContext context)
-		{
-			if (groupReference.isRunning == false) return;
-		}*/
-
-		protected virtual void ProcessInput(WeaponEvent.CallbackContext context)
+		public InputActionReference actionButton;
+		protected virtual void ProcessInput(InputAction.CallbackContext context)
 		{
 			if (groupReference.isRunning == false) return;
 		}
