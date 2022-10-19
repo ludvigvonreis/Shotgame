@@ -14,12 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: b67af821-8f80-44b8-ad27-d9b51e36dbd2
   name: AK47
+  model: {fileID: 0}
   damage: 5
   range: 100
   fireRate: 800
-  ADSTime: 0.27
-  ADSZoomMultiplier: 1.3
-  magazineSize: 30
+  aimDownSightTime: 0.27
+  aimDownSightFov: 60
+  maxAmmo: 30
   reloadTime: 1.6
   recoilHoriz:
     serializedVersion: 2

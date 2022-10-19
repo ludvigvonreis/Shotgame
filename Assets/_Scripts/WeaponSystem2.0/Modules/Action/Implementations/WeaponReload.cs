@@ -47,7 +47,7 @@ namespace WeaponSystem.Actions
 		{
 			var currentAmmo = weaponState.currentAmmo;
 			var reserve = weaponState.ammoReserve;
-			var maxAmmo = weaponStats.magazineSize;
+			var maxAmmo = weaponStats.maxAmmo;
 
 			if (reserve <= 0) yield break;
 

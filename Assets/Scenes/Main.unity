@@ -2088,32 +2088,8 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 738080071, guid: 6e172ca2ee0944640a023d224842d839, type: 3}
-      propertyPath: m_CameraType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 738080071, guid: 6e172ca2ee0944640a023d224842d839, type: 3}
-      propertyPath: m_Antialiasing
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 738080071, guid: 6e172ca2ee0944640a023d224842d839, type: 3}
-      propertyPath: m_RendererIndex
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 738080071, guid: 6e172ca2ee0944640a023d224842d839, type: 3}
       propertyPath: m_RenderPostProcessing
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 738080071, guid: 6e172ca2ee0944640a023d224842d839, type: 3}
-      propertyPath: m_VolumeLayerMask.m_Bits
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 738080071, guid: 6e172ca2ee0944640a023d224842d839, type: 3}
-      propertyPath: m_RequiresDepthTextureOption
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 738080071, guid: 6e172ca2ee0944640a023d224842d839, type: 3}
-      propertyPath: m_RequiresOpaqueTextureOption
-      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 738080073, guid: 6e172ca2ee0944640a023d224842d839, type: 3}
       propertyPath: field of view
@@ -2121,11 +2097,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 738080073, guid: 6e172ca2ee0944640a023d224842d839, type: 3}
       propertyPath: m_OcclusionCulling
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 738080073, guid: 6e172ca2ee0944640a023d224842d839, type: 3}
-      propertyPath: m_CullingMask.m_Bits
-      value: 2147483647
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 188170302076145604, guid: 6e172ca2ee0944640a023d224842d839, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2205,7 +2177,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1444350972733254644, guid: 6e172ca2ee0944640a023d224842d839, type: 3}
       propertyPath: m_RendererIndex
-      value: 0
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 1444350972733254644, guid: 6e172ca2ee0944640a023d224842d839, type: 3}
       propertyPath: m_RenderPostProcessing
@@ -2218,10 +2190,6 @@ PrefabInstance:
     - target: {fileID: 7049032219529045685, guid: 6e172ca2ee0944640a023d224842d839, type: 3}
       propertyPath: m_OcclusionCulling
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7049032219529045685, guid: 6e172ca2ee0944640a023d224842d839, type: 3}
-      propertyPath: m_CullingMask.m_Bits
-      value: 31
       objectReference: {fileID: 0}
     - target: {fileID: 9080917830145163994, guid: 6e172ca2ee0944640a023d224842d839, type: 3}
       propertyPath: weaponBindings.Array.size
@@ -2246,7 +2214,7 @@ PrefabInstance:
     - target: {fileID: 9080917830145163994, guid: 6e172ca2ee0944640a023d224842d839, type: 3}
       propertyPath: weaponBindings.Array.data[1].actionReference
       value: 
-      objectReference: {fileID: -5675818417072232823, guid: 82287d69b0529a4479f077285015f276, type: 3}
+      objectReference: {fileID: 8214480331480168944, guid: 82287d69b0529a4479f077285015f276, type: 3}
     - target: {fileID: 9080917830145163994, guid: 6e172ca2ee0944640a023d224842d839, type: 3}
       propertyPath: weaponBindings.Array.data[2].actionReference
       value: 
@@ -2262,31 +2230,23 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 612183796, guid: 918ae2a8fc2e6b449aab9e4dfed769b3, type: 3}
       propertyPath: m_updateTime
-      value: 0.12
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 612183796, guid: 918ae2a8fc2e6b449aab9e4dfed769b3, type: 3}
       propertyPath: m_updateSpeed
-      value: 8
+      value: 2.4
       objectReference: {fileID: 0}
     - target: {fileID: 1530468947, guid: 918ae2a8fc2e6b449aab9e4dfed769b3, type: 3}
       propertyPath: camTransform
       value: 
       objectReference: {fileID: 270206760}
-    - target: {fileID: 2012949018809198672, guid: 918ae2a8fc2e6b449aab9e4dfed769b3, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2012949018809198672, guid: 918ae2a8fc2e6b449aab9e4dfed769b3, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2012949019090315892, guid: 918ae2a8fc2e6b449aab9e4dfed769b3, type: 3}
       propertyPath: m_Icon
       value: 
       objectReference: {fileID: 7866945982896999795, guid: 0000000000000000d000000000000000, type: 0}
     - target: {fileID: 5353132062696756827, guid: 918ae2a8fc2e6b449aab9e4dfed769b3, type: 3}
       propertyPath: maxForce
-      value: 0.3
+      value: 1.1
       objectReference: {fileID: 0}
     - target: {fileID: 5353132062706538670, guid: 918ae2a8fc2e6b449aab9e4dfed769b3, type: 3}
       propertyPath: swaySize
@@ -2335,10 +2295,6 @@ PrefabInstance:
     - target: {fileID: 5353132062831629318, guid: 918ae2a8fc2e6b449aab9e4dfed769b3, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5353132062831629321, guid: 918ae2a8fc2e6b449aab9e4dfed769b3, type: 3}
-      propertyPath: m_Icon
-      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5353132062831629321, guid: 918ae2a8fc2e6b449aab9e4dfed769b3, type: 3}
       propertyPath: m_Name

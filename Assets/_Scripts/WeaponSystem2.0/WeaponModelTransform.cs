@@ -15,10 +15,6 @@ namespace WeaponSystem
 
 		private Vector3 m_newPosition;
 
-		private Func<float, float> easingFunction;
-		private Func<float, float> defaultEasingFunction;
-
-		private bool isLerping;
 
 		private Weapon weaponReference;
 		private bool canUpdatePosition => weaponReference.isRunning;
@@ -26,9 +22,6 @@ namespace WeaponSystem
 		void Start()
 		{
 			weaponReference = transform.root.GetComponent<Weapon>();
-
-			defaultEasingFunction = EasingFunctions.EaseOutQuint;
-			easingFunction = defaultEasingFunction;
 
 			StartCoroutine(UpdatePosition());
 
@@ -47,104 +40,36 @@ namespace WeaponSystem
 			}
 		}
 
-		public WeaponModelTransform SetNewPosition(Vector3 pos)
+		public void SetPosition(Vector3 pos)
 		{
 			m_newPosition = pos + m_offset;
-
-			return this;
 		}
 
-		public WeaponModelTransform SetPosition(Vector3 pos)
-		{
-			if (isLerping == false) return this;
-
-			transform.localPosition = pos;
-
-			return this;
-		}
-
-		public WeaponModelTransform ResetPosition()
-		{
-			m_newPosition = m_offset;
-
-			return this;
-		}
-
-		public WeaponModelTransform AddPosition(Vector3 delta)
+		public void AddPosition(Vector3 delta)
 		{
 			m_newPosition += delta;
-
-			return this;
-		}
-
-		public WeaponModelTransform LerpTo(Vector3 to, float duration)
-		{
-			StartCoroutine(LerpPosition(to, duration));
-
-			return this;
-		}
-
-		public WeaponModelTransform SetEasingFunction(Func<float, float> func)
-		{
-			easingFunction = func;
-
-			return this;
-		}
-
-		public WeaponModelTransform ResetEasingFunction()
-		{
-			easingFunction = defaultEasingFunction;
-
-			return this;
-		}
-
-		public WeaponModelTransform SetIsLerping(bool value)
-		{
-			isLerping = value;
-
-			return this;
 		}
 
 		IEnumerator UpdatePosition()
 		{
 			while (true)
 			{
-				if (canUpdatePosition && !isLerping)
+				if (canUpdatePosition)
 				{
 					while (Vector3.Distance(transform.localPosition, m_newPosition) > 0)
 					{
 						transform.localPosition = Vector3.Lerp(
-							transform.localPosition,
-							m_newPosition,
-							m_updateSpeed * Time.deltaTime
-						);
+								transform.localPosition,
+								m_newPosition,
+								EasingFunctions.EaseOutQuint(Time.deltaTime * m_updateSpeed)
+								);
 						yield return null;
 					}
+
 				}
 
 				yield return null;
 			}
-		}
-
-		IEnumerator LerpPosition(Vector3 to, float duration)
-		{
-			isLerping = true;
-
-			var startPos = transform.localPosition;
-			for (float progress = 0; progress < duration; progress += Time.deltaTime)
-			{
-				var aimedPos = Vector3.Lerp(
-					startPos,
-					to,
-					easingFunction(progress / duration)
-				);
-
-				transform.localPosition = aimedPos + m_offset;
-				yield return null;
-			}
-			isLerping = false;
-
-			SetNewPosition(to);
 		}
 	}
 }
