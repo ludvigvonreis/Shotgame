@@ -52,7 +52,7 @@ namespace WeaponSystem.Actions
 			ownerCamera = player.playerCam;
 			ownerWeaponCamera = player.weaponCam;
 
-			// FIXME: If fov is changed after module is initialized it wont update.
+			// FIXME: If any of these change it wont be reflected here, ie fov change due to something else.
 			origin = Vector3.zero; //groupReference.weaponReference.transform.localPosition;
 			mainOriginFov = ownerCamera.fieldOfView;
 			weaponOriginFov = ownerWeaponCamera.fieldOfView;
