@@ -9,7 +9,7 @@ namespace WeaponSystem
 	{
 		public Vector3 Offset => m_offset;
 
-		[SerializeField] private float m_updateSpeed;
+		[SerializeField] private float m_updateTime;
 		[SerializeField] private Vector3 m_offset;
 		private Vector3 m_lastOffset;
 
@@ -61,7 +61,7 @@ namespace WeaponSystem
 						transform.localPosition = Vector3.Lerp(
 								transform.localPosition,
 								m_newPosition,
-								EasingFunctions.EaseOutQuint(Time.deltaTime * m_updateSpeed)
+								EasingFunctions.EaseOutQuint(Time.deltaTime)
 								);
 						yield return null;
 					}

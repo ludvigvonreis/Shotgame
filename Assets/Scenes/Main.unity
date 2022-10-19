@@ -2232,10 +2232,6 @@ PrefabInstance:
       propertyPath: m_updateTime
       value: 20
       objectReference: {fileID: 0}
-    - target: {fileID: 612183796, guid: 918ae2a8fc2e6b449aab9e4dfed769b3, type: 3}
-      propertyPath: m_updateSpeed
-      value: 2.4
-      objectReference: {fileID: 0}
     - target: {fileID: 1530468947, guid: 918ae2a8fc2e6b449aab9e4dfed769b3, type: 3}
       propertyPath: camTransform
       value: 
@@ -2247,10 +2243,6 @@ PrefabInstance:
     - target: {fileID: 5353132062696756827, guid: 918ae2a8fc2e6b449aab9e4dfed769b3, type: 3}
       propertyPath: maxForce
       value: 1.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5353132062706538670, guid: 918ae2a8fc2e6b449aab9e4dfed769b3, type: 3}
-      propertyPath: swaySize
-      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 5353132062831629318, guid: 918ae2a8fc2e6b449aab9e4dfed769b3, type: 3}
       propertyPath: m_RootOrder

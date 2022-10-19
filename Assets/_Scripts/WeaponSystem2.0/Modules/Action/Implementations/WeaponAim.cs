@@ -129,13 +129,11 @@ namespace WeaponSystem.Actions
 				var aimedPos = Vector3.Lerp(
 					startPos,
 					result,
-					progress / moveDuration
+					EasingFunctions.EaseOutQuint(progress / moveDuration)
 				);
 				weaponMover.SetPosition(aimedPos - weaponMover.Offset);
 				yield return null;
 			}
-
-			weaponMover.SetPosition(result - weaponMover.Offset);
 		}
 
 		IEnumerator WeaponMoverOut()
