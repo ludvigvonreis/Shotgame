@@ -92,7 +92,7 @@ namespace WeaponSystem.Actions
 		{
 			if (performed)
 			{
-				weaponState.CurrentAmmo -= 1;
+				weaponState.currentAmmo -= 1;
 
 				weaponState.CancelDecrease();
 				sentTimoutEvent = false;
