@@ -11,14 +11,12 @@ namespace WeaponSystem.Actions
 		[SerializeField] private float swaySmooth;
 
 		private Vector3 lastCenterPosition;
-		private Quaternion initialRotation;
 
 		public override void Init()
 		{
 			base.Init();
 
 			lastCenterPosition = transform.root.forward;
-			initialRotation = swayHolder.localRotation;
 
 			groupReference.Action.OnPerfom += Action;
 		}
@@ -29,19 +27,10 @@ namespace WeaponSystem.Actions
 
 			var positionDelta = transform.root.forward - lastCenterPosition;
 			lastCenterPosition = transform.root.forward;
-			var mouseDelta = positionDelta * extra * swaySize;
+			var mouseDelta = (positionDelta * mouseSensitivity) * extra;
 
-			/*swayHolder.localPosition = EasingFunctions.EasedLerp(
-				swayHolder.localPosition,
-				Vector3.zero,
-				swaySmooth * Time.deltaTime,
-				EasingFunctions.EaseInOutCubic
-				);*/
-
-			//swayHolder.localPosition += (Vector3)mouseDelta * swaySize;
-
-			Quaternion final = Quaternion.Euler(initialRotation.x + mouseDelta.y, initialRotation.x + mouseDelta.x, initialRotation.z + mouseDelta.z);
-			swayHolder.localRotation = Quaternion.Slerp(swayHolder.localRotation, final, Time.time * swaySmooth);
+			swayHolder.localPosition = Vector3.Lerp(swayHolder.localPosition, Vector3.zero, swaySmooth * Time.deltaTime);
+			swayHolder.localPosition += (Vector3)mouseDelta * swaySize;
 		}
 	}
 }
