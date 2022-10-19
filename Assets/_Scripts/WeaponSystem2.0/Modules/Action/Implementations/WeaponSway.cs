@@ -37,7 +37,7 @@ namespace WeaponSystem.Actions
 
 			var newPos = (mouseDelta * swaySize);
 
-			weaponMover.AddNewPosition(newPos);
+			weaponMover.AddPosition(newPos);
 		}
 	}
 }
