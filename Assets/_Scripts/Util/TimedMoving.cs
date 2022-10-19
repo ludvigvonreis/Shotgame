@@ -4,10 +4,8 @@ using UnityEngine;
 
 public static class TimedMoving
 {
-	public static IEnumerator MoveTransformPosition(Transform transform, Vector3 to, float duration, EasingFunctions.Ease easing, bool local = false)
+	public static IEnumerator MoveTransformPosition(Transform transform, Vector3 to, float duration, Func<float, float> easingFunction, bool local = false)
 	{
-		var easingFunction = EasingFunctions.GetEase(easing);
-
 		Vector3 startPosition = local ? transform.localPosition : transform.position;
 
 		if (duration > Mathf.Epsilon)
@@ -36,9 +34,8 @@ public static class TimedMoving
 		}
 	}
 
-	public static IEnumerator MoveFov(Camera cam, float to, float duration, EasingFunctions.Ease easing)
+	public static IEnumerator MoveFov(Camera cam, float to, float duration, Func<float, float> easingFunction)
 	{
-		var easingFunction = EasingFunctions.GetEase(easing);
 		var start = cam.fieldOfView;
 
 		for (float progress = 0; progress < duration; progress += Time.deltaTime)

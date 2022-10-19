@@ -15,8 +15,8 @@ namespace WeaponSystem
 
 		private Vector3 m_newPosition;
 
-		private EasingFunctions.Ease easing;
-		private EasingFunctions.Ease defaultEasing;
+		private Func<float, float> easingFunction;
+		private Func<float, float> defaultEasingFunction;
 
 		private bool isLerping;
 
@@ -27,8 +27,8 @@ namespace WeaponSystem
 		{
 			weaponReference = transform.root.GetComponent<Weapon>();
 
-			defaultEasing = EasingFunctions.Ease.OutQuint;
-			easing = defaultEasing;
+			defaultEasingFunction = EasingFunctions.OutQuint;
+			easingFunction = defaultEasingFunction;
 
 			StartCoroutine(UpdatePosition());
 
@@ -91,16 +91,16 @@ namespace WeaponSystem
 			return this;
 		}
 
-		public WeaponModelTransform SetEasingFunction(EasingFunctions.Ease func)
+		public WeaponModelTransform SetEasingFunction(Func<float, float> func)
 		{
-			easing = func;
+			easingFunction = func;
 
 			return this;
 		}
 
 		public WeaponModelTransform ResetEasingFunction()
 		{
-			easing = defaultEasing;
+			easingFunction = defaultEasingFunction;
 
 			return this;
 		}
@@ -135,7 +135,6 @@ namespace WeaponSystem
 
 		IEnumerator LerpPosition(Vector3 to, float duration)
 		{
-			var easingFunction = EasingFunctions.GetEase(easing);
 			isLerping = true;
 
 			var startPos = transform.localPosition;
