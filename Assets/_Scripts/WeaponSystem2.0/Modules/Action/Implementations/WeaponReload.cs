@@ -1,7 +1,6 @@
 using System.Collections;
 using UnityEngine;
 using WeaponSystem.Events;
-using UnityEngine.EventSystems;
 
 namespace WeaponSystem.Actions
 {
@@ -46,9 +45,6 @@ namespace WeaponSystem.Actions
 
 		IEnumerator Reload()
 		{
-			ExecuteEvents.
-				ExecuteHierarchy<IWeaponReloadEvents>(gameObject, null, (x, y) => x.OnReloadStart());
-
 			var currentAmmo = weaponState.CurrentAmmo;
 			var reserve = weaponState.CurrentAmmoReserve;
 			var maxAmmo = weaponStats.magazineSize;
@@ -82,8 +78,7 @@ namespace WeaponSystem.Actions
 			weaponState.isReloading = false;
 			isReloading = false;
 
-			ExecuteEvents.
-				ExecuteHierarchy<IWeaponReloadEvents>(gameObject, null, (x, y) => x.OnReloadFinish());
+			// TODO: Invoke reload event or something for ui.
 		}
 
 		IEnumerator ReloadAnimation()

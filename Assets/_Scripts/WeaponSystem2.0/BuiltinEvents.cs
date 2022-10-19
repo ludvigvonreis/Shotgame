@@ -52,9 +52,9 @@ namespace WeaponSystem
 		void OnReloadStart();
 
 		/// <summary>
-		/// Event that gets executed when weapon reload is finished.
+		/// Event that gets executed when weapon stops reloading. I.e is finished.
 		/// </summary>
-		void OnReloadFinish();
+		void OnReloadStop();
 	}
 
 	/// <summary>
