@@ -5,6 +5,7 @@ using UnityEditorInternal;
 namespace WeaponSystem.Events
 {
 	[CustomEditor(typeof(WeaponEventAsset))]
+	[CanEditMultipleObjects]
 	public class WeaponEventAssetEditor : Editor
 	{
 		private ReorderableList eventList;
@@ -20,12 +21,12 @@ namespace WeaponSystem.Events
 			weaponEventReferences = serializedObject.FindProperty("weaponEventReferences");
 
 			eventList = new ReorderableList(
-			serializedObject,
-			weaponEventReferences,
-			draggable: true,
-			displayHeader: true,
-			displayAddButton: true,
-			displayRemoveButton: true);
+					serializedObject,
+					weaponEventReferences,
+					draggable: true,
+					displayHeader: true,
+					displayAddButton: true,
+					displayRemoveButton: true);
 
 			eventList.drawHeaderCallback = (Rect rect) =>
 			{
@@ -40,6 +41,8 @@ namespace WeaponSystem.Events
 				AssetDatabase.RemoveObjectFromAsset(obj);
 
 				DestroyImmediate(obj, true);
+
+				asset.RemoveEvent(obj.Event);
 
 				AssetDatabase.SaveAssets();
 				AssetDatabase.Refresh();
@@ -112,6 +115,7 @@ namespace WeaponSystem.Events
 					SerializedProperty prop = ability.GetIterator();
 					while (prop.NextVisible(true))
 					{
+						// XXX: This logic stays in sync with loop in drawElementCallback.
 						if (prop.name == "m_Script")
 						{
 							continue;
@@ -134,8 +138,9 @@ namespace WeaponSystem.Events
 		private void ChangeName(SerializedProperty element, string newName)
 		{
 			WeaponEventReference obj = element.objectReferenceValue as WeaponEventReference;
+			//obj.name = newName;
 
-			asset.RenameEvent(obj, newName);
+			asset.RenameEvent(obj.Event, newName);
 
 			AssetDatabase.SaveAssets();
 			AssetDatabase.Refresh();
@@ -149,9 +154,12 @@ namespace WeaponSystem.Events
 			eventList.index = index;
 			var element = eventList.serializedProperty.GetArrayElementAtIndex(index);
 
-			var newEventReference = WeaponEventReference.Create(asset, "New event");
+			// TODO: Add a proper event creation
+			var newEvent = asset.NewEvent("New event");
+			var newEventReference = WeaponEventReference.Create(newEvent);
 
-			AssetDatabase.AddObjectToAsset(newEventReference, asset);
+			var cardData = (WeaponEventAsset)target;
+			AssetDatabase.AddObjectToAsset(newEventReference, cardData);
 			AssetDatabase.SaveAssets();
 			element.objectReferenceValue = newEventReference;
 			serializedObject.ApplyModifiedProperties();

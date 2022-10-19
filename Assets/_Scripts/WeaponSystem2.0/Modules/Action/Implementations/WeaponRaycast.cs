@@ -50,20 +50,15 @@ namespace WeaponSystem.Actions
 
 			StartCoroutine(ShootTimeoutLoop());
 
-			/*if (actionEvent != null)
-			{
-				Processor.FindEvent(actionEvent.Id).action += ProcessInput;
-			}*/
-
 			/*
 			trailRenderer = trail.GetComponent<TrailRenderer>();
 			trailBody = trail.GetComponent<Rigidbody>();
 			*/
 		}
 
-		protected void ProcessInput(object sender, WeaponSystem.WeaponEventInterface.TestString data)
+		protected override void ProcessInput(WeaponEvent.CallbackContext context)
 		{
-			Debug.LogFormat("[WeaponRaycast] I processed a input, data: {0}", data);
+			Debug.Log("[WeaponRaycast] I processed a input");
 
 			/*if (groupReference.isRunning == false) return;
 

@@ -5,7 +5,6 @@ using UnityEngine.InputSystem;
 using UnityEngine.Events;
 
 using WeaponSystem;
-using WeaponSystem.Events;
 
 namespace Gnome
 {
@@ -121,11 +120,6 @@ namespace Gnome
 			if (!weapons.ContainsKey(currentWeaponUUID)) return null;
 
 			return weapons[currentWeaponUUID];
-		}
-
-		public WeaponEvent FindEvent(string id)
-		{
-			throw new System.NotImplementedException();
 		}
 	}
 }
